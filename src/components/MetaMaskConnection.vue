@@ -23,6 +23,7 @@ const getAccounts = async () => {
     const accounts = await ethereum.request({ method: "eth_accounts" });
     wallet.address = accounts[0] || null;
     const chainId = await ethereum.request({ method: "eth_chainId" });
+    // Use Rinkeby testnet for dev, beta. 0x1 for production
     if (chainId !== "0x4") {
       await ethereum.request({
         method: "wallet_switchEthereumChain",

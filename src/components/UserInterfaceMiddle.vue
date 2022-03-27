@@ -12,8 +12,7 @@
 
 <template>
   <div class="relative h-full mx-2">
-    <img src="/logo-bg-trans.png" class="w-full bg-black p-2" />
-    <span class="bg-black px-3">Season 1</span><br />
+    <img src="/newbanner.png" class="w-full" />
     <button
       class="
         block

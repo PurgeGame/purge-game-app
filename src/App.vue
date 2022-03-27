@@ -6,7 +6,7 @@ import { wallet } from "./store.js";
 
 <template>
   <MetaMaskConnection />
-  <div v-if="wallet.address">
+  <div v-if="wallet.address" class="">
     <MainUserInterface />
   </div>
 </template>
