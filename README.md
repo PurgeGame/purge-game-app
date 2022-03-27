@@ -5,7 +5,7 @@
 1. `mkdir purge-game-app`
 2. `cd purge-game-app`
 3. `git init`
-4. `git remote add origin https://github.com/arctos-digital/purge-game-app.git`
+4. `git remote add origin https://github.com/PurgeGame/purge-game-app.git`
 5. `git pull origin master`
 6. `npm install`
 7. `npm run dev`
