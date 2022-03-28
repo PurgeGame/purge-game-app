@@ -61,7 +61,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Full screen modal if wallet not connected, else load main interface -->
   <div
     v-if="!wallet.address"
     class="

@@ -5,8 +5,9 @@ import { wallet } from "./store.js";
 </script>
 
 <template>
+  <!-- Full screen modal if wallet not connected, else load main interface -->
   <MetaMaskConnection />
-  <div v-if="wallet.address" class="">
+  <div v-if="wallet.address">
     <MainUserInterface />
   </div>
 </template>

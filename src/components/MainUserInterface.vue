@@ -1,24 +1,23 @@
-<!-- Page header and grid layout for 3 child columns 
-
-  TO DO
-  --------------------
-  Header links
-  Fetch owned and burned NFT data, pass as props to center & left components
-  Connect to Discord (possibly in another component)
-  Referral code field (possibly in another component)
--->
+<!-- Page header and grid layout for 3 child columns -->
 
 <script setup>
 import { ref, onMounted } from "vue";
-import HamburgerMenu from "./HamburgerMenu.vue";
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
 import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
 import UserInterfaceRight from "./UserInterfaceRight.vue";
+import AboutReferralsModal from "./AboutReferralsModal.vue";
+import LeaderboardModal from "./LeaderboardModal.vue";
 import { wallet } from "../store.js";
 
-const referralCode = new URL(location).searchParams.get("referral");
+// const referralCode = reactive({ value: null });
+
 const middleColumn = ref(null);
 const showMenu = ref(false);
+const urlParams = new URL(location).searchParams.get("referral");
+const referralCode = ref(null);
+const typedReferralCode = ref(null);
+const showAboutReferrals = ref(false);
+const showLeaderboard = ref(false);
 
 const toggleHamburgerMenu = () => {
   showMenu.value = showMenu.value == true ? false : true;
@@ -29,9 +28,17 @@ const onClickDisconnect = () => {
   wallet.address = null;
 };
 
+const onClickReferral = () => {
+  referralCode.value = typedReferralCode.value;
+};
+
 onMounted(() => {
   // Bring the middle column into view on page load. For small screens.
   middleColumn.value.scrollIntoView({ inline: "start" });
+
+  if (urlParams) {
+    referralCode.value = urlParams;
+  }
 });
 </script>
 
@@ -122,6 +129,7 @@ onMounted(() => {
           Connect Discord
         </li>
         <li
+          @click="showLeaderboard = true"
           class="
             rounded
             px-2
@@ -134,14 +142,17 @@ onMounted(() => {
         >
           Leaderboard
         </li>
-        <li v-if="referralCode" class="px-2">
-          <h4 class="-mb-1 font-normal text-sm">Referral Code</h4>
-          {{ referralCode }}
+        <hr class="my-2 border-1 border-zinc-800" />
+
+        <li class="px-2">
+          <h4 class="inline-block font-normal text-sm">Referral Code</h4>
           <div
+            @click="showAboutReferrals = true"
             class="
               float-right
               align-middle
               bg-black
+              my-1
               px-2
               rounded-xl
               font-normal
@@ -150,6 +161,52 @@ onMounted(() => {
             "
           >
             ?
+          </div>
+          <br />
+          <div v-if="referralCode">
+            {{ referralCode }}
+            <button
+              @click="referralCode = ''"
+              class="
+                float-right
+                align-middle
+                bg-black
+                mt-1
+                px-2
+                rounded
+                font-normal
+                text-amber-400
+                hover:ring-1 hover:ring-amber-400
+              "
+            >
+              edit
+            </button>
+          </div>
+
+          <div v-else>
+            <input
+              @keydown.enter="onClickReferral()"
+              v-model="typedReferralCode"
+              placeholder="enter code"
+              class="bg-zinc-200"
+            />
+            <br />
+            <button
+              @click="onClickReferral()"
+              class="
+                float-right
+                align-middle
+                bg-black
+                mt-1
+                px-2
+                rounded
+                font-normal
+                text-amber-400
+                hover:ring-1 hover:ring-amber-400
+              "
+            >
+              submit
+            </button>
           </div>
         </li>
       </ul>
@@ -189,5 +246,36 @@ onMounted(() => {
         </div>
       </div>
     </div>
+  </div>
+  <!-- Modals -->
+  <div
+    v-if="showAboutReferrals"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <AboutReferralsModal @close-modal="showAboutReferrals = false" />
+  </div>
+  <div
+    v-if="showLeaderboard"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <LeaderboardModal @close-modal="showLeaderboard = false" />
   </div>
 </template>

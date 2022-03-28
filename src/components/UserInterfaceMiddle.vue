@@ -1,7 +1,6 @@
 <!-- 
   TO DO
   --------------------
-  Update logo to current
   Make 'Mint' button display conditional, based on... ?
   Table with owned traits, # purged, $ value
   Connect Discord button & Referral Code field in this column?
