@@ -9,8 +9,6 @@ import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 import { wallet } from "../store.js";
 
-// const referralCode = reactive({ value: null });
-
 const middleColumn = ref(null);
 const showMenu = ref(false);
 const urlParams = new URL(location).searchParams.get("referral");

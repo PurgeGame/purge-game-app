@@ -43,8 +43,6 @@ const handleAccountsChanged = () => {
 };
 
 const onboarding = new MetaMaskOnboarding();
-ethereum.on("chainChanged", handleChainChanged);
-ethereum.on("accountsChanged", handleAccountsChanged);
 
 const onClickInstall = () => {
   onboarding.startOnboarding();
@@ -57,6 +55,11 @@ const onClickConnect = async () => {
 
 onMounted(() => {
   getAccounts();
+
+  if (ethereum) {
+    ethereum.on("chainChanged", handleChainChanged);
+    ethereum.on("accountsChanged", handleAccountsChanged);
+  }
 });
 </script>
 
