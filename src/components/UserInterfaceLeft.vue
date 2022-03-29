@@ -118,22 +118,25 @@ onMounted(() => {
                 class="sticky top-0 z-10 border-b-2 border-amber-500"
               >
                 <button class="font-bold">Symbol</button>
-              </th>
+                <!-- </th>
               <th class="sticky top-0 z-10 border-b-2 border-amber-500">
                 &nbsp;
-              </th>
-              <!-- Header for optional 'total' column -->
-              <!-- <th
+              </th> -->
+                <!-- Header for optional 'total' column -->
+                <!-- <th
                 @click="toggleColumnSorted('total')"
                 :class="{ 'text-amber-500': columnStatus.total }"
                 class="sticky top-0 z-10 border-b-2 border-amber-500"
               >
                 <button class="font-bold">Total</button>
               </th> -->
+              </th>
+
               <th
+                colspan="2"
                 @click="toggleColumnSorted('remaining')"
                 :class="{ 'text-amber-500': columnStatus.remaining }"
-                class="sticky top-0 z-10 border-b-2 border-amber-500"
+                class="sticky top-0 z-10 border-b-2 border-amber-500 text-right"
               >
                 <button class="font-bold">Remaining</button>
               </th>
