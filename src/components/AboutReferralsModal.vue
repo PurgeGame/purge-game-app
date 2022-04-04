@@ -25,9 +25,9 @@ const emit = defineEmits(["closeModal"]);
         bg-black
         px-2
         rounded
-        text-amber-400
+        text-amber-300
         font-bold
-        hover:ring-1 hover:ring-amber-500
+        hover:ring-1 hover:ring-amber-300
       "
     >
       close

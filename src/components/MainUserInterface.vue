@@ -124,9 +124,9 @@ onMounted(() => {
             rounded
             px-2
             hover:bg-black
-            hover:text-amber-400
+            hover:text-amber-300
             hover:ring-1
-            hover:ring-amber-400
+            hover:ring-amber-300
           "
         >
           <a href="https://purge.game/">Exit App</a>
@@ -136,9 +136,9 @@ onMounted(() => {
             rounded
             px-2
             hover:bg-black
-            hover:text-amber-400
+            hover:text-amber-300
             hover:ring-1
-            hover:ring-amber-400
+            hover:ring-amber-300
             hover:cursor-pointer
           "
         >
@@ -150,9 +150,9 @@ onMounted(() => {
             rounded
             px-2
             hover:bg-black
-            hover:text-amber-400
+            hover:text-amber-300
             hover:ring-1
-            hover:ring-amber-400
+            hover:ring-amber-300
             hover:cursor-pointer
           "
         >
@@ -172,8 +172,8 @@ onMounted(() => {
               px-2
               rounded-xl
               font-normal
-              text-amber-400
-              hover:ring-1 hover:ring-amber-400 hover:cursor-pointer
+              text-amber-300
+              hover:ring-1 hover:ring-amber-300 hover:cursor-pointer
             "
           >
             ?
@@ -191,8 +191,8 @@ onMounted(() => {
                 px-2
                 rounded
                 font-normal
-                text-amber-400
-                hover:ring-1 hover:ring-amber-400
+                text-amber-300
+                hover:ring-1 hover:ring-amber-300
               "
             >
               edit
@@ -217,8 +217,8 @@ onMounted(() => {
                 px-2
                 rounded
                 font-normal
-                text-amber-400
-                hover:ring-1 hover:ring-amber-400
+                text-amber-300
+                hover:ring-1 hover:ring-amber-300
               "
             >
               submit
@@ -258,7 +258,7 @@ onMounted(() => {
           <UserInterfaceMiddle />
         </div>
         <div class="snap-end snap-always h-full overflow-auto">
-          <UserInterfaceRight />
+          <UserInterfaceRight :filter-string="filterString" />
         </div>
       </div>
     </div>

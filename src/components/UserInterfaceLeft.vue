@@ -6,7 +6,6 @@ const props = defineProps(["filterString"]);
 const traitData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
-// const filterString = ref("");
 // dataSource is expected to eventually be an API endpoint
 const dataSource = ref("/src/assets/dummy-data/traits.json");
 
@@ -79,6 +78,9 @@ onMounted(() => {
 
 <template>
   <div class="p-4 h-full overflow-hidden">
+    <div class="text-center">
+      <h2 class="text-amber-300 text-xl font-bold">All Traits in Play</h2>
+    </div>
     <div
       class="
         mt-4
