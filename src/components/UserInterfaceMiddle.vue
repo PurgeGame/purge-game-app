@@ -20,7 +20,7 @@ const currentBlock = ref(null);
 
 // Form input bindings
 const mintQuantity = ref(1);
-const referralCode = ref(null);
+const referralCode = ref("");
 const purgeIDs = ref(null);
 
 async function doEthersStuff() {
