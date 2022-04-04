@@ -8,12 +8,16 @@ const signer = provider.getSigner();
 const contract = new ethers.Contract(contractaddress,abi,signer)
 const coinContract = new ethers.Contract(coinaddress,coinabi,signer)
 
+const purgedBalance = ref(null)
 const walletBalance = ref(null);
 const currentBlock = ref(null);
 
 async function doEthersStuff() {
   walletBalance.value = ethers.utils.formatEther(
     await provider.getBalance(wallet.address)
+  );
+  purgedBalance.value = ethers.utils.formatEther(
+    await coinContract.balanceOf(wallet.address)
   );
   currentBlock.value = await provider.getBlockNumber();
 }
@@ -95,6 +99,8 @@ onMounted(() => {
 
     Fake ethrums balance: {{ walletBalance }}
     <br />
+    $PURGED balance: {{purgedBalance}}
+     <br />
     Current block: {{ currentBlock }}
 
     <p class="mt-10">
