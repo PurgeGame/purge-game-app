@@ -1,16 +1,12 @@
-<!-- 
-  TO DO
-  --------------------
-  Error handling for fetch
--->
-
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
+
+const props = defineProps(["filterString"]);
 
 const traitData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
-const filterString = ref("");
+// const filterString = ref("");
 // dataSource is expected to eventually be an API endpoint
 const dataSource = ref("/src/assets/dummy-data/traits.json");
 
@@ -48,7 +44,8 @@ const filteredTraits = computed(() => {
   if (sortedTraits.value) {
     Object.values(sortedTraits.value).forEach((value) => {
       if (
-        value.shape.toLowerCase().includes(filterString.value.toLowerCase())
+        value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
+        value.color.toLowerCase().includes(props.filterString.toLowerCase())
       ) {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
@@ -82,19 +79,12 @@ onMounted(() => {
 
 <template>
   <div class="p-4 h-full overflow-hidden">
-    <div class="mt-4 pl-4">
-      <span class="text-amber-500 font-bold pr-4">Search:</span>
-      <input
-        v-model="filterString"
-        class="bg-zinc-400 border-2 border-red-900 text-black font-bold"
-      />
-    </div>
     <div
       class="
         mt-4
         p-4
         flex
-        h-[90%]
+        h-[95%]
         overflow-hidden
         bg-black
         border-2 border-red-900
@@ -107,26 +97,26 @@ onMounted(() => {
             <tr>
               <th
                 @click="toggleColumnSorted('color')"
-                :class="{ 'text-amber-500': columnStatus.color }"
-                class="sticky top-0 z-10 border-b-2 border-amber-500"
+                :class="{ 'text-amber-300': columnStatus.color }"
+                class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
                 <button class="font-bold">Color</button>
               </th>
               <th
                 @click="toggleColumnSorted('shape')"
-                :class="{ 'text-amber-500': columnStatus.shape }"
-                class="sticky top-0 z-10 border-b-2 border-amber-500"
+                :class="{ 'text-amber-300': columnStatus.shape }"
+                class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
                 <button class="font-bold">Symbol</button>
                 <!-- </th>
-              <th class="sticky top-0 z-10 border-b-2 border-amber-500">
+              <th class="sticky top-0 z-10 border-b-2 border-amber-300">
                 &nbsp;
               </th> -->
                 <!-- Header for optional 'total' column -->
                 <!-- <th
                 @click="toggleColumnSorted('total')"
-                :class="{ 'text-amber-500': columnStatus.total }"
-                class="sticky top-0 z-10 border-b-2 border-amber-500"
+                :class="{ 'text-amber-300': columnStatus.total }"
+                class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
                 <button class="font-bold">Total</button>
               </th> -->
@@ -135,8 +125,15 @@ onMounted(() => {
               <th
                 colspan="2"
                 @click="toggleColumnSorted('remaining')"
-                :class="{ 'text-amber-500': columnStatus.remaining }"
-                class="sticky top-0 z-10 border-b-2 border-amber-500 text-right"
+                :class="{ 'text-amber-300': columnStatus.remaining }"
+                class="
+                  sticky
+                  top-0
+                  z-10
+                  border-b-2 border-amber-300
+                  text-right
+                  pr-2
+                "
               >
                 <button class="font-bold">Remaining</button>
               </th>
@@ -144,20 +141,23 @@ onMounted(() => {
           </thead>
           <tbody>
             <tr v-for="trait in filteredTraits">
-              <td class="border-t border-amber-500 text-center">
+              <td class="border-t border-amber-300 text-center">
                 {{ trait[1].color }}
               </td>
-              <td class="border-t border-amber-500 text-center">
+              <td class="border-t border-amber-300 text-center">
                 {{ trait[1].shape }}
               </td>
-              <td class="border-t border-amber-500 text-center">
-                <img :src="trait[1].imageUrl" class="inline w-1/2 py-1" />
+              <td class="border-t border-amber-300 text-center">
+                <img
+                  :src="trait[1].imageUrl"
+                  class="inline w-1/2 max-w-xs py-1"
+                />
               </td>
               <!-- Optional 'total' column -->
-              <!-- <td class="border-t border-amber-500 text-center">
+              <!-- <td class="border-t border-amber-300 text-center">
                 {{ trait[1].total }}
               </td> -->
-              <td class="border-t border-amber-500 text-center">
+              <td class="border-t border-amber-300 text-center pr-4">
                 {{ trait[1].remaining }}
               </td>
             </tr>

@@ -1,5 +1,3 @@
-<!-- Page header and grid layout for 3 child columns -->
-
 <script setup>
 import { ref, onMounted } from "vue";
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
@@ -9,13 +7,14 @@ import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 import { wallet } from "../store.js";
 
-const middleColumn = ref(null);
-const showMenu = ref(false);
 const urlParams = new URL(location).searchParams.get("referral");
+const filterString = ref("");
 const referralCode = ref(null);
 const typedReferralCode = ref(null);
+const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
+const middleColumn = ref(null);
 
 const toggleHamburgerMenu = () => {
   showMenu.value = showMenu.value == true ? false : true;
@@ -56,13 +55,32 @@ onMounted(() => {
           bg-black
           rounded-md
           ring-1 ring-red-900
-          hover:ring-1 hover:ring-amber-500
-          text-2xl text-amber-400
+          hover:ring-1 hover:ring-amber-300
+          text-2xl
+          hover:text-amber-300
           font-black
         "
       >
         ☰
       </button>
+
+      <input
+        v-model="filterString"
+        placeholder="&#x1F50E;&#xFE0E; search traits"
+        class="
+          w-2/5
+          md:w-min
+          px-1
+          bg-zinc-400
+          border-2 border-red-900
+          outline-none
+          focus:bg-amber-200
+          text-black
+          font-bold
+          placeholder:font-normal placeholder:text-zinc-600
+        "
+      />
+
       <button
         @click="onClickDisconnect()"
         class="
@@ -72,10 +90,10 @@ onMounted(() => {
           py-1
           bg-black
           rounded-md
-          hover:text-amber-400 hover:ring-1 hover:ring-amber-500
+          hover:text-amber-300 hover:ring-1 hover:ring-amber-300
         "
       >
-        <img src="/metamask-fox.svg" class="inline scale-75" />
+        <img src="/metamask-fox.svg" class="scale-75 hidden md:inline" />
         {{ wallet.address.substring(0, 5) }}...{{
           wallet.address.substring(38)
         }}
@@ -231,7 +249,7 @@ onMounted(() => {
         "
       >
         <div class="snap-start snap-always h-full overflow-hidden">
-          <UserInterfaceLeft />
+          <UserInterfaceLeft :filter-string="filterString" />
         </div>
         <div
           ref="middleColumn"
@@ -245,7 +263,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <!-- Modals -->
+  <!-- ____________________ Modals ____________________ -->
   <div
     v-if="showAboutReferrals"
     class="

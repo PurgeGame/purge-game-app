@@ -1,9 +1,3 @@
-<!-- 
-  TO DO
-  --------------------
-  Error handling
--->
-
 <script setup>
 import { onMounted } from "vue";
 import MetaMaskOnboarding from "@metamask/onboarding"; // https://docs.metamask.io/guide/onboarding-library.html

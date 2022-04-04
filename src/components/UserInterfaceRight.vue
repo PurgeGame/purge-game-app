@@ -1,10 +1,3 @@
-<!-- 
-  TO DO
-  --------------------
-  Create background image and populate for burned trait tickets
-  Display NFT's owned with multiple selection options to burn or sell
--->
-
 <script setup>
 const windowAlert = () => {
   window.alert("lol I don't do anything");
