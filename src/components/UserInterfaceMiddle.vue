@@ -73,7 +73,7 @@ async function mint(number, referrer) {
   let estimate = await contract.estimateGas.mint(number, referrer, {
     value: spend,
   });
-  estimate = BigInt(parseInt(estimate * 1.05));
+  estimate = BigInt(parseInt(estimate * 1.1));
   await contract.mint(number, referrer, { value: spend, gasLimit: estimate });
 }
 
@@ -83,7 +83,7 @@ async function mintAndPurge(number, referrer) {
   let estimate = await contract.estimateGas.mintAndPurge(number, referrer, {
     value: spend,
   });
-  estimate = BigInt(parseInt(estimate * 1.05));
+  estimate = BigInt(parseInt(estimate * 1.1));
   await contract.mintAndPurge(number, referrer, {
     value: spend,
     gasLimit: estimate,
@@ -92,13 +92,13 @@ async function mintAndPurge(number, referrer) {
 
 async function coinMint(number) {
   let estimate = await contract.estimateGas.coinMint(number);
-  estimate = BigInt(parseInt(estimate * 1.05));
+  estimate = BigInt(parseInt(estimate * 1.1));
   await contract.coinMint(number, { gasLimit: estimate });
 }
 
 async function coinMintAndPurge(number) {
   let estimate = await contract.estimateGas.coinMintAndPurge(number);
-  estimate = BigInt(parseInt(estimate * 1.05));
+  estimate = BigInt(parseInt(estimate * 1.1));
   await contract.coinMintAndPurge(number, { gasLimit: estimate });
 }
 
