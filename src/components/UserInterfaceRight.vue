@@ -13,7 +13,7 @@ const tokenData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
 // dataSource is expected to eventually be an API endpoint
-const dataSource = ref("http://127.0.0.1:8000/alltraits");
+const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
 const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
 const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
 
@@ -46,26 +46,11 @@ const sortedTraits = computed(() => {
   }
 });
 
-function calculateTokens(trait){
-  let tokens = 0
-  Object.values(tokenData.value).forEach((value) => {
-    if (
-      (value.traitnumbers[0] == trait ||
-      value.traitnumbers[1] == trait ||
-      value.traitnumbers[2] == trait ||
-      value.traitnumbers[3] == trait) && 
-      value.purgeaddress != 0
-    ){ 
-      tokens ++
-    }
-  });
-  return tokens;
-}
 
-function calculatePrize(tokens, total){
-  let prize = ((tokens / (total-1)) * (prizepool.value.remaining-prizepool.value.grandprize)).toFixed(4)
-  return prize;
-}
+// function calculatePrize(tokens, total){
+//   let prize = ((tokens / (total-1)) * (prizepool.value.remaining-prizepool.value.grandprize)).toFixed(4)
+//   return prize;
+// }
 
 const filteredTraits = computed(() => {
   const wordArray = props.filterString.toLowerCase().split(" ")
@@ -73,7 +58,7 @@ const filteredTraits = computed(() => {
   const filteredList = new Map();
   if (sortedTraits.value) {
     Object.values(sortedTraits.value).forEach((value) => {
-      let tokens = calculateTokens(value.traitId)
+      let tokens = value.purgedByAddress
       if (tokens > 0){
         if (
           (typeof(wordArray[1]) == 'undefined' &&
@@ -83,7 +68,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: calculatePrize(tokens, value.total),
+            prize: value.normalpayout,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
         } else if (
@@ -96,7 +81,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: calculatePrize(tokens, value.total),
+            prize: value.normalpayout,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
         } else if (
@@ -109,7 +94,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: calculatePrize(tokens, value.total),
+            prize: value.normalpayout,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
           }
@@ -136,6 +121,7 @@ function toggleColumnSorted(column) {
 
 onMounted(() => {
   fetchTraitData();
+  console.log(tokenDataSource.value)
 });
 </script>
 
@@ -177,7 +163,7 @@ onMounted(() => {
 
               <th
                 colspan="2"
-                @click="toggleColumnSorted('prize')"
+                @click="toggleColumnSorted('normalpayout')"
                 :class="{ 'text-amber-300': columnStatus.prize }"
                 class="
                   sticky

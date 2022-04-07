@@ -1,5 +1,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
+import { wallet } from "../store.js";
+import { ethers } from "ethers";
 
 const props = defineProps(["filterString"]);
 
@@ -7,7 +9,7 @@ const traitData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
 // dataSource is expected to eventually be an API endpoint
-const dataSource = ref("http://127.0.0.1:8000/alltraits");
+const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
 
 const columnStatus = reactive({
   shape: false,
