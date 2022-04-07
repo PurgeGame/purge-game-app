@@ -64,8 +64,7 @@ function mintButton(mintType) {
 }
 
 function coinMintButton(mintType) {
-  let number = document.getElementById("number").value;
-  mintType(number);
+  mintType(mintQuantity.value);
 }
 
 async function mint(number, referrer) {
