@@ -1,13 +1,22 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
+import { wallet } from "../store.js";
+import { ethers } from "ethers";
+
+
 
 const props = defineProps(["filterString"]);
 
 const traitData = ref(null);
+const prizepool = ref(null);
+const tokenData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
 // dataSource is expected to eventually be an API endpoint
-const dataSource = ref("");
+const dataSource = ref("http://127.0.0.1:8000/alltraits");
+const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
+const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
+console.log (tokenDataSource)
 
 const columnStatus = reactive({
   shape: false,
@@ -38,29 +47,80 @@ const sortedTraits = computed(() => {
   }
 });
 
+function calculatePrize(trait, total){
+  let tokens = 0
+  Object.values(tokenData.value).forEach((value) => {
+    if (
+      (value.traitnumbers[0] == trait ||
+      value.traitnumbers[1] == trait ||
+      value.traitnumbers[2] == trait ||
+      value.traitnumbers[3] == trait) && 
+      value.purgeaddress != 0
+    ){ 
+      tokens ++
+    }
+  });
+  let prize = ((tokens / (total-1)) * (prizepool.value.remaining-prizepool.value.grandprize)).toFixed(4)
+  return(prize);
+}
+
 const filteredTraits = computed(() => {
+  const wordArray = props.filterString.toLowerCase().split(" ")
+  const letters = ['p','u','r','g','e','a','m']
   const filteredList = new Map();
   if (sortedTraits.value) {
     Object.values(sortedTraits.value).forEach((value) => {
       if (
+        (typeof(wordArray[1]) == 'undefined' &&
         value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
-        value.color.toLowerCase().includes(props.filterString.toLowerCase())
+        value.color.toLowerCase().includes(props.filterString.toLowerCase()))
       ) {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
           color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
           total: value.total,
-          remaining: value.remaining,
+          prize: calculatePrize(value.traitId, value.total),
           imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
         });
-      }
-    });
+      } else if (
+          typeof(wordArray[1]) !== 'undefined' &&
+          wordArray[1].length == 1 &&
+          letters.includes(wordArray[1]) &&
+          value.shape.toLowerCase()===wordArray[1] &&
+          value.color.toLowerCase().includes(wordArray[0])
+      ){
+        filteredList.set(value.color + "-" + value.shape, {
+          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+          total: value.total,
+          prize: calculatePrize(value.traitId, value.total),
+          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+        });
+      } else if (
+          typeof(wordArray[1]) !== 'undefined' &&
+          (wordArray[1].length > 1 || 
+          !letters.includes(wordArray[1]))&&
+          value.shape.toLowerCase().includes(wordArray[1]) &&
+          value.color.toLowerCase().includes(wordArray[0])
+        ){
+        filteredList.set(value.color + "-" + value.shape, {
+          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+          total: value.total,
+          prize: calculatePrize(value.traitId, value.total),
+          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+        });
+        }
+      });
   }
   return filteredList;
 });
 
+
 async function fetchTraitData() {
   traitData.value = await (await fetch(dataSource.value)).json();
+  prizepool.value = await (await fetch(prizepoolSource.value)).json();
+  tokenData.value = await (await fetch(tokenDataSource.value)).json();
 }
 
 function toggleColumnSorted(column) {
@@ -144,7 +204,7 @@ onMounted(() => {
                 />
               </td>
               <td class="border-t border-amber-300 text-center pr-4">
-                {{ trait[1].remaining }}
+                {{ trait[1].prize }}
               </td>
             </tr>
           </tbody>
