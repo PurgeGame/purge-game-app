@@ -16,7 +16,6 @@ const sortOrder = ref("asc");
 const dataSource = ref("http://127.0.0.1:8000/alltraits");
 const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
 const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
-console.log (tokenDataSource)
 
 const columnStatus = reactive({
   shape: false,
@@ -47,7 +46,7 @@ const sortedTraits = computed(() => {
   }
 });
 
-function calculatePrize(trait, total){
+function calculateTokens(trait){
   let tokens = 0
   Object.values(tokenData.value).forEach((value) => {
     if (
@@ -60,8 +59,12 @@ function calculatePrize(trait, total){
       tokens ++
     }
   });
+  return tokens;
+}
+
+function calculatePrize(tokens, total){
   let prize = ((tokens / (total-1)) * (prizepool.value.remaining-prizepool.value.grandprize)).toFixed(4)
-  return(prize);
+  return prize;
 }
 
 const filteredTraits = computed(() => {
@@ -70,47 +73,47 @@ const filteredTraits = computed(() => {
   const filteredList = new Map();
   if (sortedTraits.value) {
     Object.values(sortedTraits.value).forEach((value) => {
-      if (
-        (typeof(wordArray[1]) == 'undefined' &&
-        value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
-        value.color.toLowerCase().includes(props.filterString.toLowerCase()))
-      ) {
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
-          prize: calculatePrize(value.traitId, value.total),
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-      } else if (
-          typeof(wordArray[1]) !== 'undefined' &&
-          wordArray[1].length == 1 &&
-          letters.includes(wordArray[1]) &&
-          value.shape.toLowerCase()===wordArray[1] &&
-          value.color.toLowerCase().includes(wordArray[0])
-      ){
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
-          prize: calculatePrize(value.traitId, value.total),
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-      } else if (
-          typeof(wordArray[1]) !== 'undefined' &&
-          (wordArray[1].length > 1 || 
-          !letters.includes(wordArray[1]))&&
-          value.shape.toLowerCase().includes(wordArray[1]) &&
-          value.color.toLowerCase().includes(wordArray[0])
+      let tokens = calculateTokens(value.traitId)
+      if (tokens > 0){
+        if (
+          (typeof(wordArray[1]) == 'undefined' &&
+          value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
+          value.color.toLowerCase().includes(props.filterString.toLowerCase()))
+        ) {
+          filteredList.set(value.color + "-" + value.shape, {
+            shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+            color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+            prize: calculatePrize(tokens, value.total),
+            imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+          });
+        } else if (
+            typeof(wordArray[1]) !== 'undefined' &&
+            wordArray[1].length == 1 &&
+            letters.includes(wordArray[1]) &&
+            value.shape.toLowerCase()===wordArray[1] &&
+            value.color.toLowerCase().includes(wordArray[0])
         ){
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
-          prize: calculatePrize(value.traitId, value.total),
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-        }
+          filteredList.set(value.color + "-" + value.shape, {
+            shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+            color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+            prize: calculatePrize(tokens, value.total),
+            imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+          });
+        } else if (
+            typeof(wordArray[1]) !== 'undefined' &&
+            (wordArray[1].length > 1 || 
+            !letters.includes(wordArray[1]))&&
+            value.shape.toLowerCase().includes(wordArray[1]) &&
+            value.color.toLowerCase().includes(wordArray[0])
+          ){
+          filteredList.set(value.color + "-" + value.shape, {
+            shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+            color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+            prize: calculatePrize(tokens, value.total),
+            imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+          });
+          }
+      }
       });
   }
   return filteredList;
