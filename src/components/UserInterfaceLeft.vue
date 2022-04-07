@@ -7,7 +7,7 @@ const traitData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
 // dataSource is expected to eventually be an API endpoint
-const dataSource = ref("/src/assets/dummy-data/traits.json");
+const dataSource = ref("http://127.0.0.1:8000/alltraits");
 
 const columnStatus = reactive({
   shape: false,
@@ -39,12 +39,15 @@ const sortedTraits = computed(() => {
 });
 
 const filteredTraits = computed(() => {
+  const wordArray = props.filterString.toLowerCase().split(" ")
+  const letters = ['p','u','r','g','e','a','m']
   const filteredList = new Map();
   if (sortedTraits.value) {
     Object.values(sortedTraits.value).forEach((value) => {
       if (
+        (typeof(wordArray[1]) == 'undefined' &&
         value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
-        value.color.toLowerCase().includes(props.filterString.toLowerCase())
+        value.color.toLowerCase().includes(props.filterString.toLowerCase()))
       ) {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
@@ -53,8 +56,36 @@ const filteredTraits = computed(() => {
           remaining: value.remaining,
           imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
         });
-      }
-    });
+      } else if (
+          typeof(wordArray[1]) !== 'undefined' &&
+          wordArray[1].length == 1 &&
+          letters.includes(wordArray[1]) &&
+          value.shape.toLowerCase()===wordArray[1] &&
+          value.color.toLowerCase().includes(wordArray[0])
+      ){
+        filteredList.set(value.color + "-" + value.shape, {
+          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+          total: value.total,
+          remaining: value.remaining,
+          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+        });
+      } else if (
+          typeof(wordArray[1]) !== 'undefined' &&
+          (wordArray[1].length > 1 || 
+          !letters.includes(wordArray[1]))&&
+          value.shape.toLowerCase().includes(wordArray[1]) &&
+          value.color.toLowerCase().includes(wordArray[0])
+        ){
+        filteredList.set(value.color + "-" + value.shape, {
+          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
+          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
+          total: value.total,
+          remaining: value.remaining,
+          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
+        });
+        }
+      });
   }
   return filteredList;
 });
