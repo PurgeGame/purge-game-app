@@ -1,22 +1,10 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import { wallet, traitData } from "../store.js";
-import { ethers } from "ethers";
-
-
+import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
-
-// const traitData = ref(null);
-// const allData = ref(null)
-//const prizepool = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
-// dataSource is expected to eventually be an API endpoint
-// const data = ref("http://127.0.0.1:8000/everything/" + ethers.utils.getAddress(wallet.address));
-// const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
-// const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
-// const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
 
 const columnStatus = reactive({
   shape: false,
@@ -47,11 +35,6 @@ const sortedTraits = computed(() => {
   }
 });
 
-
-// function calculatePrize(tokens, total){
-//   let prize = ((tokens / (total-1)) * (prizepool.value.remaining-prizepool.value.grandprize)).toFixed(4)
-//   return prize;
-// }
 
 const filteredTraits = computed(() => {
   const wordArray = props.filterString.toLowerCase().split(" ")
@@ -105,18 +88,6 @@ const filteredTraits = computed(() => {
   return filteredList;
 });
 
-
-// async function fetchTraitData() {
-//   allData.value = await (await fetch(data.value)).json();
-//   traitData.value = allData.value[0]
-  //ownedTokenData.value = allData.value[1]
-  //purgedTokenData.value = allData.value[2]
-  // prizepool.value = allData.value[3]
-  // traitData.value = await (await fetch(dataSource.value)).json();
-  // prizepool.value = await (await fetch(prizepoolSource.value)).json();
-  // tokenData.value = await (await fetch(tokenDataSource.value)).json();
-// }
-
 function toggleColumnSorted(column) {
   columnSorted.value = column;
   Object.keys(columnStatus).forEach((key) => {
@@ -126,7 +97,6 @@ function toggleColumnSorted(column) {
 }
 
 onMounted(() => {
-  // fetchTraitData();
 });
 </script>
 
