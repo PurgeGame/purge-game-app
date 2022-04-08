@@ -1,15 +1,10 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import { wallet } from "../store.js";
-import { ethers } from "ethers";
+import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
-
-const traitData = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
-// dataSource is expected to eventually be an API endpoint
-const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
 
 const columnStatus = reactive({
   shape: false,
@@ -54,7 +49,6 @@ const filteredTraits = computed(() => {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
           color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
           remaining: value.remaining,
           imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
         });
@@ -68,7 +62,6 @@ const filteredTraits = computed(() => {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
           color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
           remaining: value.remaining,
           imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
         });
@@ -82,7 +75,6 @@ const filteredTraits = computed(() => {
         filteredList.set(value.color + "-" + value.shape, {
           shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
           color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          total: value.total,
           remaining: value.remaining,
           imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
         });
@@ -92,9 +84,7 @@ const filteredTraits = computed(() => {
   return filteredList;
 });
 
-async function fetchTraitData() {
-  traitData.value = await (await fetch(dataSource.value)).json();
-}
+
 
 function toggleColumnSorted(column) {
   columnSorted.value = column;
@@ -105,7 +95,6 @@ function toggleColumnSorted(column) {
 }
 
 onMounted(() => {
-  fetchTraitData();
 });
 </script>
 

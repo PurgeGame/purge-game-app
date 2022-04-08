@@ -1,21 +1,22 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import { wallet } from "../store.js";
+import { wallet, traitData } from "../store.js";
 import { ethers } from "ethers";
 
 
 
 const props = defineProps(["filterString"]);
 
-const traitData = ref(null);
-const prizepool = ref(null);
-const tokenData = ref(null);
+// const traitData = ref(null);
+// const allData = ref(null)
+//const prizepool = ref(null);
 const columnSorted = ref("color");
 const sortOrder = ref("asc");
 // dataSource is expected to eventually be an API endpoint
-const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
-const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
-const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
+// const data = ref("http://127.0.0.1:8000/everything/" + ethers.utils.getAddress(wallet.address));
+// const dataSource = ref("http://127.0.0.1:8000/alltraits/"+ ethers.utils.getAddress(wallet.address));
+// const prizepoolSource = ref("http://127.0.0.1:8000/prizepool");
+// const tokenDataSource = ref("http://127.0.0.1:8000/tokenOwner/" + ethers.utils.getAddress(wallet.address));
 
 const columnStatus = reactive({
   shape: false,
@@ -68,7 +69,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: value.normalpayout,
+            prize: value.prize,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
         } else if (
@@ -81,7 +82,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: value.normalpayout,
+            prize: value.prize,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
         } else if (
@@ -94,7 +95,7 @@ const filteredTraits = computed(() => {
           filteredList.set(value.color + "-" + value.shape, {
             shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
             color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-            prize: value.normalpayout,
+            prize: value.prize,
             imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
           });
           }
@@ -105,11 +106,16 @@ const filteredTraits = computed(() => {
 });
 
 
-async function fetchTraitData() {
-  traitData.value = await (await fetch(dataSource.value)).json();
-  prizepool.value = await (await fetch(prizepoolSource.value)).json();
-  tokenData.value = await (await fetch(tokenDataSource.value)).json();
-}
+// async function fetchTraitData() {
+//   allData.value = await (await fetch(data.value)).json();
+//   traitData.value = allData.value[0]
+  //ownedTokenData.value = allData.value[1]
+  //purgedTokenData.value = allData.value[2]
+  // prizepool.value = allData.value[3]
+  // traitData.value = await (await fetch(dataSource.value)).json();
+  // prizepool.value = await (await fetch(prizepoolSource.value)).json();
+  // tokenData.value = await (await fetch(tokenDataSource.value)).json();
+// }
 
 function toggleColumnSorted(column) {
   columnSorted.value = column;
@@ -120,8 +126,7 @@ function toggleColumnSorted(column) {
 }
 
 onMounted(() => {
-  fetchTraitData();
-  console.log(tokenDataSource.value)
+  // fetchTraitData();
 });
 </script>
 
