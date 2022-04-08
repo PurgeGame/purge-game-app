@@ -20,4 +20,4 @@ fetchTraitData();
 });
 </script>
 
-
+<template></template>
