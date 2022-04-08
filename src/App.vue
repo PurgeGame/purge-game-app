@@ -9,7 +9,7 @@ import ApiGrab from "./components/ApiGrab.vue";
   <!-- Full screen modal if wallet not connected, else load main interface -->
   <MetaMaskConnection />
   <div v-if="wallet.address">
-    <!-- <ApiGrab /> -->
+    <ApiGrab />
     <MainUserInterface />
 
   </div>
