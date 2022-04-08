@@ -138,7 +138,7 @@ onMounted(() => {
 
               <th
                 colspan="2"
-                @click="toggleColumnSorted('normalpayout')"
+                @click="toggleColumnSorted('prize')"
                 :class="{ 'text-amber-300': columnStatus.prize }"
                 class="
                   sticky
