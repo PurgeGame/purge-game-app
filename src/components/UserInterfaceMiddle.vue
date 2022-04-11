@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { ethers } from "ethers";
 import {
   wallet,
@@ -198,6 +198,7 @@ onMounted(() => {
         class="px-2 text-black"
       />
     </p>
+
     <div class="absolute bottom-0 w-full my-2 text-center lg:hidden">
       All traits <img src="/swipe.png" class="inline px-1" /> Purged traits
     </div>

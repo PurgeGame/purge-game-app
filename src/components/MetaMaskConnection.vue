@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-import MetaMaskOnboarding from "@metamask/onboarding"; // https://docs.metamask.io/guide/onboarding-library.html
+import MetaMaskOnboarding from "@metamask/onboarding";
 import { wallet } from "../store.js";
 
 const isMetaMaskInstalled = () => {
@@ -28,7 +28,6 @@ const getAccounts = async () => {
 };
 
 const handleChainChanged = (_chainId) => {
-  // We recommend reloading the page, unless you must do otherwise
   window.location.reload();
 };
 

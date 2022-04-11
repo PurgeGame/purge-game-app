@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, onMounted } from "vue";
+import { ref, reactive, computed } from "vue";
 import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
@@ -13,19 +13,46 @@ const columnStatus = reactive({
   remaining: false,
 });
 
+const filteredTraits = computed(() => {
+  const wordArray = props.filterString.toLowerCase().split(" ");
+  const letters = ["p", "u", "r", "g", "e", "a", "m"];
+  let filteredList = [];
+
+  if (traitData.value) {
+    Object.values(traitData.value).forEach((trait) => {
+      if (
+        (typeof wordArray[1] == "undefined" &&
+          trait.color.toLowerCase().includes(wordArray[0])) ||
+        trait.shape.toLowerCase().includes(wordArray[0])
+      ) {
+        filteredList.push(trait);
+      } else if (
+        typeof wordArray[1] !== "undefined" &&
+        wordArray[1].length == 1 &&
+        letters.includes(wordArray[1]) &&
+        trait.shape.toLowerCase() === wordArray[1] &&
+        trait.color.toLowerCase().includes(wordArray[0])
+      ) {
+        filteredList.push(trait);
+      } else if (
+        typeof wordArray[1] !== "undefined" &&
+        (wordArray[1].length > 1 || !letters.includes(wordArray[1])) &&
+        trait.shape.toLowerCase().includes(wordArray[1]) &&
+        trait.color.toLowerCase().includes(wordArray[0])
+      ) {
+        filteredList.push(trait);
+      }
+    });
+  }
+  return filteredList;
+});
+
 const sortedTraits = computed(() => {
   if (traitData.value) {
-    let traitsArray = [];
-    Object.entries(traitData.value).forEach((entry) => {
-      traitsArray.push(entry[1]);
-    });
+    let traitsArray = filteredTraits.value;
     traitsArray.sort((a, b) => {
-      if (a[columnSorted.value] < b[columnSorted.value]) {
-        return -1;
-      }
-      if (a[columnSorted.value] > b[columnSorted.value]) {
-        return 1;
-      }
+      if (a[columnSorted.value] < b[columnSorted.value]) return -1;
+      if (a[columnSorted.value] > b[columnSorted.value]) return 1;
       return 0;
     });
     if (sortOrder.value == "desc") {
@@ -35,57 +62,6 @@ const sortedTraits = computed(() => {
   }
 });
 
-const filteredTraits = computed(() => {
-  const wordArray = props.filterString.toLowerCase().split(" ")
-  const letters = ['p','u','r','g','e','a','m']
-  const filteredList = new Map();
-  if (sortedTraits.value) {
-    Object.values(sortedTraits.value).forEach((value) => {
-      if (
-        (typeof(wordArray[1]) == 'undefined' &&
-        value.shape.toLowerCase().includes(props.filterString.toLowerCase()) ||
-        value.color.toLowerCase().includes(props.filterString.toLowerCase()))
-      ) {
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          remaining: value.remaining,
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-      } else if (
-          typeof(wordArray[1]) !== 'undefined' &&
-          wordArray[1].length == 1 &&
-          letters.includes(wordArray[1]) &&
-          value.shape.toLowerCase()===wordArray[1] &&
-          value.color.toLowerCase().includes(wordArray[0])
-      ){
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          remaining: value.remaining,
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-      } else if (
-          typeof(wordArray[1]) !== 'undefined' &&
-          (wordArray[1].length > 1 || 
-          !letters.includes(wordArray[1]))&&
-          value.shape.toLowerCase().includes(wordArray[1]) &&
-          value.color.toLowerCase().includes(wordArray[0])
-        ){
-        filteredList.set(value.color + "-" + value.shape, {
-          shape: value.shape.charAt(0).toUpperCase() + value.shape.slice(1),
-          color: value.color.charAt(0).toUpperCase() + value.color.slice(1),
-          remaining: value.remaining,
-          imageUrl: `/thumbnails/${value.color}-${value.shape}.png`,
-        });
-        }
-      });
-  }
-  return filteredList;
-});
-
-
-
 function toggleColumnSorted(column) {
   columnSorted.value = column;
   Object.keys(columnStatus).forEach((key) => {
@@ -93,9 +69,6 @@ function toggleColumnSorted(column) {
   });
   sortOrder.value = sortOrder.value == "asc" ? "desc" : "asc";
 }
-
-onMounted(() => {
-});
 </script>
 
 <template>
@@ -164,16 +137,16 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="trait in filteredTraits">
+            <tr v-for="trait in sortedTraits">
               <td class="border-t border-amber-300 text-center">
-                {{ trait[1].color }}
+                {{ trait.color }}
               </td>
               <td class="border-t border-amber-300 text-center">
-                {{ trait[1].shape }}
+                {{ trait.shape }}
               </td>
               <td class="border-t border-amber-300 text-center">
                 <img
-                  :src="trait[1].imageUrl"
+                  :src="trait.thumbnail"
                   class="inline w-1/2 max-w-xs py-1"
                 />
               </td>
@@ -182,7 +155,7 @@ onMounted(() => {
                 {{ trait[1].total }}
               </td> -->
               <td class="border-t border-amber-300 text-center pr-4">
-                {{ trait[1].remaining }}
+                {{ trait.remaining }}
               </td>
             </tr>
           </tbody>

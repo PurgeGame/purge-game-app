@@ -1,16 +1,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { wallet } from "../store.js";
+import { useApiGrab } from "../composables.js";
+
+// Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
 import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
 import UserInterfaceRight from "./UserInterfaceRight.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
-import { wallet } from "../store.js";
 
 const urlParams = new URL(location).searchParams.get("referral");
-const filterString = ref("");
 const referralCode = ref(null);
 const typedReferralCode = ref(null);
+const filterString = ref("");
 const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
@@ -30,9 +33,13 @@ const onClickReferral = () => {
 };
 
 onMounted(() => {
+  // Load API data, todo: something with error
+  const { error } = useApiGrab(wallet.checksumAddress());
+
   // Bring the middle column into view on page load. For small screens.
   middleColumn.value.scrollIntoView({ inline: "start" });
 
+  // Do referral and cookie stuff (incomplete)
   if (urlParams) {
     referralCode.value = urlParams;
   }
