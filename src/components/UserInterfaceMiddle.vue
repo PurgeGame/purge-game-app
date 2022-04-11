@@ -1,5 +1,7 @@
+<!-- This whole component is hideous and hard to understand and needs help -->
+
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { ethers } from "ethers";
 import {
   wallet,
@@ -7,6 +9,7 @@ import {
   contractaddress,
   coinaddress,
   coinabi,
+  ownedTokenData,
 } from "../store.js";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -22,6 +25,15 @@ const currentBlock = ref(null);
 const mintQuantity = ref(1);
 const referralCode = ref("");
 const purgeIDs = ref(null);
+
+// Not sure this is the best way to wait for the API call, but it works
+const ownedTokens = reactive({});
+watch(ownedTokenData, () => (ownedTokens.value = ownedTokenData.value));
+
+function thumbnailUrl(traitname) {
+  const str = traitname.toLowerCase().split(" ");
+  return `/thumbnails/${str[0]}-${str[1]}.png`;
+}
 
 async function doEthersStuff() {
   etherBalance.value = ethers.utils.formatEther(
@@ -198,6 +210,37 @@ onMounted(() => {
         class="px-2 text-black"
       />
     </p>
+
+    <div v-for="token in ownedTokens.value" class="my-4">
+      Token {{ token.tokenId }}
+      <div
+        class="
+          w-4/5
+          mx-auto
+          grid grid-cols-2
+          bg-gradient-to-br
+          from-zinc-600
+          to-zinc-400
+          aspect-square
+          rounded-md
+          border-2 border-amber-300
+          shadow-lg
+        "
+      >
+        <div class="grid place-items-center">
+          <img :src="thumbnailUrl(token.traitnames[0])" />
+        </div>
+        <div class="grid place-items-center">
+          <img :src="thumbnailUrl(token.traitnames[1])" />
+        </div>
+        <div class="grid place-items-center">
+          <img :src="thumbnailUrl(token.traitnames[2])" />
+        </div>
+        <div class="grid place-items-center">
+          <img :src="thumbnailUrl(token.traitnames[3])" />
+        </div>
+      </div>
+    </div>
 
     <div class="absolute bottom-0 w-full my-2 text-center lg:hidden">
       All traits <img src="/swipe.png" class="inline px-1" /> Purged traits

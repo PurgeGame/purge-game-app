@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { wallet } from "../store.js";
 import { useApiGrab } from "../composables.js";
 
@@ -32,10 +32,12 @@ const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   // Load API data, todo: something with error
   const { error } = useApiGrab(wallet.checksumAddress());
+});
 
+onMounted(() => {
   // Bring the middle column into view on page load. For small screens.
   middleColumn.value.scrollIntoView({ inline: "start" });
 
