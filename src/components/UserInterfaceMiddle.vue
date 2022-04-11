@@ -211,11 +211,10 @@ onMounted(() => {
       />
     </p>
 
-    <div v-for="token in ownedTokens.value" class="my-4">
+    <div v-for="token in ownedTokens.value" class="inline-block w-1/2 my-4 p-2">
       Token {{ token.tokenId }}
       <div
         class="
-          w-4/5
           mx-auto
           grid grid-cols-2
           bg-gradient-to-br
