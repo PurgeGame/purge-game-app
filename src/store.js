@@ -17,6 +17,7 @@ export const traitData = reactive({
   purgedByAddress: null,
   traitId: null,
   total: null,
+  floor: null,
   image: null,
   thumbnail: null,
 })
