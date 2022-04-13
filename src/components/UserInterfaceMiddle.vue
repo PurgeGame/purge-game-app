@@ -33,8 +33,6 @@ const purgeIDs = ref(null);
 // Not sure this is the best way to wait for the API call, but it works
 const ownedTokens = reactive({});
 watch(ownedTokenData, () => (ownedTokens.value = ownedTokenData.value));
-const traits = reactive({});
-watch(traits, () => (traits.value = traitData.value));
 
 function thumbnailUrl(traitname) {
   const str = traitname.toLowerCase().split(" ");
@@ -148,7 +146,6 @@ const filteredTokens = computed(() => {
           color.includes(wordArray[0])) ||
           shape.includes(wordArray[0])
         ) {
-          console.log('a')
           filteredList.add(token);
         } else if (
           typeof wordArray[1] !== "undefined" &&
@@ -165,13 +162,11 @@ const filteredTokens = computed(() => {
           shape.includes(wordArray[1]) &&
           color.includes(wordArray[0])
         ) {
-          console.log(wordArray)
           filteredList.add(token);
         }
       }
     });
   }
-  console.log(filteredList)
   return filteredList;
 });
 </script>
@@ -258,8 +253,8 @@ const filteredTokens = computed(() => {
       />
     </p>
 
-    <div v-for="token in filteredTokens" class="inline-block w-1/2 my-4 p-2">
-      Token {{ token.tokenId }}
+    <div v-for="token in filteredTokens" class="inline-block w-1/3 my-0 p-0">
+      <!-- Token {{ token.tokenId }} -->
       <div
         class="
           mx-auto
