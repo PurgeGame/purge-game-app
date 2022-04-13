@@ -264,7 +264,7 @@ onMounted(() => {
           ref="middleColumn"
           class="snap-start snap-always h-full overflow-auto"
         >
-          <UserInterfaceMiddle />
+          <UserInterfaceMiddle :filter-string="filterString" />
         </div>
         <div class="snap-end snap-always h-full overflow-auto">
           <UserInterfaceRight :filter-string="filterString" />

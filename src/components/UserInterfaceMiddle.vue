@@ -1,7 +1,7 @@
 <!-- This whole component is hideous and hard to understand and needs help -->
 
 <script setup>
-import { ref, reactive, watch, onMounted } from "vue";
+import { ref, reactive, watch, onMounted, computed } from "vue";
 import { ethers } from "ethers";
 import {
   wallet,
@@ -10,8 +10,12 @@ import {
   coinaddress,
   coinabi,
   ownedTokenData,
+  traitData,
+  purgedTokenData,
+  prizepool
 } from "../store.js";
 
+const props = defineProps(["filterString"]);
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const contract = new ethers.Contract(contractaddress, abi, signer);
@@ -29,6 +33,8 @@ const purgeIDs = ref(null);
 // Not sure this is the best way to wait for the API call, but it works
 const ownedTokens = reactive({});
 watch(ownedTokenData, () => (ownedTokens.value = ownedTokenData.value));
+const traits = reactive({});
+watch(traits, () => (traits.value = traitData.value));
 
 function thumbnailUrl(traitname) {
   const str = traitname.toLowerCase().split(" ");
@@ -127,6 +133,47 @@ async function nukeToken(bombTokenId, targetTokenId) {
 onMounted(() => {
   doEthersStuff();
 });
+
+const filteredTokens = computed(() => {
+  const wordArray = props.filterString.toLowerCase().split(" ");
+  const letters = ["p", "u", "r", "g", "e", "a", "m"];
+  let filteredList = new Set();
+  if (ownedTokens.value) {
+    Object.values(ownedTokens.value).forEach((token) => {
+      for (let trait of token.traitnames) {
+        let color = trait.toLowerCase().split(" ")[0]
+        let shape = trait.toLowerCase().split(" ")[1]
+        if (
+          (typeof wordArray[1] == "undefined" &&
+          color.includes(wordArray[0])) ||
+          shape.includes(wordArray[0])
+        ) {
+          console.log('a')
+          filteredList.add(token);
+        } else if (
+          typeof wordArray[1] !== "undefined" &&
+          wordArray[1].length == 1 &&
+          letters.includes(wordArray[1]) &&
+          shape === wordArray[1] &&
+          color.includes(wordArray[0])
+        ) {
+          console.log('b')
+          filteredList.add(token);
+        } else if (
+          typeof wordArray[1] !== "undefined" &&
+          (wordArray[1].length > 1 || !letters.includes(wordArray[1])) &&
+          shape.includes(wordArray[1]) &&
+          color.includes(wordArray[0])
+        ) {
+          console.log(wordArray)
+          filteredList.add(token);
+        }
+      }
+    });
+  }
+  console.log(filteredList)
+  return filteredList;
+});
 </script>
 
 <template>
@@ -211,7 +258,7 @@ onMounted(() => {
       />
     </p>
 
-    <div v-for="token in ownedTokens.value" class="inline-block w-1/2 my-4 p-2">
+    <div v-for="token in filteredTokens" class="inline-block w-1/2 my-4 p-2">
       Token {{ token.tokenId }}
       <div
         class="
