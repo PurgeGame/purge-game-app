@@ -3,8 +3,8 @@ import { ref, reactive, computed } from "vue";
 import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
-const columnSorted = ref("color");
-const sortOrder = ref("asc");
+const columnSorted = ref("prize");
+const sortOrder = ref("desc");
 
 const columnStatus = reactive({
   shape: false,
