@@ -73,6 +73,22 @@ function toggleColumnSorted(column) {
   });
   sortOrder.value = sortOrder.value == "asc" ? "desc" : "asc";
 }
+function traitOSURL(trait){
+  if (trait.traitId < 64){
+    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
+  }
+  else if (trait.traitId < 128){
+    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
+  }
+  else if (trait.traitId < 192){
+    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
+  }
+  else if (trait.traitId < 256){
+    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
+  }
+  return 'ERROR'
+}
+
 </script>
 
 <template>
@@ -143,7 +159,7 @@ function toggleColumnSorted(column) {
           <tbody>
             <tr v-for="trait in sortedTraits">
               <td class="border-t border-amber-300 text-center">
-                <a href="LINK_TO_OS"> BUY</a>
+                <a :href="traitOSURL(trait)" target="_blank"> BUY</a>
               </td>
               <td class="border-t border-amber-300 text-center">
                 {{ trait.floor }}
