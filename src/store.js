@@ -49,8 +49,8 @@ export const purgedTokenData = reactive({
 //const dataSource = "http://127.0.0.1:8000/everything/" + ethers.utils.getAddress(wallet.address);
 // console.log(dataSource[2])
 
-export const contractaddress = '0x2D3c040a79DA105fD86ABdE8A2028F0394141d6A'
-export const coinaddress = '0xfBFD4411914A2c6caBEd2Ba18A7DBe8DD9A26496'
+export const contractaddress = '0x405b513192d151448d59A04Fcd1562f2dC75d209'
+export const coinaddress = '0xD5029490274ccE571808817db03aED1D38F481E0'
 export const abi = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
   {

@@ -4,7 +4,7 @@ import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
 const columnSorted = ref("remaining");
-const sortOrder = ref("desc");
+const sortOrder = ref("asc");
 
 const columnStatus = reactive({
   shape: false,
@@ -62,6 +62,10 @@ const sortedTraits = computed(() => {
   }
 });
 
+function getTraitURL(trait){
+
+}
+
 function toggleColumnSorted(column) {
   columnSorted.value = column;
   Object.keys(columnStatus).forEach((key) => {
@@ -97,14 +101,14 @@ function toggleColumnSorted(column) {
                 :class="{ 'text-amber-300': columnStatus.color }"
                 class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
-                <button class="font-bold">Color</button>
+                <button class="font-bold"> </button>
               </th>
               <th
-                @click="toggleColumnSorted('shape')"
-                :class="{ 'text-amber-300': columnStatus.shape }"
+                @click="toggleColumnSorted('floor')"
+                :class="{ 'text-amber-300': columnStatus.floor }"
                 class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
-                <button class="font-bold">Symbol</button>
+                <button class="font-bold">Floor</button>
                 <!-- </th>
               <th class="sticky top-0 z-10 border-b-2 border-amber-300">
                 &nbsp;
@@ -139,10 +143,10 @@ function toggleColumnSorted(column) {
           <tbody>
             <tr v-for="trait in sortedTraits">
               <td class="border-t border-amber-300 text-center">
-                {{ trait.color }}
+                <a href="LINK_TO_OS"> BUY</a>
               </td>
               <td class="border-t border-amber-300 text-center">
-                {{ trait.shape }}
+                {{ trait.floor }}
               </td>
               <td class="border-t border-amber-300 text-center">
                 <img

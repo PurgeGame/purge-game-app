@@ -99,7 +99,7 @@ async function mintAndPurge(number, referrer) {
   let estimate = await contract.estimateGas.mintAndPurge(number, referrer, {
     value: spend,
   });
-  estimate = BigInt(parseInt(estimate * 1.15));
+  estimate = BigInt(parseInt(estimate * 1.2));
   await contract.mintAndPurge(number, referrer, {
     value: spend,
     gasLimit: estimate,
@@ -114,7 +114,7 @@ async function coinMint(number) {
 
 async function coinMintAndPurge(number) {
   let estimate = await contract.estimateGas.coinMintAndPurge(number);
-  estimate = BigInt(parseInt(estimate * 1.15));
+  estimate = BigInt(parseInt(estimate * 1.2));
   await contract.coinMintAndPurge(number, { gasLimit: estimate });
 }
 
@@ -154,7 +154,6 @@ const filteredTokens = computed(() => {
           shape === wordArray[1] &&
           color.includes(wordArray[0])
         ) {
-          console.log('b')
           filteredList.add(token);
         } else if (
           typeof wordArray[1] !== "undefined" &&
@@ -240,48 +239,6 @@ const filteredTokens = computed(() => {
       </button>
     </p>
     <hr />
-    <p class="my-6">
-      <button @click="purgeButton()" class="mr-2 p-2 bg-black border rounded">
-        Purge
-      </button>
-      <input
-        v-model="purgeIDs"
-        placeholder="csv of token IDs"
-        type="text"
-        name="purge-IDs"
-        class="px-2 text-black"
-      />
-    </p>
-
-    <div v-for="token in filteredTokens" class="inline-block w-1/3 my-0 p-0">
-      <!-- Token {{ token.tokenId }} -->
-      <div
-        class="
-          mx-auto
-          grid grid-cols-2
-          bg-gradient-to-br
-          from-zinc-600
-          to-zinc-400
-          aspect-square
-          rounded-md
-          border-2 border-amber-300
-          shadow-lg
-        "
-      >
-        <div class="grid place-items-center">
-          <img :src="thumbnailUrl(token.traitnames[0])" />
-        </div>
-        <div class="grid place-items-center">
-          <img :src="thumbnailUrl(token.traitnames[1])" />
-        </div>
-        <div class="grid place-items-center">
-          <img :src="thumbnailUrl(token.traitnames[2])" />
-        </div>
-        <div class="grid place-items-center">
-          <img :src="thumbnailUrl(token.traitnames[3])" />
-        </div>
-      </div>
-    </div>
 
     <div class="absolute bottom-0 w-full my-2 text-center lg:hidden">
       All traits <img src="/swipe.png" class="inline px-1" /> Purged traits

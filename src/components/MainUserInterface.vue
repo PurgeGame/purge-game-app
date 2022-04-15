@@ -7,8 +7,10 @@ import { useApiGrab } from "../composables.js";
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
 import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
 import UserInterfaceRight from "./UserInterfaceRight.vue";
+import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
+
 
 const urlParams = new URL(location).searchParams.get("referral");
 const referralCode = ref(null);
@@ -18,6 +20,8 @@ const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
 const middleColumn = ref(null);
+
+
 
 const toggleHamburgerMenu = () => {
   showMenu.value = showMenu.value == true ? false : true;
@@ -31,6 +35,32 @@ const onClickDisconnect = () => {
 const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
+
+async function gameState() {
+  let state
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(contractaddress, abi, signer);
+  const totalMinted = await contract.totalMinted()
+  const whitelistSale = await contract.whitelistSaleStatus()
+  const publicSale = await contract.publicSaleStatus()
+  const coinSale = await contract.coinMintStatus()
+  const reveal = await contract.REVEAL()
+  const gameOver = await contract.gameOver()
+
+  if(totalMinted == 0){
+    if (whitelistSale == 0) state = 1
+    else state = 2
+  }
+  else if (whitelistSale == 1) state = 2
+  else if (publicSale == 1) state = 3
+  else if (coinSale == 1) state = 4
+  else if (reveal == 1 && gameOver == 0) state = 5
+  else if (gameOver == 0) state = 6
+  else state = 7
+
+  return state
+}
 
 onBeforeMount(() => {
   // Load API data, todo: something with error
@@ -264,7 +294,8 @@ onMounted(() => {
           ref="middleColumn"
           class="snap-start snap-always h-full overflow-auto"
         >
-          <UserInterfaceMiddle :filter-string="filterString" />
+          <!-- <UserInterfaceMiddle :filter-string="filterString" /> -->
+          <TokenDisplay :filter-string="filterString" />
         </div>
         <div class="snap-end snap-always h-full overflow-auto">
           <UserInterfaceRight :filter-string="filterString" />
