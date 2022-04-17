@@ -10,7 +10,7 @@ import {
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const contract = new ethers.Contract(contractaddress, abi, signer);
-const bombTarget = ref(1);
+const bombTarget = ref('bomb');
 const emit = defineEmits(["closeModal"]);
 
 function tokenImage() {
