@@ -9,6 +9,9 @@ export const wallet = reactive({
   },
 })
 
+export const purgeArray = []
+export const bombTokenId = []
+
 export const traitData = reactive({
   shape: null,
   color: null,
