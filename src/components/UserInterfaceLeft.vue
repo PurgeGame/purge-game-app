@@ -183,6 +183,8 @@ function traitOSURL(trait) {
               <td class="border-t-2 border-amber-300 text-center">
                 <img
                   :src="trait.thumbnail"
+                  :title="trait.color +' ' + trait.shape"
+                  style="max-height:100vw;width:40px"
                   class="inline w-1/2 max-w-xs py-1"
                 />
               </td>
