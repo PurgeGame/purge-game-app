@@ -174,13 +174,13 @@ function traitOSURL(trait) {
           </thead>
           <tbody>
             <tr v-for="trait in sortedTraits">
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 <a :href="traitOSURL(trait)" target="_blank"> BUY</a>
               </td>
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 {{ trait.floor }}
               </td>
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 <img
                   :src="trait.thumbnail"
                   class="inline w-1/2 max-w-xs py-1"
@@ -190,7 +190,7 @@ function traitOSURL(trait) {
               <!-- <td class="border-t border-amber-300 text-center">
                 {{ trait[1].total }}
               </td> -->
-              <td class="border-t border-amber-300 text-center pr-4">
+              <td class="border-t-2 border-amber-300 text-center pr-4">
                 {{ trait.remaining }}
               </td>
             </tr>

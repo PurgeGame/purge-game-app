@@ -305,7 +305,7 @@ onMounted(() => {
             class="snap-end snap-always h-full overflow-auto">
             <img 
               :src="`loadscreen.gif`"
-              style="height:70%; margin-left:auto; margin-right:auto"
+              style="width:70%; margin-left:auto; margin-right:auto"
             />
         </div>
 

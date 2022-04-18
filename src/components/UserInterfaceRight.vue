@@ -128,19 +128,19 @@ function toggleColumnSorted(column) {
           </thead>
           <tbody>
             <tr v-for="trait in sortedTraits">
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 {{ trait.color }}
               </td>
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 {{ trait.shape }}
               </td>
-              <td class="border-t border-amber-300 text-center">
+              <td class="border-t-2 border-amber-300 text-center">
                 <img
                   :src="trait.thumbnail"
                   class="inline w-1/2 max-w-xs py-1"
                 />
               </td>
-              <td class="border-t border-amber-300 text-center pr-4">
+              <td class="border-t-2 border-amber-300 text-center pr-4">
                 {{ trait.prize }}
               </td>
             </tr>

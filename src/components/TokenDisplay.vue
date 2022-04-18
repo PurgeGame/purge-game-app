@@ -176,7 +176,7 @@ const filteredTokensPurged = computed(() => {
   <div class="relative h-full">
     <!-- ---------- OWNED TOKENS ---------- -->
     <div v-if="showPurgedTokens == 0" class="h-full pt-2 px-4 md:px-2 lg:px-0">
-      <div class="bg-black border-x-2 border-t-2 border-red-900 rounded-t-lg">
+      <div class="bg-black border-x-2 border-t-2 border-red-900 ">
         <div class="inline-block p-2 w-1/2 text-xl text-center text-amber-300">
           Owned Tokens
         </div>
@@ -293,7 +293,7 @@ const filteredTokensPurged = computed(() => {
 
     <!-- ---------- PURGED TOKENS ---------- -->
     <div v-if="showPurgedTokens == 1" class="h-full pt-2 px-4 md:px-2 lg:px-0">
-      <div class="bg-black border-x-2 border-t-2 border-red-900 rounded-t-lg">
+      <div class="bg-black border-x-2 border-t-2 border-red-900">
         <button
           @click="toggleTokenDisplay()"
           class="
