@@ -40,12 +40,18 @@ const onClickReferral = () => {
 };
 
 async function gameState() {
-  state.gameOver = await contract.gameOver()
-  state.reveal = await contract.REVEAL()
-  state.coinMintStatus = await contract.coinMintStatus()
-  state.publicSaleStatus = await contract.publicSaleStatus() 
-  state.whitelistSaleStatus = await contract.whitelistSaleStatus()
-  state.premint = (await contract.totalMinted() == 0)
+  const gameOver = contract.gameOver()
+  state.gameOver = await gameOver
+  const reveal = contract.REVEAL()
+  state.reveal = await reveal
+  const coinMintStatus = contract.coinMintStatus()
+  state.coinMintStatus = await coinMintStatus
+  const publicSaleStatus = contract.publicSaleStatus() 
+  state.publicSaleStatus = await publicSaleStatus
+  const whitelistSaleStatus = contract.whitelistSaleStatus()
+  state.whitelistSaleStatus = await whitelistSaleStatus
+  const premint = contract.totalMinted()
+  state.premint = (await premint == 0)
 }
 
 
@@ -275,17 +281,36 @@ onMounted(() => {
           touch-pan-x
         "
       >
-        <div class="snap-start snap-always h-full overflow-hidden">
+        <div v-if="state.reveal == 1"
+        class="snap-start snap-always h-full overflow-hidden">
           <UserInterfaceLeft :filter-string="filterString" />
         </div>
-        <div
+        <div v-else
+        class="snap-start snap-always h-full overflow-hidden">
+        </div>
+        <div v-if="state.reveal == 1"
           ref="middleColumn"
           class="snap-start snap-always h-full overflow-auto"
         >
           <!-- <UserInterfaceMiddle :filter-string="filterString" /> -->
           <TokenDisplay :filter-string="filterString" />
         </div>
-        <div class="snap-end snap-always h-full overflow-auto">
+        <div v-else-if="state.reveal == 0"
+        ref="middleColumn"
+        class="snap-end snap-always h-full overflow-auto">
+          <UserInterfaceMiddle />
+        </div>
+          <div v-else
+            ref="middleColumn"
+            class="snap-end snap-always h-full overflow-auto">
+            <img 
+              :src="`loadscreen.gif`"
+              style="height:70%; margin-left:auto; margin-right:auto"
+            />
+        </div>
+
+        <div v-if="state.reveal == 1"
+        class="snap-end snap-always h-full overflow-auto">
           <UserInterfaceRight :filter-string="filterString" />
         </div>
       </div>
