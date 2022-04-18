@@ -7,9 +7,7 @@ const columnSorted = ref("remaining");
 const sortOrder = ref("asc");
 
 const columnStatus = reactive({
-  shape: false,
-  color: true,
-  total: false,
+  floor: true,
   remaining: false,
 });
 
@@ -62,9 +60,7 @@ const sortedTraits = computed(() => {
   }
 });
 
-function getTraitURL(trait){
-
-}
+function getTraitURL(trait) {}
 
 function toggleColumnSorted(column) {
   columnSorted.value = column;
@@ -73,22 +69,42 @@ function toggleColumnSorted(column) {
   });
   sortOrder.value = sortOrder.value == "asc" ? "desc" : "asc";
 }
-function traitOSURL(trait){
-  if (trait.traitId < 64){
-    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
+function traitOSURL(trait) {
+  if (trait.traitId < 64) {
+    return (
+      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=" +
+      trait.color +
+      "%20" +
+      trait.shape +
+      "&search[sortAscending]=true&search[sortBy]=PRICE"
+    );
+  } else if (trait.traitId < 128) {
+    return (
+      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=" +
+      trait.color +
+      "%20" +
+      trait.shape +
+      "&search[sortAscending]=true&search[sortBy]=PRICE"
+    );
+  } else if (trait.traitId < 192) {
+    return (
+      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=" +
+      trait.color +
+      "%20" +
+      trait.shape +
+      "&search[sortAscending]=true&search[sortBy]=PRICE"
+    );
+  } else if (trait.traitId < 256) {
+    return (
+      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=" +
+      trait.color +
+      "%20" +
+      trait.shape +
+      "&search[sortAscending]=true&search[sortBy]=PRICE"
+    );
   }
-  else if (trait.traitId < 128){
-    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
-  }
-  else if (trait.traitId < 192){
-    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
-  }
-  else if (trait.traitId < 256){
-    return 'https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=' + trait.color +'%20' + trait.shape +'&search[sortAscending]=true&search[sortBy]=PRICE'
-  }
-  return 'ERROR'
+  return "ERROR";
 }
-
 </script>
 
 <template>
@@ -117,7 +133,7 @@ function traitOSURL(trait){
                 :class="{ 'text-amber-300': columnStatus.color }"
                 class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
-                <button class="font-bold"> </button>
+                <button class="font-bold"></button>
               </th>
               <th
                 @click="toggleColumnSorted('floor')"
