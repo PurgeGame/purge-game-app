@@ -3,7 +3,7 @@ import { ref, reactive, computed } from "vue";
 import { traitData } from "../store.js";
 
 const props = defineProps(["filterString"]);
-const columnSorted = ref("floor");
+const columnSorted = ref("remaining");
 const sortOrder = ref("asc");
 
 const columnStatus = reactive({
