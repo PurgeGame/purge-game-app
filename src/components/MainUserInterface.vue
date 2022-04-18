@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet } from "../store.js";
+import { wallet, abi, contractaddress, state } from "../store.js";
 import { useApiGrab } from "../composables.js";
-
+import { ethers } from "ethers";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
 import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
@@ -11,7 +11,9 @@ import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 
-
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+const contract = new ethers.Contract(contractaddress, abi, signer); 
 const urlParams = new URL(location).searchParams.get("referral");
 const referralCode = ref(null);
 const typedReferralCode = ref(null);
@@ -20,6 +22,7 @@ const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
 const middleColumn = ref(null);
+
 
 
 
@@ -37,40 +40,25 @@ const onClickReferral = () => {
 };
 
 async function gameState() {
-  let state
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(contractaddress, abi, signer);
-  const totalMinted = await contract.totalMinted()
-  const whitelistSale = await contract.whitelistSaleStatus()
-  const publicSale = await contract.publicSaleStatus()
-  const coinSale = await contract.coinMintStatus()
-  const reveal = await contract.REVEAL()
-  const gameOver = await contract.gameOver()
-
-  if(totalMinted == 0){
-    if (whitelistSale == 0) state = 1
-    else state = 2
-  }
-  else if (whitelistSale == 1) state = 2
-  else if (publicSale == 1) state = 3
-  else if (coinSale == 1) state = 4
-  else if (reveal == 1 && gameOver == 0) state = 5
-  else if (gameOver == 0) state = 6
-  else state = 7
-
-  return state
+  state.gameOver = await contract.gameOver()
+  state.reveal = await contract.REVEAL()
+  state.coinMintStatus = await contract.coinMintStatus()
+  state.publicSaleStatus = await contract.publicSaleStatus() 
+  state.whitelistSaleStatus = await contract.whitelistSaleStatus()
+  state.premint = (await contract.totalMinted() == 0)
 }
+
 
 onBeforeMount(() => {
   // Load API data, todo: something with error
   const { error } = useApiGrab(wallet.checksumAddress());
-});
+  gameState()
+  
+ });
 
 onMounted(() => {
   // Bring the middle column into view on page load. For small screens.
   middleColumn.value.scrollIntoView({ inline: "start" });
-
   // Do referral and cookie stuff (incomplete)
   if (urlParams) {
     referralCode.value = urlParams;
