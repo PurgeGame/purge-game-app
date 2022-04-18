@@ -22,21 +22,17 @@ import BombModal from "./BombModal.vue";
 
 
 const props = defineProps(["filterString"]);
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer);
-const coinContract = new ethers.Contract(coinaddress, coinabi, signer);
 const purgeIDs = ref([]);
 const showConfirmationModal = ref(false);
 const showBombModal = ref(false);
 const showPurgedTokens = ref(0)
 
 // Not sure this is the best way to wait for the API call, but it works
-const ownedTokens = reactive({});
-watch(ownedTokenData, () => (ownedTokens.value = ownedTokenData.value));
+// const ownedTokens = reactive({});
+// watch(ownedTokenData, () => (ownedTokens.value = ownedTokenData.value));
 
-const purgedTokens = reactive({});
-watch(purgedTokenData, () => (purgedTokens.value = purgedTokenData.value));
+// const purgedTokens = reactive({});
+// watch(purgedTokenData, () => (purgedTokens.value = purgedTokenData.value));
 
 function thumbnailUrl(traitname) {
   const str = traitname.toLowerCase().split(" ");
@@ -103,8 +99,8 @@ const filteredTokens = computed(() => {
   const wordArray = props.filterString.toLowerCase().split(" ");
   const letters = ["p", "u", "r", "g", "e", "a", "m"];
   let filteredList = new Set();
-  if (ownedTokens.value) {
-    Object.values(ownedTokens.value).forEach((token) => {
+  if (ownedTokenData.value) {
+    Object.values(ownedTokenData.value).forEach((token) => {
       for (let trait of token.traitnames) {
         let color = trait.toLowerCase().split(" ")[0];
         let shape = trait.toLowerCase().split(" ")[1];
@@ -141,8 +137,8 @@ const filteredTokensPurged = computed(() => {
   const wordArray = props.filterString.toLowerCase().split(" ");
   const letters = ["p", "u", "r", "g", "e", "a", "m"];
   let filteredList = new Set();
-  if (purgedTokens.value) {
-    Object.values(purgedTokens.value).forEach((token) => {
+  if (purgedTokenData.value) {
+    Object.values(purgedTokenData.value).forEach((token) => {
       for (let trait of token.traitnames) {
         let color = trait.toLowerCase().split(" ")[0];
         let shape = trait.toLowerCase().split(" ")[1];
