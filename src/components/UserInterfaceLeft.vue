@@ -60,7 +60,9 @@ const sortedTraits = computed(() => {
   }
 });
 
-function getTraitURL(trait) {}
+function buyNow(trait) {
+    window.open(traitOSURL(trait));
+}
 
 function toggleColumnSorted(column) {
   columnSorted.value = column;
@@ -129,7 +131,7 @@ function traitOSURL(trait) {
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
               <th
-                @click="toggleColumnSorted('color')"
+                
                 :class="{ 'text-amber-300': columnStatus.color }"
                 class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
@@ -175,7 +177,16 @@ function traitOSURL(trait) {
           <tbody>
             <tr v-for="trait in sortedTraits">
               <td class="border-t-2 border-amber-300 text-center">
-                <a :href="traitOSURL(trait)" target="_blank"> BUY</a>
+                <button
+                  @click="buyNow(trait)"
+                  class="mr-2 p-1 bg-os-1 border-sky-900 rounded font-bold text-white"
+                >
+                  <img 
+                    :src='`/oslogo.png`'
+                    style = width:25px;max-height:100vw;display:inline
+                  >
+                  Buy
+                </button>
               </td>
               <td class="border-t-2 border-amber-300 text-center">
                 {{ trait.floor }}
