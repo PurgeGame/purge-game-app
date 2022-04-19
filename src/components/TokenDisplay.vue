@@ -176,7 +176,7 @@ const filteredTokensPurged = computed(() => {
   <div class="relative h-full">
     <!-- ---------- OWNED TOKENS ---------- -->
     <div v-if="showPurgedTokens == 0" class="h-full pt-2 px-4 md:px-2 lg:px-0">
-      <div class="bg-black border-x-2 border-t-2 border-red-900 ">
+      <div class="bg-black border-x-2 border-t-2 border-green-800 ">
         <div class="inline-block p-2 w-1/2 text-xl text-center text-amber-300">
           Owned Tokens
         </div>
@@ -186,7 +186,7 @@ const filteredTokensPurged = computed(() => {
             p-2
             w-1/2
             bg-zinc-700
-            border-l-2 border-b-2 border-red-900
+            border-l-2 border-b-2 border-green-800
             text-lg text-center text-zinc-300
           "
         >
@@ -200,7 +200,7 @@ const filteredTokensPurged = computed(() => {
           h-[75%]
           overflow-hidden
           bg-black
-          border-x-2 border-b-2 border-red-900
+          border-x-2 border-b-2 border-green-800
         "
       >
         <div class="grow overflow-auto px-1">
@@ -297,14 +297,14 @@ const filteredTokensPurged = computed(() => {
 
     <!-- ---------- PURGED TOKENS ---------- -->
     <div v-if="showPurgedTokens == 1" class="h-full pt-2 px-4 md:px-2 lg:px-0">
-      <div class="bg-black border-x-2 border-t-2 border-red-900">
+      <div class="bg-black border-x-2 border-t-2 border-red-700">
         <button
           @click="toggleTokenDisplay()"
           class="
             p-2
             w-1/2
             bg-zinc-700
-            border-r-2 border-b-2 border-red-900
+            border-r-2 border-b-2 border-red-700
             text-lg text-center text-zinc-300
           "
         >
@@ -321,7 +321,7 @@ const filteredTokensPurged = computed(() => {
           h-[85%]
           overflow-hidden
           bg-black
-          border-x-2 border-b-2 border-red-900
+          border-x-2 border-b-2 border-red-700
         "
       >
         <div class="grow overflow-auto px-1">
