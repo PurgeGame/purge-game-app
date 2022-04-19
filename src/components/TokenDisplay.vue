@@ -229,7 +229,11 @@ const filteredTokensPurged = computed(() => {
                   cursor-pointer
                 "
               >
-                <div class="text-6xl">🔥</div>
+              <img 
+                    :src='`/fireoverlay.png`'
+                    style = width:35%;max-height:100vw
+                  >
+                <!-- <div class="text-6xl">🔥</div> -->
               </div>
             </div>
           </div>
