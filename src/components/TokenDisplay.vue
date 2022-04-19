@@ -265,7 +265,7 @@ const filteredTokensPurged = computed(() => {
             class="w-full text-center py-2 rounded"
             :class="[
               purgeIDs.length == 1
-                ? 'bg-black text-amber-300'
+                ? 'bg-green-900 text-amber-300'
                 : 'bg-zinc-700 text-slate-500',
             ]"
             :disabled="purgeIDs.length != 1"
@@ -280,7 +280,7 @@ const filteredTokensPurged = computed(() => {
             :class="[
               purgeIDs.length == 0
                 ? 'bg-zinc-700 text-slate-500'
-                : 'bg-black text-amber-300',
+                : 'bg-red-700 text-amber-300',
             ]"
             :disabled="purgeIDs.length == 0"
           >
