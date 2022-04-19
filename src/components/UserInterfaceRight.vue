@@ -81,12 +81,12 @@ function toggleColumnSorted(column) {
     <div
       class="
         mt-4
-        p-4
+        p-1
         flex
-        h-[95%]
+        h-[94%]
         overflow-hidden
         bg-black
-        border-2 border-red-900
+        border-2 border-red-700
         rounded-lg
       "
     >
