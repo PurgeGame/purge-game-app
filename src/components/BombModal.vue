@@ -10,7 +10,7 @@ import {
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const contract = new ethers.Contract(contractaddress, abi, signer);
-const bombTarget = ref('bomb');
+const bombTarget = ref('1');
 const emit = defineEmits(["closeModal"]);
 
 function tokenImage() {
@@ -81,8 +81,10 @@ function sellButton(SellID){
     <input
         v-model="bombTarget"
         placeholder="enter target token ID"
-        type="text"
+        type="number"
         name="bomb-target"
+        min="1"
+        max="29420"
         size="10"
         class="ml-2 px-2 text-black"
       />
