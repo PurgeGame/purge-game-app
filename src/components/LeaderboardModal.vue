@@ -1,5 +1,17 @@
 <script setup>
+import { ref } from "vue";
+import { ethers } from "ethers";
+import {
+  abi,
+  contractaddress,
+  prizepool
+} from "../store.js";
+
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+const contract = new ethers.Contract(contractaddress, abi, signer);
 const emit = defineEmits(["closeModal"]);
+
 </script>
 
 <template>
@@ -32,79 +44,55 @@ const emit = defineEmits(["closeModal"]);
     >
       close
     </button>
-    <h2 class="font-bold text-xl">Current Leaderboard</h2>
+    <h2 class="font-bold text-xl">The Purge Game referral system</h2>
     <p class="my-4">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Elit scelerisque
-      mauris pellentesque pulvinar pellentesque habitant morbi tristique. Urna
-      condimentum mattis pellentesque id nibh tortor id. Faucibus nisl tincidunt
-      eget nullam non nisi. Dignissim enim sit amet venenatis urna cursus eget
-      nunc scelerisque. Sed libero enim sed faucibus turpis. Est ante in nibh
-      mauris cursus. Augue mauris augue neque gravida in fermentum. Pulvinar
-      neque laoreet suspendisse interdum consectetur libero id faucibus. Orci eu
-      lobortis elementum nibh tellus molestie nunc non blandit. Massa id neque
-      aliquam vestibulum. Leo integer malesuada nunc vel. Augue interdum velit
-      euismod in pellentesque massa placerat duis ultricies. Nulla porttitor
-      massa id neque aliquam. Elementum eu facilisis sed odio morbi. Mauris
-      rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar
-      pellentesque. Eget sit amet tellus cras adipiscing enim.
+      In addition to the massive prizes available to Purge Game winners, there is another way to earn big money. 
+      Sign up for the refer-a-friend program and for each token minted with your referral code, you immediately  
+      recieve 5% of a free mint in $PURGED. On top of that, the top 10 referrers will split a bonus equal to 10% 
+      of the total prize pool (and this comes out of my money, not the actual prize pool!) The referal leaderboard 
+      will be paid out pre-reveal, Purge Game is dedicated to ensuring winners do not have to wait for their money.
     </p>
 
     <p class="my-4">
-      Vel pretium lectus quam id. Aliquet porttitor lacus luctus accumsan tortor
-      posuere ac ut. Sed faucibus turpis in eu mi bibendum neque egestas. Massa
-      tincidunt dui ut ornare lectus sit amet. Dignissim diam quis enim
-      lobortis. Suscipit adipiscing bibendum est ultricies integer. Mattis
-      pellentesque id nibh tortor. Cursus euismod quis viverra nibh. In
-      fermentum et sollicitudin ac orci phasellus. Neque gravida in fermentum et
-      sollicitudin. Elit ut aliquam purus sit amet luctus venenatis. Adipiscing
-      diam donec adipiscing tristique risus nec feugiat in fermentum. Eu non
-      diam phasellus vestibulum lorem. Libero nunc consequat interdum varius
-      sit. Tempor orci dapibus ultrices in iaculis nunc sed augue. Id diam vel
-      quam elementum pulvinar etiam non quam lacus. Justo donec enim diam
-      vulputate ut pharetra sit amet. Odio euismod lacinia at quis risus sed
-      vulputate odio ut.
+      The person who amasses the most referrals will recieve 40% of the leaderboard prize pool. If there are 10k 
+      tokens minted, the winner will get 20 eth! This prize could even be much larger, if people are extremely 
+      successful at referring their friends and the maximum number of tokens are minted, the top referrer would 
+      win over 127 eth, as well as a ton of free mints! 
+    </p>
+    <h2 class="font-bold text-xl">How to join the referral program</h2>
+    <p class="my-4">
+      1. Create a referral code: (this will cost a small amount of gas). You can create multiple codes, 
+      as long as they are from the same address, their stats will be combined
+      <input
+        v-model="referralCode"
+        placeholder="enter code"
+        type="text"
+        name="referral-code"
+        size="15"
+        class="ml-2 px-2 text-black"
+      />
+      &#160;
+      <button @click="createReferralCode()" class="p-1 bg-black text-amber-300 border rounded">
+        Submit
+      </button>
     </p>
 
     <p class="my-4">
-      Adipiscing elit ut aliquam purus. Felis eget nunc lobortis mattis aliquam.
-      Enim diam vulputate ut pharetra sit amet. Ipsum dolor sit amet consectetur
-      adipiscing elit pellentesque habitant. Semper auctor neque vitae tempus
-      quam. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod.
-      Eget magna fermentum iaculis eu non diam phasellus vestibulum. Integer
-      vitae justo eget magna fermentum iaculis eu non diam. Quisque egestas diam
-      in arcu cursus euismod quis. Ornare suspendisse sed nisi lacus sed viverra
-      tellus.
+      2. Send your friends to https://purge.game/?ref=YOUR-CODE-HERE.
+      This will make your referral code pre-set when they mint. 
     </p>
 
     <p class="my-4">
-      Id volutpat lacus laoreet non curabitur gravida arcu ac. Vel orci porta
-      non pulvinar neque laoreet suspendisse. Nibh nisl condimentum id venenatis
-      a condimentum vitae sapien. Et magnis dis parturient montes. Gravida quis
-      blandit turpis cursus in hac habitasse platea dictumst. Erat pellentesque
-      adipiscing commodo elit at imperdiet dui accumsan sit. Metus dictum at
-      tempor commodo. Faucibus scelerisque eleifend donec pretium vulputate
-      sapien nec sagittis aliquam. Ultrices sagittis orci a scelerisque purus
-      semper eget duis. Nec ullamcorper sit amet risus nullam eget felis eget
-      nunc. Quis commodo odio aenean sed adipiscing diam. Penatibus et magnis
-      dis parturient montes nascetur. Aenean euismod elementum nisi quis
-      eleifend quam adipiscing vitae. Mauris sit amet massa vitae. Bibendum est
-      ultricies integer quis auctor. Ut tellus elementum sagittis vitae. In
-      fermentum posuere urna nec. Congue eu consequat ac felis donec. Pretium
-      fusce id velit ut tortor pretium.
+      3. On mint day, there will be a field to enter a referral code. Each token minted (or Mint and Purged)
+      with your code will credit you with 50 $PURGED. Use 1000 of this ERC-20 coin to mint a Purge Game token!
     </p>
 
     <p class="my-4">
-      Velit egestas dui id ornare arcu odio ut sem nulla. Odio eu feugiat
-      pretium nibh. Et netus et malesuada fames ac turpis egestas. Eget felis
-      eget nunc lobortis mattis. Vel orci porta non pulvinar neque laoreet.
-      Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Sem
-      viverra aliquet eget sit amet tellus cras. Proin nibh nisl condimentum id
-      venenatis a condimentum. Orci sagittis eu volutpat odio facilisis mauris
-      sit. Ultricies mi quis hendrerit dolor. Egestas egestas fringilla
-      phasellus faucibus. Non diam phasellus vestibulum lorem sed risus
-      ultricies. Vel elit scelerisque mauris pellentesque pulvinar pellentesque
-      habitant.
+      4. Check the leaderboard page to see how you rank and view detailed information on your successful referrals. 
+      If you registered multiple referral codes, you can view which were more effective.
+      You can also see the addresses which used your code and how many tokens they minted, so you can reward your best customers!
+      
+
     </p>
   </div>
 </template>
