@@ -8,9 +8,9 @@ const sortOrder = ref("desc");
 
 const columnStatus = reactive({
   shape: false,
-  color: true,
+  color: false,
   total: false,
-  prize: false,
+  prize: true,
 });
 
 const filteredTraits = computed(() => {
@@ -122,7 +122,7 @@ function toggleColumnSorted(column) {
                   pr-2
                 "
               >
-                <button class="font-bold">Prize</button>
+                <button class="font-bold">Prize</button>&#160;&#160;&#160;&#160;&#160;&#160;
               </th>
             </tr>
           </thead>

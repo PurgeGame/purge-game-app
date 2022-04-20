@@ -7,8 +7,8 @@ const columnSorted = ref("remaining");
 const sortOrder = ref("asc");
 
 const columnStatus = reactive({
-  floor: true,
-  remaining: false,
+  floor: false,
+  remaining: true,
 });
 
 const filteredTraits = computed(() => {
@@ -126,6 +126,7 @@ function traitOSURL(trait) {
         rounded-lg
       "
     >
+
       <div class="grow overflow-auto px-1">
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
