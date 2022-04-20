@@ -212,6 +212,7 @@ const filteredTokensPurged = computed(() => {
               <img
                 :src="tokenImage(token.tokenId)"
                 @click="toggleTokenPurge(token.tokenId, true)"
+                :title="'Token #' + token.tokenId"
                 class="cursor-pointer"
               />
               <div
@@ -232,6 +233,7 @@ const filteredTokensPurged = computed(() => {
               <img 
                     :src='`/fireoverlay.png`'
                     style = width:35%;max-height:100vw
+                    :title="'Token #' + token.tokenId"
                   >
                 <!-- <div class="text-6xl">🔥</div> -->
               </div>
@@ -330,7 +332,9 @@ const filteredTokensPurged = computed(() => {
             class="inline-block w-1/3 my-0 p-1"
           >
             <div class="relative grid place-items-center">
-              <img :src="tokenImage(token.tokenId)" />
+              <img  
+                :src="tokenImage(token.tokenId)"
+                :title="'Token #' + token.tokenId" />
             </div>
           </div>
         </div>
