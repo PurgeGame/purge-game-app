@@ -98,6 +98,7 @@ onMounted(() => {
       </button>
 
       <input
+        v-if="state.reveal"
         v-model="filterString"
         placeholder="&#x1F50E;&#xFE0E; search traits"
         class="
@@ -293,7 +294,8 @@ onMounted(() => {
           class="snap-start snap-always h-full overflow-auto"
         >
           <!-- <UserInterfaceMiddle :filter-string="filterString" /> -->
-          <TokenDisplay :filter-string="filterString" />
+          <!-- <TokenDisplay :filter-string="filterString" /> -->
+          <UserInterfaceMiddle />
         </div>
         <div v-else-if="state.reveal == 0"
         ref="middleColumn"
