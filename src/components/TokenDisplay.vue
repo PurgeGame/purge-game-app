@@ -1,24 +1,21 @@
 <!-- This whole component is hideous and hard to understand and needs help -->
 
 <script setup>
-import { ref, reactive, watch, computed } from "vue";
+import { ref, reactive, watch, computed,onMounted } from "vue";
 import { ethers } from "ethers";
 import {
   wallet,
-  abi,
   contractaddress,
-  coinaddress,
-  coinabi,
   ownedTokenData,
-  traitData,
   purgedTokenData,
-  prizepool,
   purgeArray,
   bombTokenId,
 } from "../store.js";
-import { findProp } from "@vue/compiler-core";
 import ConfirmationModal from "./ConfirmationModal.vue";
 import BombModal from "./BombModal.vue";
+import { useApiGrab } from "../composables.js";
+
+
 
 const props = defineProps(["filterString"]);
 const purgeIDs = ref([]);
@@ -32,6 +29,8 @@ const showPurgedTokens = ref(0);
 
 // const purgedTokens = reactive({});
 // watch(purgedTokenData, () => (purgedTokens.value = purgedTokenData.value));
+
+
 
 function thumbnailUrl(traitname) {
   const str = traitname.toLowerCase().split(" ");
@@ -170,6 +169,11 @@ const filteredTokensPurged = computed(() => {
   }
   return filteredList;
 });
+
+onMounted(() => {
+  // Load API data, todo: something with error
+  const { error } = useApiGrab(wallet.checksumAddress());
+})
 </script>
 
 <template>

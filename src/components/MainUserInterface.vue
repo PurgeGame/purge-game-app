@@ -55,11 +55,10 @@ async function gameState() {
 }
 
 
+
 onBeforeMount(() => {
   // Load API data, todo: something with error
-  const { error } = useApiGrab(wallet.checksumAddress());
   gameState()
-  
  });
 
 onMounted(() => {
@@ -282,39 +281,53 @@ onMounted(() => {
           touch-pan-x
         "
       >
-        <div v-if="state.reveal == 1"
-        class="snap-start snap-always h-full overflow-hidden">
-          <UserInterfaceLeft :filter-string="filterString" />
-        </div>
-        <div v-else
+      <!-- Wait for state loading -->
+
+        <div v-if="state.reveal == null"
         class="snap-start snap-always h-full overflow-hidden">
         </div>
-        <div v-if="state.reveal == 1"
-          ref="middleColumn"
-          class="snap-start snap-always h-full overflow-auto"
-        >
-          <!-- <UserInterfaceMiddle :filter-string="filterString" /> -->
-          <!-- <TokenDisplay :filter-string="filterString" /> -->
-          <UserInterfaceMiddle />
-        </div>
-        <div v-else-if="state.reveal == 0"
-        ref="middleColumn"
-        class="snap-end snap-always h-full overflow-auto">
-          <UserInterfaceMiddle />
-        </div>
-          <div v-else
+        <div v-if="state.reveal == null">
+          <div
             ref="middleColumn"
             class="snap-end snap-always h-full overflow-auto">
             <img 
               :src="`loadscreen.gif`"
               style="width:70%; margin-left:auto; margin-right:auto"
             />
+          </div>
         </div>
 
+        <!-- load mint page if pre-reveal -->
+
+        <div v-if="state.reveal == 0"
+        class="snap-start snap-always h-full overflow-hidden">
+        </div>
+        <div v-if="state.reveal == 0"
+          ref="middleColumn"
+          class="snap-start snap-always h-full overflow-auto">
+          <UserInterfaceMiddle />
+        </div>
+        <div v-if="state.reveal == 0"
+        class="snap-end snap-always h-full overflow-auto">
+        </div>
+
+      <!-- Load main UI if post-reveal -->
+      
+        <div v-if="state.reveal == 1"
+        class="snap-start snap-always h-full overflow-hidden">
+          <UserInterfaceLeft :filter-string="filterString" />
+        </div>
+        <div v-if="state.reveal == 1"
+          ref="middleColumn"
+          class="snap-start snap-always h-full overflow-auto"
+        >
+          <TokenDisplay :filter-string="filterString" />
+        </div>
         <div v-if="state.reveal == 1"
         class="snap-end snap-always h-full overflow-auto">
           <UserInterfaceRight :filter-string="filterString" />
         </div>
+
       </div>
     </div>
   </div>
