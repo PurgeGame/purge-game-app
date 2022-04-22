@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet, state } from "../store.js";
+import { wallet, state, purgedBalance } from "../store.js";
 import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
@@ -42,6 +42,7 @@ const onClickReferral = () => {
 onBeforeMount(() => {
   // Load API data, todo: something with error
   gameState()
+
  });
 
 onMounted(() => {
@@ -53,6 +54,7 @@ onMounted(() => {
   }
 });
 </script>
+
 
 <template>
   <div
@@ -82,7 +84,7 @@ onMounted(() => {
       <input
         v-if="state.reveal"
         v-model="filterString"
-        placeholder="&#x1F50E;&#xFE0E; search traits"
+        placeholder="&#x1F50E;&#xFE0E; filter traits"
         class="
           w-2/5
           md:w-min
@@ -95,24 +97,49 @@ onMounted(() => {
           font-bold
           placeholder:font-normal placeholder:text-zinc-600
         "
-      />
 
+      />
       <button
         @click="onClickDisconnect()"
         class="
           float-right
           m-1
           px-2
-          py-1
+          py-0
           bg-black
           rounded-md
           hover:text-amber-300 hover:ring-1 hover:ring-amber-300
         "
       >
-        <img src="/metamask-fox.svg" class="scale-75 hidden md:inline" />
-        {{ wallet.address.substring(0, 5) }}...{{
+        <img src="/metamask-fox.svg" 
+          class="scale-75 hidden md:inline" 
+          style="
+          height:42px
+          max-width:100mx"
+        />
+        ...{{
           wallet.address.substring(38)
         }}
+      </button>
+
+      <button v-if="purgedBalance !=null"
+        class="
+          float-right
+          m-1
+          px-2
+          py-0
+          bg-black
+          rounded-md
+          hover:text-amber-300 hover:ring-1 hover:ring-amber-300
+        "
+      >
+        <img src="/thumbnails/gold-p.png" 
+        class="scale-75 inline" 
+        style="
+          height:42px
+          max-width:100mx"
+        />
+               {{ purgedBalance }}
       </button>
     </div>
     <div
