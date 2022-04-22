@@ -4,7 +4,7 @@ import { wallet, state } from "../store.js";
 import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
-import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
+import Mint from "./Mint.vue";
 import UserInterfaceRight from "./UserInterfaceRight.vue";
 import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
@@ -288,7 +288,7 @@ onMounted(() => {
         <div v-if="state.reveal == 0"
           ref="middleColumn"
           class="snap-start snap-always h-full overflow-auto">
-          <UserInterfaceMiddle />
+          <Mint />
         </div>
         <div v-if="state.reveal == 0"
         class="snap-end snap-always h-full overflow-auto">
