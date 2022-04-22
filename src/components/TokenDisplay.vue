@@ -2,7 +2,6 @@
 
 <script setup>
 import { ref, reactive, watch, computed,onMounted } from "vue";
-import { ethers } from "ethers";
 import {
   wallet,
   contractaddress,
@@ -14,8 +13,6 @@ import {
 import ConfirmationModal from "./ConfirmationModal.vue";
 import BombModal from "./BombModal.vue";
 import { useApiGrab } from "../composables.js";
-
-
 
 const props = defineProps(["filterString"]);
 const purgeIDs = ref([]);

@@ -4,7 +4,10 @@ import {
   prizepool,
   purgedTokenData,
   ownedTokenData,
+  state,
+  contract,
 } from './store.js'
+
 
 // API call to update all token, trait & prize data in store.js
 export async function useApiGrab(walletAddress) {
@@ -26,4 +29,20 @@ export async function useApiGrab(walletAddress) {
   prizepool.value = allData[3]
 
   return { fetchError }
+
+}
+
+export async function gameState() {
+  const gameOver = contract.gameOver()
+  state.gameOver = await gameOver
+  const reveal = contract.REVEAL()
+  state.reveal = await reveal
+  const coinMintStatus = contract.coinMintStatus()
+  state.coinMintStatus = await coinMintStatus
+  const publicSaleStatus = contract.publicSaleStatus() 
+  state.publicSaleStatus = await publicSaleStatus
+  const whitelistSaleStatus = contract.whitelistSaleStatus()
+  state.whitelistSaleStatus = await whitelistSaleStatus
+  const premint = contract.totalMinted()
+  state.premint = (await premint == 0)
 }

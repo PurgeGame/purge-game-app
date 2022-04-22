@@ -1,15 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import { ethers } from "ethers";
-import {
-  abi,
-  contractaddress,
-  prizepool
-} from "../store.js";
+import { contract } from "../store.js";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer);
 const emit = defineEmits(["closeModal"]);
 const referralCode = ref("");
 

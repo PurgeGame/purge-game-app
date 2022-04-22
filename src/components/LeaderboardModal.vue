@@ -1,17 +1,21 @@
 <script setup>
 import { ref } from "vue";
-import { ethers } from "ethers";
 import {
-  abi,
-  contractaddress,
-  prizepool
+  prizepool,
+  contract,
 } from "../store.js";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer);
-const emit = defineEmits(["closeModal"]);
 
+const emit = defineEmits(["closeModal"]);
+const referralCode = ref("");
+
+async function createReferralCode() {
+  if (referralCode.value) {
+    await contract.createReferralCode(referralCode.value);
+  } else {
+    window.alert("You must enter a referral code first");
+  }
+}
 </script>
 
 <template>
@@ -88,10 +92,9 @@ const emit = defineEmits(["closeModal"]);
     </p>
 
     <p class="my-4">
-      4. Check the leaderboard page to see how you rank and view detailed information on your successful referrals. 
+      4. Check the leaderboard page to see how you rank and view detailed information on your successful referrals.
+      You can see the addresses which used your code and how many tokens they minted, so you can reward your best customers!
       If you registered multiple referral codes, you can view which were more effective.
-      You can also see the addresses which used your code and how many tokens they minted, so you can reward your best customers!
-      
 
     </p>
   </div>

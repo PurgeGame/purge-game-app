@@ -5,21 +5,15 @@ import { ref, reactive, watch, onMounted, computed } from "vue";
 import { ethers } from "ethers";
 import {
   wallet,
-  abi,
-  contractaddress,
-  coinaddress,
-  coinabi,
   ownedTokenData,
-  traitData,
-  purgedTokenData,
-  prizepool
+  prizepool,
+  provider,
+  contract,
+  coinContract
 } from "../store.js";
 
 const props = defineProps(["filterString"]);
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer);
-const coinContract = new ethers.Contract(coinaddress, coinabi, signer);
+let cost = 1
 
 const purgedBalance = ref(null);
 const etherBalance = ref(null);
@@ -48,6 +42,7 @@ async function doEthersStuff() {
     await coinContract.balanceOf(wallet.address)
   );
   currentBlock.value = await provider.getBlockNumber();
+  cost = await contract.cost(); 
 }
 
 async function createReferralCode() {
@@ -73,7 +68,6 @@ function purgeButton() {
 }
 function toggleCoin(toggle){
   ethCoin.value = toggle
-  console.log(ethCoin.value)
 }
 
 // this function must be sent an array
@@ -90,9 +84,7 @@ function mintButton(mintType) {
   }
 }
 
-function coinMintButton(mintType) {
-  mintType(mintQuantity.value);
-}
+
 
 async function mint(number, referrer) {
   const cost = await contract.cost();
@@ -120,47 +112,55 @@ function maxButton(){
   if (ethCoin.value) maxMint(referralCode.value)
   else maxMintCoin()
 }
-
+// maybe tone down the 1.75x estimate on mainnet
 async function maxMint(referrer){
-  const cost = await contract.cost(); 
-  const yourEth = etherBalance.value * 1000000000000000000
+  etherBalance.value = ethers.utils.formatEther(
+    await provider.getBalance(wallet.address)
+  );
+  const yourEth = etherBalance.value * 1e18
   let max = (yourEth / cost).toFixed(0)
   if (max > 400) max = 400 
   if (max == 0) return
   let spend = BigInt(cost * max);
-  let estimate = await contract.estimateGas.mintAndPurge(max, referrer, {
+  let estimate = await contract.estimateGas.mint(max, referrer, {
     value: spend,
   });
   let maxfee = await provider.getGasPrice()
-  console.log(max)
-  while (estimate * maxfee + max * cost > yourEth){
-    max = parseInt(max * (yourEth / (estimate * maxfee + max * cost)))-1 
+  while (estimate * maxfee *1.75 + max * cost > yourEth){
+    max = parseInt(max * (yourEth / (estimate * maxfee*1.75 + max * cost)))-1 
     spend = BigInt(cost * max);
-    estimate = await contract.estimateGas.mintAndPurge(max, referrer, {
+    estimate = await contract.estimateGas.mint(max, referrer, {
     value: spend,
   });
+    console.log(estimate * maxfee*1.75/ 1e18, max * cost /1e18, yourEth /1e18)
   }
   mintQuantity.value = max
 }
 
 async function maxMintCoin(){
+  purgedBalance.value = ethers.utils.formatEther(
+    await coinContract.balanceOf(wallet.address)
+  );
   const cost = await contract.cost(); 
-  const yourEth = etherBalance.value * 1000000000000000000
-  const yourPurged = purgedBalance.value * 1000000000000000000
-  let max = (yourPurged / (cost * 1000)).toFixed(0)
-  if (max > 400) max = 400 
+  const yourEth = etherBalance.value * 1e18;
+  const yourPurged = purgedBalance.value * 1e18;
+  let max = parseInt(yourPurged / (cost * 1000));
+  if (max > 400) max = 400 ;
   if (max == 0) return
-  let estimate = await contract.estimateGas.coinMintAndPurge(max)
-  let maxfee = await provider.getGasPrice()
-  while (estimate * maxfee > yourEth){
-    max = (max * 1-(((estimate * maxfee ) - yourEth) / (estimate * maxfee))).toFixed(0)
-    estimate = await contract.estimateGas.coinMintAndPurge(max)
+  let estimate = await contract.estimateGas.coinMintAndPurge(max);
+  let maxfee = await provider.getGasPrice();
+  while (estimate * maxfee *1.75 > yourEth){
+    max = parseInt(max * (yourEth / (estimate * maxfee*1.75)))-1 ;
+    estimate = await contract.estimateGas.coinMintAndPurge(max);
   }
   mintQuantity.value = max
 }
 
 
-
+function coinMintButton(mintType) {
+  if (mintType == mintAndPurge) coinMintAndPurge(mintQuantity.value);
+  if (mintType == mint) coinMint(mintQuantity.value)
+}
 
 async function coinMint(number) {
   let estimate = await contract.estimateGas.coinMint(number);
@@ -228,9 +228,9 @@ const filteredTokens = computed(() => {
 
 <template>
 <div  class="fixed top-12 left-0 w-full -z-10 p-5 grid grid-cols-5 gap-3 md:gap-5
-                lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10">
+                lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10" style = 'filter: brightness(60%)'>
       <!-- Background cards. Yeah this is ugly. DRY = Definitely Repeat Yourself imo -->
-      <div class="group35"><img src="/img/transparent/blue_spade_transparent.png"/></div>
+      <div class="group35"><img src="/img/transparent/blue_spade_transparent.png" /></div>
       <div class="group62"><img src="/img/transparent/red_3_transparent.png"/></div>
       <div class="group16"><img src="/img/transparent/purple_5_transparent.png"></div>
       <div class="group71"><img src="/img/transparent/brown_heart_transparent.png"></div>
@@ -352,7 +352,7 @@ const filteredTokens = computed(() => {
 
 
       <button
-        @click="mintButton(mintAndPurge, ethCoin.value)"
+        @click="mintButton(mintAndPurge)"
         class="mx-2 p-2 bg-black border rounded"
       >
         Mint And Purge

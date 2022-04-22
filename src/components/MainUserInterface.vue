@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet, abi, contractaddress, state } from "../store.js";
-import { useApiGrab } from "../composables.js";
-import { ethers } from "ethers";
+import { wallet, state } from "../store.js";
+import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
 import UserInterfaceMiddle from "./UserInterfaceMiddle.vue";
@@ -11,9 +10,6 @@ import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer); 
 const urlParams = new URL(location).searchParams.get("referral");
 const referralCode = ref(null);
 const typedReferralCode = ref(null);
@@ -39,20 +35,7 @@ const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
 
-async function gameState() {
-  const gameOver = contract.gameOver()
-  state.gameOver = await gameOver
-  const reveal = contract.REVEAL()
-  state.reveal = await reveal
-  const coinMintStatus = contract.coinMintStatus()
-  state.coinMintStatus = await coinMintStatus
-  const publicSaleStatus = contract.publicSaleStatus() 
-  state.publicSaleStatus = await publicSaleStatus
-  const whitelistSaleStatus = contract.whitelistSaleStatus()
-  state.whitelistSaleStatus = await whitelistSaleStatus
-  const premint = contract.totalMinted()
-  state.premint = (await premint == 0)
-}
+
 
 
 

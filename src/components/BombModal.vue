@@ -1,15 +1,11 @@
 <script setup>
 import { ref } from "vue";
-import { ethers } from "ethers";
 import {
-  abi,
   contractaddress,
   bombTokenId,
+  contract
 } from "../store.js";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-const contract = new ethers.Contract(contractaddress, abi, signer);
 const bombTarget = ref('1');
 const emit = defineEmits(["closeModal"]);
 
