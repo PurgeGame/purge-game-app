@@ -6,7 +6,11 @@ import {
   ownedTokenData,
   state,
   contract,
+  purgedBalance,
+  coinContract,
+  wallet
 } from './store.js'
+import { ethers } from "ethers";
 
 
 // API call to update all token, trait & prize data in store.js
@@ -45,4 +49,6 @@ export async function gameState() {
   state.whitelistSaleStatus = await whitelistSaleStatus
   const premint = contract.totalMinted()
   state.premint = (await premint == 0)
+  purgedBalance.value = ethers.utils.formatEther(
+    await coinContract.balanceOf(wallet.address))
 }

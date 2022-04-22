@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { ethers } from 'ethers'
 
 export const wallet = reactive({
@@ -8,13 +8,14 @@ export const wallet = reactive({
     return ethers.utils.getAddress(wallet.address)
   },
 })
-export const contractaddress = '0xf2039Af40db26110F35f1437CbC40C4F695f8d1E'  // UNCOMMENT THIS TO GET MINT UI
-// export const contractaddress = '0x405b513192d151448d59A04Fcd1562f2dC75d209'     // UNCOMMENT THIS TO GET POST-REVEAL UI
+// export const contractaddress = '0xf2039Af40db26110F35f1437CbC40C4F695f8d1E'  // UNCOMMENT THIS TO GET MINT UI
+export const contractaddress = '0x405b513192d151448d59A04Fcd1562f2dC75d209'     // UNCOMMENT THIS TO GET POST-REVEAL UI
 export const coinaddress = '0x668A7988eFf43673A0aBAE5A2CBfE3097Ab84234'
 export const provider = new ethers.providers.Web3Provider(window.ethereum);
 export const signer = provider.getSigner();
 export const purgeArray = []
 export const bombTokenId = []
+export const purgedBalance = ref(null)
 export const state = reactive({
   gameOver:null,
   reveal:null,

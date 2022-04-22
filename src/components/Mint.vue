@@ -9,12 +9,11 @@ import {
   provider,
   contract,
   coinContract,
-
+  purgedBalance,
 } from "../store.js";
 
 const props = defineProps(["filterString"]);
 
-const purgedBalance = ref(null);
 const etherBalance = ref(null);
 const ethCoin = ref(1)
 const cost = ref(null)
@@ -362,6 +361,7 @@ const filteredTokens = computed(() => {
                 name="mint-quantity"
                 size="3"
                 min="1"
+                max='400'
                 class="ml-1 px-1 text-black"
                 style="width:30%"
               />
@@ -372,7 +372,7 @@ const filteredTokens = computed(() => {
               </button>
             </p>
             <p v-if="cost !=null">
-              {{(mintQuantity * cost / 1e18).toFixed(4) }} Eth
+              {{+(mintQuantity * cost / 1e18).toFixed(4) }} Eth
             </p>
               <button
                 @click="mintButton(mint)"
@@ -464,7 +464,7 @@ const filteredTokens = computed(() => {
               </button>
             </p>
             <p v-if="cost !=null">
-              {{(mintQuantity * cost / 1e18).toFixed(4) }} $PURGED
+              {{+(mintQuantity * cost * 1000 / 1e18).toFixed(1) }} $PURGED
             </p>
               <button
                 @click="mintButton(mint)"
@@ -504,7 +504,7 @@ const filteredTokens = computed(() => {
             height:50px;
             margin-left: auto;
             margin-right: auto;">
-        Referral Code :      <input
+        Referral Code:      <input
         v-if="ethCoin"
         v-model="referralCode"
         placeholder="enter code"
@@ -512,7 +512,7 @@ const filteredTokens = computed(() => {
         name="referral-code"
         size="10"
         class="ml-2 px-2 text-black"
-        style="width:58%"
+        style="width:54%"
       />
     </div>
   </div>
