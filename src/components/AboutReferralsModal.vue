@@ -23,9 +23,9 @@ async function createReferralCode() {
       m-auto
       p-8
       bg-gradient-to-br
-      from-zinc-500
-      to-zinc-400
-      text-lg text-black
+      from-zinc-800
+      to-zinc-900
+      text-lg text-white
     "
   >
     <button

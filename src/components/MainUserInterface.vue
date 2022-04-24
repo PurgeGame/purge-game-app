@@ -10,6 +10,7 @@ import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 import LeftMint from "./LeftMint.vue";
+import RightMint from "./RightMint.vue";
 
 const urlParams = new URL(location).searchParams.get("referral");
 const referralCode = ref(null);
@@ -321,6 +322,7 @@ onMounted(() => {
         </div>
         <div v-if="state.reveal == 0"
         class="snap-end snap-always h-full overflow-auto">
+        <RightMint/>
         </div>
 
       <!-- Load main UI if post-reveal -->

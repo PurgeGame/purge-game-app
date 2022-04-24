@@ -52,7 +52,7 @@ onMounted(() => {
       "
       style = "
   position: relative;
-  top: 50%;
+  top: 30%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);"
@@ -67,5 +67,17 @@ onMounted(() => {
     MAP Jackpot : {{totalMAP * cost * .05 /1e18}} eth (${{parseInt(totalMAP * cost * .05 * ethPrice /1e18)}})
     </p>
     </div>
+        <button
+        @click="whitepaper()"
+        style = "
+            position: relative;
+            top: 30%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);"
+                >
+        <img src="/buttons/whitepaper.png">
+
+        </button>
 
 </template>
