@@ -20,7 +20,7 @@ const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
 const middleColumn = ref(null);
-
+const discord = ref(null);
 
 
 
@@ -36,6 +36,30 @@ const onClickDisconnect = () => {
 const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
+
+function submitDiscord(){
+  const discordID = discord.value.split('#')
+  if (
+    isNaN(discordID[1]) || 
+    parseInt(discordID[1]) > 9999 ||
+    parseInt(discordID[1]) < 0 ||
+    discordID[0].length > 32
+  ){
+    window.alert("invalid discord ID")
+    return
+  }
+  const postData = {}
+  postData['address'] = wallet.checksumAddress()
+  postData['username'] = discordID[0]
+  postData['discriminator'] = discordID[1]
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData)
+  }
+  fetch('http://127.0.0.1:8000/discord/', requestOptions)
+ 
+}
 
 
 
@@ -101,6 +125,37 @@ onMounted(() => {
         "
 
       />
+        <input
+        v-model="discord"
+        placeholder="Enter discord NAME#XXXX"
+        class="
+          w-2/5
+          md:w-min
+          px-1
+          bg-zinc-400
+          border-2 border-red-900
+          outline-none
+          focus:bg-amber-200
+          text-black
+          font-bold
+          placeholder:font-normal placeholder:text-zinc-600
+        "
+
+      />
+      <button
+        @click="submitDiscord()"
+        class="
+          border-2 border-red-900
+          m-1
+          px-2
+          py-0
+          bg-black
+          rounded-md
+          hover:text-amber-300 hover:ring-1 hover:ring-amber-300
+        "
+      >
+      Submit
+      </button>
       <button
         @click="onClickDisconnect()"
         class="
