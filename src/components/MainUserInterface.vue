@@ -9,6 +9,7 @@ import UserInterfaceRight from "./UserInterfaceRight.vue";
 import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
+import LeftMint from "./LeftMint.vue";
 
 const urlParams = new URL(location).searchParams.get("referral");
 const referralCode = ref(null);
@@ -311,6 +312,7 @@ onMounted(() => {
 
         <div v-if="state.reveal == 0"
         class="snap-start snap-always h-full overflow-hidden">
+        <LeftMint/>
         </div>
         <div v-if="state.reveal == 0"
           ref="middleColumn"
@@ -322,7 +324,7 @@ onMounted(() => {
         </div>
 
       <!-- Load main UI if post-reveal -->
-      
+
         <div v-if="state.reveal == 1"
         class="snap-start snap-always h-full overflow-hidden">
           <UserInterfaceLeft :filter-string="filterString" />
@@ -337,7 +339,6 @@ onMounted(() => {
         class="snap-end snap-always h-full overflow-auto">
           <UserInterfaceRight :filter-string="filterString" />
         </div>
-
       </div>
     </div>
   </div>
