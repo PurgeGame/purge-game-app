@@ -10,13 +10,14 @@ import {
   contract,
   coinContract,
   purgedBalance,
+  cost,
 } from "../store.js";
+import { compileScript } from "@vue/compiler-sfc";
 
 const props = defineProps(["filterString"]);
 
 const etherBalance = ref(null);
 const ethCoin = ref(1)
-const cost = ref(null)
 // Form input bindings
 const mintQuantity = ref(1);
 const referralCode = ref("");
@@ -35,7 +36,7 @@ async function doEthersStuff() {
   purgedBalance.value = ethers.utils.formatEther(
     await coinContract.balanceOf(wallet.address)
   );
-  cost.value = parseInt(await contract.cost()); 
+  cost.value = await contract.cost(); 
 }
 
 async function createReferralCode() {
@@ -48,7 +49,6 @@ async function createReferralCode() {
 
 function whitepaper(){
     window.open('https://purge.game/concept.html');
-
 }
 
 function purgeButton() {
@@ -60,7 +60,14 @@ function purgeButton() {
   }
 }
 function toggleCoin(toggle){
-  ethCoin.value = toggle
+  console.log(ethCoin.value)
+  if (toggle ==0){
+    if (purgedBalance.value > cost.value / 1e15){
+    ethCoin.value = toggle
+    } 
+    else window.alert("Insufficient $PURGED balance")
+  }
+  else ethCoin.value = toggle
 }
 
 // this function must be sent an array
@@ -80,7 +87,7 @@ function mintButton(mintType) {
 
 
 async function mint(number, referrer) {
-  const spend = BigInt(cost * number);
+  const spend = BigInt(cost.value * number);
   let estimate = await contract.estimateGas.mint(number, referrer, {
     value: spend,
   });
@@ -89,7 +96,7 @@ async function mint(number, referrer) {
 }
 
 async function mintAndPurge(number, referrer) {
-  const spend = BigInt(cost * number);
+  const spend = BigInt(cost.value * number);
   let estimate = await contract.estimateGas.mintAndPurge(number, referrer, {
     value: spend,
   });
@@ -146,7 +153,6 @@ async function maxMintCoin(){
   mintQuantity.value = max
 }
 
-
 function coinMintButton(mintType) {
   if (mintType == mintAndPurge) coinMintAndPurge(mintQuantity.value);
   if (mintType == mint) coinMint(mintQuantity.value)
@@ -164,56 +170,10 @@ async function coinMintAndPurge(number) {
   await contract.coinMintAndPurge(number, { gasLimit: estimate });
 }
 
-async function nukeToken(bombTokenId, targetTokenId) {
-  await contract.nukeToken(bombTokenId, targetTokenId);
-}
-
-// function signSomething() {
-//   let number = document.getElementById("number").value;
-//   let referrer = document.getElementById("string").value;
-//   mintAndPurge(number, referrer);
-// }
-
 onMounted(() => {
   doEthersStuff();
 });
 
-const filteredTokens = computed(() => {
-  const wordArray = props.filterString.toLowerCase().split(" ");
-  const letters = ["p", "u", "r", "g", "e", "a", "m"];
-  let filteredList = new Set();
-  if (ownedTokens.value) {
-    Object.values(ownedTokens.value).forEach((token) => {
-      for (let trait of token.traitnames) {
-        let color = trait.toLowerCase().split(" ")[0]
-        let shape = trait.toLowerCase().split(" ")[1]
-        if (
-          (typeof wordArray[1] == "undefined" &&
-          color.includes(wordArray[0])) ||
-          shape.includes(wordArray[0])
-        ) {
-          filteredList.add(token);
-        } else if (
-          typeof wordArray[1] !== "undefined" &&
-          wordArray[1].length == 1 &&
-          letters.includes(wordArray[1]) &&
-          shape === wordArray[1] &&
-          color.includes(wordArray[0])
-        ) {
-          filteredList.add(token);
-        } else if (
-          typeof wordArray[1] !== "undefined" &&
-          (wordArray[1].length > 1 || !letters.includes(wordArray[1])) &&
-          shape.includes(wordArray[1]) &&
-          color.includes(wordArray[0])
-        ) {
-          filteredList.add(token);
-        }
-      }
-    });
-  }
-  return filteredList;
-});
 </script>
 
 <template>
@@ -307,7 +267,7 @@ const filteredTokens = computed(() => {
     <img src="/main_logo_ns.png" class=" mb-10"
       style="width:50%;max-height:100vw;margin-left:auto;margin-right:auto" />
     <div v-if="ethCoin == 1" 
-    class="h-80 pt-2 px-4 md:px-2 lg:px-0"
+    class="h-80 pt-0 px-4 md:px-2 lg:px-0"
     style=" width:325px;
             height:250px;
             margin-left: auto;
@@ -347,13 +307,13 @@ const filteredTokens = computed(() => {
         class="
           p-2
           flex
-          h-[75%]
+          h-[65%]
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-green-800
         "
       >
-        <div class="grow overflow-auto px-1">
+        <div class="grow overflow-auto px-0">
             <p><label for="mint-quantity">Quantity:</label>
               <input
                 v-model="mintQuantity"
@@ -367,34 +327,42 @@ const filteredTokens = computed(() => {
               />
               <button
                 @click="maxButton()"
-                class="mx-2 p-2 bg-black border rounded">
+                class="mx-2 p-1 bg-black border rounded">
                 MAX
-              </button>
+
+                <!-- <img src="/buttons/MAX0.png"
+                style="
+                  height:37px;
+                  max-width:100vw;
+                  vertical-align: bottom"
+                onMouseOver="this.src='MAX1.png'" > -->
+               </button>
             </p>
             <p v-if="cost !=null">
               {{+(mintQuantity * cost / 1e18).toFixed(4) }} Eth
             </p>
+            <div style="float:left">
               <button
                 @click="mintButton(mint)"
               >
-                <img src="/buttons/mint.png"
+                <img src="/buttons/mint0.png"
                 style="
-                  height:45px;
+                  height:35px;
                   max-width:100vw;
-                  margin-left: auto;
-                  margin-right: auto;">
+                  ">
               </button>
+            </div>
+            <div style="float:right">
               <button
                 @click="mintButton(mintAndPurge)"
               >
-                <img src="/buttons/MAPbutton.png"
+                <img src="/buttons/MAP0.png"
                 style="
-                  height:45px;
+                  height:35px;
                   max-width:100vw;
-                  margin-left: auto;
-                  margin-right: auto;">
+                  float:right">
               </button>
-
+            </div>
           </div>
 
       </div>
@@ -403,7 +371,7 @@ const filteredTokens = computed(() => {
 
     <!-- ---------- $PURGED ---------- -->
     <div v-if="ethCoin == 0"     
-      class="h-80 pt-2 px-4 md:px-2 lg:px-0"
+      class="h-80 pt-0 px-4 md:px-2 lg:px-0"
     style=" width:325px;
             height:250px;
             margin-left: auto;
@@ -438,9 +406,9 @@ const filteredTokens = computed(() => {
       </div>
       <div
         class="
-          p-2
+          p-1
           flex
-          h-[85%]
+          h-[65%]
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-red-700
@@ -459,34 +427,35 @@ const filteredTokens = computed(() => {
               />
               <button
                 @click="maxButton()"
-                class="mx-2 p-2 bg-black border rounded">
+                class="mx-2 p-1 bg-black border rounded">
                 MAX
               </button>
             </p>
             <p v-if="cost !=null">
               {{+(mintQuantity * cost * 1000 / 1e18).toFixed(1) }} $PURGED
             </p>
+            <div style="float:left">
               <button
                 @click="mintButton(mint)"
               >
-                <img src="/buttons/mint.png"
+                <img src="/buttons/mint0.png"
                 style="
-                  height:45px;
+                  height:35px;
                   max-width:100vw;
-                  margin-left: auto;
-                  margin-right: auto;">
+                  ">
               </button>
+            </div>
+            <div style="float:right">
               <button
                 @click="mintButton(mintAndPurge)"
               >
-                <img src="/buttons/MAPbutton.png"
+                <img src="/buttons/MAP0.png"
                 style="
-                  height:45px;
+                  height:35px;
                   max-width:100vw;
-                  margin-left: auto;
-                  margin-right: auto;">
+                  float:right">
               </button>
-
+            </div>
           </div>
       </div>
     </div>
