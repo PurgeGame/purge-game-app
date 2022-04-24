@@ -1,20 +1,59 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
+  wallet,
   prizepool,
   contract,
+  referralData
 } from "../store.js";
+const rewards =[.04,.02,.01,.008,.006,.005,.004,.003,.002,.002]
+
 
 
 const emit = defineEmits(["closeModal"]);
-const referralCode = ref("");
 
-async function createReferralCode() {
-  if (referralCode.value) {
-    await contract.createReferralCode(referralCode.value);
-  } else {
-    window.alert("You must enter a referral code first");
-  }
+onMounted(() => {
+  leaderboardApiGrab()
+});
+
+async function leaderboardApiGrab() {
+  prizepool.total = await contract.PrizePool() / 1e18
+  const walletAddress = wallet.checksumAddress()
+  const apiEndpoint = 'http://127.0.0.1:8000/referrals/' + walletAddress
+  const fetchError = ref('')
+  const data = await fetch(apiEndpoint)
+    .then((res) => res.json())
+    .catch((err) => (fetchError.value = err))
+  referralData.leaders = data.leaders
+  referralData.totalreferrals = data.totalreferrals
+  referralData.referrals = data.referrals
+  referralData.codes = data.codes
+  return { fetchError }
+}
+
+function prizePool(){
+  if (prizepool.total < .1) return 500
+  else return prizepool.total
+}
+
+function buildJSON(){
+  const data = {};
+  data.referrals = referralData.referrals;
+  data.codes = referralData.codes;
+  return data
+  const json = JSON.stringify(data);
+  const dataURL = `data:application/json,${json}`;
+}
+
+function download(content, fileName, contentType) {
+ const a = document.createElement("a");
+ const file = new Blob([content], { type: contentType });
+ a.href = URL.createObjectURL(file);
+ a.download = fileName;
+ a.click();
+}
+function onDownload(){
+ download(JSON.stringify(buildJSON()), "referrals.json", "text/plain");
 }
 </script>
 
@@ -27,8 +66,8 @@ async function createReferralCode() {
       m-auto
       p-8
       bg-gradient-to-br
-      from-zinc-500
-      to-zinc-400
+      from-zinc-300
+      to-zinc-300
       text-lg text-black
     "
   >
@@ -48,54 +87,58 @@ async function createReferralCode() {
     >
       close
     </button>
-    <h2 class="font-bold text-xl">The Purge Game referral system</h2>
-    <p class="my-4">
-      In addition to the massive prizes available to Purge Game winners, there is another way to earn big money. 
-      Sign up for the refer-a-friend program and for each token minted with your referral code, you immediately  
-      recieve 5% of a free mint in $PURGED. On top of that, the top 10 referrers will split a bonus equal to 10% 
-      of the total prize pool (and this comes out of my money, not the actual prize pool!) The referal leaderboard 
-      will be paid out pre-reveal, Purge Game is dedicated to ensuring winners do not have to wait for their money.
+    <h2 class="font-bold text-xl">Referral Leaderboard</h2>
+    <p>
+      Current leaderboard pool : <b>{{prizePool() / 10}} eth</b> (based on 10k mints if pre-mint)
     </p>
+    <div
+      class="
+        mt-4
+        p-1
+        flex
+        h-[94%]
+        overflow-hidden
+        bg-black
+        border-4 border-red-700
+        rounded-lg
+      "
+    >
 
-    <p class="my-4">
-      The person who amasses the most referrals will recieve 40% of the leaderboard prize pool. If there are 10k 
-      tokens minted, the winner will get 20 eth! This prize could even be much larger, if people are extremely 
-      successful at referring their friends and the maximum number of tokens are minted, the top referrer would 
-      win over 127 eth, as well as a ton of free mints! 
-    </p>
-    <h2 class="font-bold text-xl">How to join the referral program</h2>
-    <p class="my-4">
-      1. Create a referral code: (this will cost a small amount of gas). You can create multiple codes, 
-      as long as they are from the same address, their stats will be combined
-      <input
-        v-model="referralCode"
-        placeholder="enter code"
-        type="text"
-        name="referral-code"
-        size="15"
-        class="ml-2 px-2 text-black"
-      />
-      &#160;
-      <button @click="createReferralCode()" class="p-1 bg-black text-amber-300 border rounded">
-        Submit
-      </button>
-    </p>
+      <div class="grow overflow-auto px-1">
+        <div v-if="referralData.leaders != null">
+          <table class="w-full">
+            <tbody class="text-white">
+              <tr v-for="user, index in referralData.leaders">
+                <td class="border-b-2 border-amber-300 text-center">
+                  # {{index +1}}
+                </td>
+                <td class="border-b-2 border-amber-300 text-center">
+                  {{ user }}
+                </td>
+                <td class="border-b-2 border-amber-300 text-center">
+                  {{rewards[index] * 100}} %
+                </td>
 
-    <p class="my-4">
-      2. Send your friends to https://purge.game/?ref=YOUR-CODE-HERE.
-      This will make your referral code pre-set when they mint. 
-    </p>
+                <td class="border-b-2 border-amber-300 text-center pr-4">
+                  {{rewards[index] * prizePool()}} eth
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-    <p class="my-4">
-      3. On mint day, there will be a field to enter a referral code. Each token minted (or Mint and Purged)
-      with your code will credit you with 50 $PURGED. Use 1000 of this ERC-20 coin to mint a Purge Game token!
-    </p>
-
-    <p class="my-4">
-      4. Check the leaderboard page to see how you rank and view detailed information on your successful referrals.
-      You can see the addresses which used your code and how many tokens they minted, so you can reward your best customers!
-      If you registered multiple referral codes, you can view which were more effective.
-
-    </p>
+        </div>
+      </div>
+    </div>
+              <div v-if="referralData.totalreferrals > 0"
+              class="text-center text-black">
+            <b>Your Total Referrals : {{referralData.totalreferrals}}</b>
+            <p>
+              <button
+                @click="onDownload()"
+                class="mx-2 p-1 bg-black border rounded text-white">
+                Download detailed information
+               </button>
+            </p>
+          </div>
   </div>
 </template>
