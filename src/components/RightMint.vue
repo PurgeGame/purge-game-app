@@ -3,9 +3,11 @@
 <script setup>
 import { ref } from "vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
+import LeaderboardModal from "./LeaderboardModal.vue";
 
 const showAboutReferrals = ref(false);
 
+const showLeaderboard = ref(false);
 
 
 </script>
@@ -24,7 +26,7 @@ const showAboutReferrals = ref(false);
 
     </button>
         <button
-    @click="showAboutReferrals = true"
+    @click="showLeaderboard= true"
     style = "
         position: relative;
         top: 20%;
@@ -37,7 +39,7 @@ const showAboutReferrals = ref(false);
     </button>
 
     <div
-    v-if="showAboutReferrals"
+    v-if="showLeaderboard == true"
     class="
       absolute
       top-0
@@ -49,7 +51,21 @@ const showAboutReferrals = ref(false);
       bg-zinc-800 bg-opacity-90
     "
   >
+    <LeaderboardModal @close-modal="showLeaderboard = false" />
+  </div>
+  <div
+    v-if="showAboutReferrals"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
     <AboutReferralsModal @close-modal="showAboutReferrals = false" />
   </div>
-
 </template>
