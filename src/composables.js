@@ -4,6 +4,7 @@ import {
   prizepool,
   purgedTokenData,
   ownedTokenData,
+  discordstatus,
   state,
   contract,
   purgedBalance,
@@ -33,7 +34,7 @@ export async function useApiGrab(walletAddress) {
   ownedTokenData.value = allData[1]
   purgedTokenData.value = allData[2]
   prizepool.value = allData[3]
-
+  discordstatus.value = allData[4][0]
   return { fetchError }
 
 }

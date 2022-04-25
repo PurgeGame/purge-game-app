@@ -17,6 +17,9 @@ export const purgeArray = []
 export const bombTokenId = []
 export const purgedBalance = ref(null)
 export const cost = ref(null)
+export const discordstatus = reactive({
+ status:null
+})
 
 export const referralData = reactive({
   leaders: null,
