@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet, state, purgedBalance, discordstatus } from "../store.js";
+import { wallet, state, purgedBalance, discordstatus, referralCode } from "../store.js";
 import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
@@ -12,8 +12,7 @@ import LeaderboardModal from "./LeaderboardModal.vue";
 import LeftMint from "./LeftMint.vue";
 import RightMint from "./RightMint.vue";
 
-const urlParams = new URL(location).searchParams.get("referral");
-const referralCode = ref(null);
+
 const typedReferralCode = ref(null);
 const filterString = ref("");
 const showMenu = ref(false);
@@ -66,7 +65,21 @@ function submitDiscord(){
 }
 
 
-
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 
 onBeforeMount(() => {
@@ -79,8 +92,15 @@ onMounted(() => {
   // Bring the middle column into view on page load. For small screens.
   middleColumn.value.scrollIntoView({ inline: "start" });
   // Do referral and cookie stuff (incomplete)
+  const params = new URLSearchParams(document.location.search);
+  const urlParams = params.get("ref");
+  console.log(urlParams)
   if (urlParams) {
+    document.cookie = "ref=" +urlParams +"; expires=Sun, 1 Jan 2023 12:00:00 UTC"
     referralCode.value = urlParams;
+  }
+  else{
+    referralCode.value = getCookie('ref')
   }
 });
 </script>
