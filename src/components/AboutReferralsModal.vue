@@ -107,7 +107,7 @@ function submitDiscord(){
         class="ml-2 px-2 text-black"
         />
                     &#160;
-      <button @click="createReferralCode()" class="p-1 bg-black text-amber-300 border rounded">
+      <button @click="createReferralCode()" class="p-1 bg-black text-amber-300 border rounded active:bg-blue-500">
         Submit
       </button>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet, state, purgedBalance } from "../store.js";
+import { wallet, state, purgedBalance, discordstatus } from "../store.js";
 import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
@@ -33,6 +33,10 @@ const onClickDisconnect = () => {
   wallet.address = null;
 };
 
+const resetDiscord = () =>{
+  discordstatus.value = 0
+}
+
 const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
@@ -58,7 +62,7 @@ function submitDiscord(){
     body: JSON.stringify(postData)
   }
   fetch('http://127.0.0.1:8000/discord/', requestOptions)
- 
+  discordstatus.value = 1
 }
 
 
@@ -101,6 +105,7 @@ onMounted(() => {
           hover:ring-1 hover:ring-amber-300
           text-2xl
           hover:text-amber-300
+
           font-black
         "
       >
@@ -123,8 +128,9 @@ onMounted(() => {
           font-bold
           placeholder:font-normal placeholder:text-zinc-600
         "
-
-      />
+        />
+      <div v-if="discordstatus.value==null"
+        class="inline-block">
         <input
         v-model="discord"
         placeholder="Enter discord NAME#XXXX"
@@ -142,20 +148,57 @@ onMounted(() => {
         "
 
       />
-      <button
-        @click="submitDiscord()"
-        class="
-          border-2 border-red-900
-          m-1
-          px-2
-          py-0
-          bg-black
-          rounded-md
-          hover:text-amber-300 hover:ring-1 hover:ring-amber-300
-        "
-      >
-      Submit
-      </button>
+        <button
+          @click="submitDiscord()"
+          class="
+            border-2 border-red-900
+            m-1
+            px-2
+            py-0
+            bg-black
+            rounded-md
+            active:bg-blue-500
+            hover:text-amber-300 hover:ring-1 hover:ring-amber-300
+          "
+        >
+        Submit
+        </button>
+      </div>
+      <div v-if="discordstatus.value != null"
+      class="inline-block">
+        <div v-if="!discordstatus.value">
+          <input
+          v-model="discord"
+          placeholder="Enter discord NAME#XXXX"
+          class="
+            w-2/5
+            md:w-min
+            px-1
+            bg-zinc-400
+            border-2 border-red-900
+            outline-none
+            focus:bg-amber-200
+            text-black
+            font-bold
+            placeholder:font-normal placeholder:text-zinc-600
+          "/>
+          <button
+            @click="submitDiscord()"
+            class="
+              border-2 border-red-900
+              m-1
+              px-2
+              py-0
+              bg-black
+              rounded-md
+              active:bg-blue-500
+              hover:text-amber-300 hover:ring-1 hover:ring-amber-300
+            "
+          >
+          Submit
+          </button>
+        </div>
+      </div>
       <button
         @click="onClickDisconnect()"
         class="
@@ -232,6 +275,7 @@ onMounted(() => {
           <a href="https://purge.game/">Exit App</a>
         </li>
         <li
+          @click="resetDiscord()"
           class="
             rounded
             px-2
@@ -242,7 +286,7 @@ onMounted(() => {
             hover:cursor-pointer
           "
         >
-          Connect Discord
+          Connect Discord 
         </li>
         <li
           @click="showLeaderboard = true"
