@@ -25,6 +25,8 @@ function tokenImage(tokenId) {
 }
 
 async function purge(tokenIds) {
+  let estimate = await contract.purge(tokenIds);
+  estimate = BigInt(parseInt(estimate * 1.15));
   await contract.purge(tokenIds);
 }
 </script>
