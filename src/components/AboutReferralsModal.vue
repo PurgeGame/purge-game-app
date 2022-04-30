@@ -1,43 +1,20 @@
 <script setup>
 import { ref } from "vue";
 import { contract } from "../store.js";
-import { wallet } from "../store.js";
+import { wallet, apiaddress } from "../store.js";
 
 const emit = defineEmits(["closeModal"]);
 const referralCode = ref("");
 const discord = ref(null);
 
 async function createReferralCode() {
-  submitDiscord()
   if (referralCode.value) {
     await contract.createReferralCode(referralCode.value);
   } else {
     window.alert("You must enter a referral code first");
   }
 }
-function submitDiscord(){
-  const discordID = discord.value.split('#')
-  if (
-    isNaN(discordID[1]) || 
-    parseInt(discordID[1]) > 9999 ||
-    parseInt(discordID[1]) < 0 ||
-    discordID[0].length > 32
-  ){
-    window.alert("invalid discord ID")
-    return
-  }
-  const postData = {}
-  postData['address'] = wallet.checksumAddress()
-  postData['username'] = discordID[0]
-  postData['discriminator'] = discordID[1]
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(postData)
-  }
-  fetch('http://127.0.0.1:8000/discord/', requestOptions)
- 
-}
+
 </script>
 
 <template>
@@ -97,15 +74,6 @@ function submitDiscord(){
         size="15"
         class="ml-2 px-2 text-black"
       />
-
-        <input
-        v-model="discord"
-        placeholder="Enter discord NAME#XXXX"
-        type="text"
-        name="referral-code"
-        size="32"
-        class="ml-2 px-2 text-black"
-        />
                     &#160;
       <button @click="createReferralCode()" class="p-1 bg-black text-amber-300 border rounded active:bg-blue-500">
         Submit

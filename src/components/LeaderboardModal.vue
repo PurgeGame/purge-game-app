@@ -4,7 +4,8 @@ import {
   wallet,
   prizepool,
   contract,
-  referralData
+  referralData,
+  apiaddress
 } from "../store.js";
 const rewards =[.04,.02,.01,.008,.006,.005,.004,.003,.002,.002]
 
@@ -19,7 +20,8 @@ onMounted(() => {
 async function leaderboardApiGrab() {
   prizepool.total = await contract.PrizePool() / 1e18
   const walletAddress = wallet.checksumAddress()
-  const apiEndpoint = 'http://127.0.0.1:8000/referrals/' + walletAddress
+  const apiEndpoint = apiaddress + '/referrals/' + walletAddress
+  // const apiEndpoint = 'http://127.0.0.1:8000/referrals/' + walletAddress
   const fetchError = ref('')
   const data = await fetch(apiEndpoint)
     .then((res) => res.json())
@@ -116,11 +118,11 @@ function onDownload(){
                   {{ user }}
                 </td>
                 <td class="border-b-2 border-amber-300 text-center">
-                  {{rewards[index] * 100}} %
+                  {{rewards[index] * 1000}} %
                 </td>
 
                 <td class="border-b-2 border-amber-300 text-center pr-4">
-                  {{rewards[index] * prizePool()}} eth
+                  {{(rewards[index] * prizePool()).toFixed(4)}} eth  
                 </td>
               </tr>
             </tbody>

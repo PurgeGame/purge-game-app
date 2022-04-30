@@ -3,10 +3,31 @@ import { computed } from "vue";
 import {
   ownedTokenData,
   purgeArray,
-  contract
+  contract,
+  purgeIDs,
+  provider
 } from "../store.js";
 
 const emit = defineEmits(["closeModal"]);
+
+function clearPurges() {
+  for (const token of Object.values(ownedTokenData.value)) {
+    if (token.tokenId < 64500) toggleTokenPurge(token.tokenId, false);
+  }
+}
+
+function toggleTokenPurge(tokenId, purge) {
+  if (tokenId < 64500) {
+    if (purge) {
+      purgeIDs.value.push(tokenId);
+    } else {
+      purgeIDs.value.splice(purgeIDs.value.indexOf(tokenId), 1);
+    }
+  } else {
+    bombTokenId.value = tokenId;
+    showBombModal.value = true;
+  }
+}
 
 const purgingTokens = computed(() => {
   let filteredList = new Set();
@@ -25,9 +46,11 @@ function tokenImage(tokenId) {
 }
 
 async function purge(tokenIds) {
-  let estimate = await contract.purge(tokenIds);
+  let estimate = await contract.estimateGas.purge(tokenIds);
   estimate = BigInt(parseInt(estimate * 1.15));
-  await contract.purge(tokenIds);
+  const transaction = await contract.purge(tokenIds);
+  clearPurges()
+  emit('closeModal')
 }
 </script>
 
@@ -50,7 +73,7 @@ async function purge(tokenIds) {
       Cancel
     </button>
         <button
-      @click="purge(purgeArray.value), $emit('closeModal')"
+      @click="purge(purgeArray.value)"
       class="
         sticky
         top-2
