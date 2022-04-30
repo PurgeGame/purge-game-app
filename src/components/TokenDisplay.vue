@@ -9,13 +9,16 @@ import {
   purgedTokenData,
   purgeArray,
   bombTokenId,
+  purgeIDs,
+  state
 } from "../store.js";
 import ConfirmationModal from "./ConfirmationModal.vue";
 import BombModal from "./BombModal.vue";
+import GGModal from "./GGModal.vue";
 import { useApiGrab } from "../composables.js";
 
 const props = defineProps(["filterString"]);
-const purgeIDs = ref([]);
+// const purgeIDs = ref([]);
 const showConfirmationModal = ref(false);
 const showBombModal = ref(false);
 const showPurgedTokens = ref(0);
@@ -171,6 +174,7 @@ onMounted(() => {
   // Load API data, todo: something with error
   const { error } = useApiGrab(wallet.checksumAddress());
 })
+  setInterval(function(){const { error } = useApiGrab(wallet.checksumAddress())}, 30000);
 </script>
 
 <template>
@@ -380,4 +384,21 @@ onMounted(() => {
   >
     <BombModal @close-modal="showBombModal = false" />
   </div>
+  <!-- <div
+    v-if="state.gameOver"
+        class="
+          absolute 
+          top-1/2 
+          left-1/2 
+          transform 
+          -translate-x-1/2 
+          -translate-y-1/2
+      z-50
+      w-25
+      h-25
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    ">
+    <GGModal />
+    </div> -->
 </template>

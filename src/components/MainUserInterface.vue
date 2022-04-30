@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue";
-import { wallet, state, purgedBalance, discordstatus, referralCode } from "../store.js";
+import { wallet, state, purgedBalance, discordstatus, referralCode, apiaddress, signer } from "../store.js";
 import { gameState } from "../composables.js";
 // Child components
 import UserInterfaceLeft from "./UserInterfaceLeft.vue";
@@ -40,7 +40,7 @@ const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
 
-function submitDiscord(){
+async function submitDiscord(){
   const discordID = discord.value.split('#')
   if (
     isNaN(discordID[1]) || 
@@ -51,16 +51,19 @@ function submitDiscord(){
     window.alert("invalid discord ID")
     return
   }
+  const signature = await signer.signMessage('"Sign to verify address ownership"')
   const postData = {}
   postData['address'] = wallet.checksumAddress()
   postData['username'] = discordID[0]
   postData['discriminator'] = discordID[1]
+  postData['signature'] = signature
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(postData)
   }
-  fetch('http://127.0.0.1:8000/discord/', requestOptions)
+  fetch(apiaddress + '/discord/', requestOptions)
+  // fetch('http://127.0.0.1:8000:8000/discord/', requestOptions)
   discordstatus.value = 1
 }
 
@@ -94,7 +97,6 @@ onMounted(() => {
   // Do referral and cookie stuff (incomplete)
   const params = new URLSearchParams(document.location.search);
   const urlParams = params.get("ref");
-  console.log(urlParams)
   if (urlParams) {
     document.cookie = "ref=" +urlParams +"; expires=Sun, 1 Jan 2023 12:00:00 UTC"
     referralCode.value = urlParams;

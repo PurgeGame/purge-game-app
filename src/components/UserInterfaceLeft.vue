@@ -74,7 +74,7 @@ function toggleColumnSorted(column) {
 function traitOSURL(trait) {
   if (trait.traitId < 64) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -82,7 +82,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 128) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -90,7 +90,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 192) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -98,7 +98,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 256) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test-lcyb5uwva9?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +

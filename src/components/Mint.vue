@@ -11,6 +11,7 @@ import {
   coinContract,
   purgedBalance,
   cost,
+  referralCode
 } from "../store.js";
 import { compileScript } from "@vue/compiler-sfc";
 
@@ -20,7 +21,7 @@ const etherBalance = ref(null);
 const ethCoin = ref(1)
 // Form input bindings
 const mintQuantity = ref(1);
-const referralCode = ref("");
+
 
 // Not sure this is the best way to wait for the API call, but it works
 
@@ -60,7 +61,6 @@ function purgeButton() {
   }
 }
 function toggleCoin(toggle){
-  console.log(ethCoin.value)
   if (toggle ==0){
     if (purgedBalance.value > cost.value / 1e15){
     ethCoin.value = toggle
@@ -130,7 +130,6 @@ async function maxMint(referrer){
     estimate = await contract.estimateGas.mint(max, referrer, {
     value: spend,
   });
-    console.log(estimate * maxfee*1.75/ 1e18, max * cost.value /1e18, yourEth /1e18)
   }
   mintQuantity.value = max
 }

@@ -9,31 +9,29 @@ import {
   cost,
 } from "../store.js";
 
-const totalMinted = ref(null)
-const totalMAP = ref(null)
-const ethPrice = ref(null)
+const totalMinted = ref(null);
+const totalMAP = ref(null);
+const ethPrice = ref(null);
+
 
 async function doEthersStuff() {
     prizepool.total = await contract.PrizePool() / 1e18
     totalMinted.value = await contract.totalMinted()
     totalMAP.value = await contract.totalSupply() - totalMinted.value
+    purgedBalance.value = ethers.utils.formatEther(await coinContract.balanceOf(wallet.address))
     let response = await fetch('https://api.coinbase.com/v2/prices/ETH-USD/buy');
     let data = await response.json();
     ethPrice.value = data.data.amount
 }
 
 function whitepaper(){
-    window.open('https://purge.game/concept.html');
+    window.open('https://purge.game/whitepaper/');
 }
 
-// function signSomething() {
-//   let number = document.getElementById("number").value;
-//   let referrer = document.getElementById("string").value;
-//   mintAndPurge(number, referrer);
-// }
 
 onMounted(() => {
   doEthersStuff();
+  setInterval(function(){doEthersStuff()}, 30000);
 });
 
 </script>
