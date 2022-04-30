@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import MetaMaskOnboarding from "@metamask/onboarding";
 import { wallet } from "../store.js";
 
+
 const isMetaMaskInstalled = () => {
   if (
     typeof ethereum !== "undefined" &&
@@ -34,6 +35,10 @@ const handleChainChanged = (_chainId) => {
 const handleAccountsChanged = () => {
   window.location.reload();
 };
+
+function whitepaper(){
+    window.open('https://purge.game/whitepaper/');
+}
 
 const onboarding = new MetaMaskOnboarding();
 
@@ -153,33 +158,39 @@ onMounted(() => {
       w-full
       h-full
       bg-black bg-opacity-70
-
-
     "
   >
     <img 
         :src='`main_logo_ns.png`'
-        style="width:20%;max-height:100vw;margin-left:auto;margin-right:auto"
+        style="min-width:200px;width:20%;max-height:100vw;margin-left:auto;margin-right:auto"
     >
     
       <button
         v-if="isMetaMaskInstalled()"
         @click="onClickConnect()"
         class="
+          absolute 
+          top-1/2 
+          left-1/2 
+          transform 
+          -translate-x-1/2 
+          -translate-y-1/2
           mt-2
           px-4
           py-1
           mt-2
-          bg-zinc-400
+          bg-white
           rounded-md
           hover:ring
-          ring-amber-300
+          ring-amber-700
+          text-3xl
+          text-amber-700
         "
-
       >
-        <img src="/metamask-fox.svg" class="inline" />
-        Connect Wallet
+        <img src="/metamask-fox.svg" class="inline h-20" />
+        <b>Connect Wallet</b>
       </button>
+
       <button
         v-else
         @click="onClickInstall()"
@@ -197,6 +208,17 @@ onMounted(() => {
       >
         <img src="/metamask-fox.svg" class="inline" />
         Install MetaMask
+      </button>
+      <button 
+      @click="whitepaper()"
+      class="
+        absolute 
+        top-3/4 
+        left-1/2 
+        transform 
+        -translate-x-1/2 
+        -translate-y-1/2">
+      <img src="/buttons/whitepaper.png">
       </button>
   </div>
 </template>
