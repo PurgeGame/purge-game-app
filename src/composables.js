@@ -10,7 +10,8 @@ import {
   purgedBalance,
   coinContract,
   wallet,
-  cost
+  cost,
+  apiaddress,
 } from './store.js'
 import { ethers } from "ethers";
 
@@ -18,7 +19,8 @@ import { ethers } from "ethers";
 
 // API call to update all token, trait & prize data in store.js
 export async function useApiGrab(walletAddress) {
-  const apiEndpoint = 'http://127.0.0.1:8000/everything/' + walletAddress
+  const apiEndpoint = apiaddress +'/everything/' + walletAddress
+  // const apiEndpoint = 'http://127.0.0.1:8000/everything/' + walletAddress
   const fetchError = ref('')
 
   const allData = await fetch(apiEndpoint)
@@ -35,6 +37,8 @@ export async function useApiGrab(walletAddress) {
   purgedTokenData.value = allData[2]
   prizepool.value = allData[3]
   discordstatus.value = allData[4][0]
+  const gameOver = contract.gameOver()
+  state.gameOver = await gameOver
   return { fetchError }
 
 }
