@@ -15,7 +15,6 @@ import UserInterfaceRight from "./UserInterfaceRight.vue";
 import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
-import WhitepaperModal from "./WhitepaperModal.vue";
 import LeftMint from "./LeftMint.vue";
 import RightMint from "./RightMint.vue";
 
@@ -216,7 +215,7 @@ onMounted(() => {
 
       <!-- Discord button, for small screens only-->
       <button @click="showDiscordModal = true" class="inline-block md:hidden">
-        <img src="discord.png" class="inline h-[36px] ml-2" />
+        <img src="/discord.png" class="inline h-[36px] ml-2" />
       </button>
 
       <!-- MetaMask  -->
