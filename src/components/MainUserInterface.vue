@@ -23,6 +23,8 @@ const typedReferralCode = ref(null);
 const filterString = ref("");
 const showMenu = ref(false);
 const showDiscordModal = ref(false);
+const showAboutReferrals =ref(false);
+const showLeaderboard = ref(false);
 const middleColumn = ref(null);
 const discord = ref(null);
 
@@ -109,10 +111,7 @@ onMounted(() => {
   } else {
     referralCode.value = getCookie("ref");
   }
-  if (params.get("whitepaper") == 1) {
-    showWhitepaper.value = true;
-  }
-  if (params.get("showreferral") == 1) {
+  if (params.get("showreferrals") == 1) {
     showAboutReferrals.value = true;
   }
   if (params.get("leaderboard") == 1) {
@@ -415,9 +414,8 @@ onMounted(() => {
       </div>
     </div>
   </div>
-
-  <div
-    v-if="showWhitepaper"
+   <div
+    v-if="showLeaderboard"
     class="
       absolute
       top-0
@@ -426,12 +424,25 @@ onMounted(() => {
       w-full
       h-full
       overflow-y-scroll
-      bg-gradient-to-r
-      from-black
-      via-red-900
-      to-black
+      bg-zinc-700 bg-opacity-80
     "
   >
-    <WhitepaperModal @close-modal="showWhitepaper = false" />
+    <LeaderboardModal @close-modal="showLeaderboard = false" />
   </div>
+  <div
+    v-if="showAboutReferrals"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <AboutReferralsModal @close-modal="showAboutReferrals = false" />
+  </div>
+
 </template>
