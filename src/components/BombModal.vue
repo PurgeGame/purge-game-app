@@ -14,7 +14,11 @@ function tokenImage() {
 }
 
 async function nukeToken(_bombTokenId, targetTokenId) {
-  await contract.nukeToken(_bombTokenId, targetTokenId);
+  try{
+    await contract.nukeToken(_bombTokenId, targetTokenId);
+  }catch(error){
+    window.alert(error.error.message);
+  }
 }
 
 function sellButton(SellID){

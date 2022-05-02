@@ -46,9 +46,13 @@ function tokenImage(tokenId) {
 }
 
 async function purge(tokenIds) {
-  let estimate = await contract.estimateGas.purge(tokenIds);
+  try {let estimate = await contract.estimateGas.purge(tokenIds);
+    } catch(error){
+      window.alert(error.error.message);
+    }
   estimate = BigInt(parseInt(estimate * 1.15));
   const transaction = await contract.purge(tokenIds);
+
   clearPurges()
   emit('closeModal')
 }

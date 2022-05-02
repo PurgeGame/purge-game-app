@@ -9,7 +9,11 @@ const discord = ref(null);
 
 async function createReferralCode() {
   if (referralCode.value) {
-    await contract.createReferralCode(referralCode.value);
+    try{
+      await contract.createReferralCode(referralCode.value)
+    } catch(error){
+      window.alert(error.error.message);
+    }
   } else {
     window.alert("You must enter a referral code first");
   }
