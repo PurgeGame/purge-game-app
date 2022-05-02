@@ -129,7 +129,18 @@ function onDownload(){
           </table>
 
         </div>
+        <div v-else class="">
+          <img class="
+          h-80            
+          relative 
+          left-1/2         
+          transform 
+          -translate-x-1/2 " 
+          :src="`loadscreen.gif`" />
+        </div>
+
       </div>
+
     </div>
               <div v-if="referralData.totalreferrals > 0"
               class="text-center text-black">
