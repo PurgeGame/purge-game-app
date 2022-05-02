@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
-import { traitData } from "../store.js";
+import { traitData, prizepool } from "../store.js";
 
 const props = defineProps(["filterString"]);
 const columnSorted = ref("prize");
@@ -74,13 +74,13 @@ function toggleColumnSorted(column) {
 </script>
 
 <template>
-  <div class="p-4 h-full overflow-hidden">
-    <div class="text-center">
-      <h2 class="text-amber-300 text-xl font-bold">Your Purged Traits</h2>
-    </div>
+  <div class="pt-0 p-4 h-full overflow-hidden">
+      <div v-if="prizepool.value != null" class="text-center">
+        <h2 class="text-emerald-200 text-2xl font-bold">Grand Prize : {{(prizepool.value.grandprize).toFixed(2)}} eth</h2>
+      </div>
     <div
       class="
-        mt-4
+        mt-1
         p-1
         flex
         responsive-height
@@ -91,6 +91,9 @@ function toggleColumnSorted(column) {
       "
     >
       <div class="grow overflow-auto px-1">
+        <div class="text-center sticky">
+          <h2 class="text-amber-300 text-xl font-bold ">Your Purged Traits</h2>
+        </div>
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>

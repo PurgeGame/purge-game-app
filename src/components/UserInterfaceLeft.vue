@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
-import { traitData } from "../store.js";
+import { useApiGrab } from "../composables.js";
+import { traitData, prizepool } from "../store.js";
 
 const props = defineProps(["filterString"]);
 const columnSorted = ref("remaining");
@@ -72,9 +73,10 @@ function toggleColumnSorted(column) {
   sortOrder.value = sortOrder.value == "asc" ? "desc" : "asc";
 }
 function traitOSURL(trait) {
+  const namestring = "purge-game-beta-test1-v3"
   if (trait.traitId < 64) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/" + namestring + "?search[stringTraits][0][name]=Crypto&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -82,7 +84,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 128) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/" + namestring + "?search[stringTraits][0][name]=Letter&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -90,7 +92,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 192) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/" + namestring + "?search[stringTraits][0][name]=Symbol&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -98,7 +100,7 @@ function traitOSURL(trait) {
     );
   } else if (trait.traitId < 256) {
     return (
-      "https://testnets.opensea.io/assets/purge-game-beta-test1-v3?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=" +
+      "https://testnets.opensea.io/assets/" + namestring + "?search[stringTraits][0][name]=Number&search[stringTraits][0][values][0]=" +
       trait.color +
       "%20" +
       trait.shape +
@@ -110,13 +112,15 @@ function traitOSURL(trait) {
 </script>
 
 <template>
-  <div class="p-4 h-full overflow-hidden">
-    <div class="text-center">
-      <h2 class="text-amber-300 text-xl font-bold">All Traits in Play</h2>
-    </div>
+  <div class="pt-0 p-4 h-full overflow-hidden">
+      <div v-if="prizepool.value != null" class="text-center">
+        <h2 class="text-emerald-200 text-2xl font-bold">Prizepool : {{prizepool.value.total}} eth</h2>
+      </div>
+      
+
     <div
       class="
-        mt-4
+        mt-1
         p-1
         flex
         responsive-height
@@ -127,6 +131,9 @@ function traitOSURL(trait) {
       "
     >
       <div class="grow overflow-auto px-1">
+        <div class="text-center">
+          <h2 class="text-amber-300 text-xl font-bold">Status of All Traits</h2>
+        </div>
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
