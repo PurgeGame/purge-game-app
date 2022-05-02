@@ -116,6 +116,9 @@ onMounted(() => {
   if (params.get("leaderboard") == 1) {
     showLeaderboard.value = true;
   }
+    if (params.get("resetdiscord") == 1) {
+    showDiscordModal.value = true;
+  }
 });
 </script>
 
@@ -214,9 +217,13 @@ onMounted(() => {
       <!-- End Discord for medium and large displays-->
 
       <!-- Discord button, for small screens only-->
-      <button @click="showDiscordModal = true" class="inline-block md:hidden">
-        <img src="/discord.png" class="inline h-[36px] ml-2" />
-      </button>
+      <div v-if="discordstatus.value != null" class="inline-block">
+        <div v-if="!discordstatus.value">
+          <button @click="showDiscordModal = true" class="inline-block md:hidden">
+            <img src="/discord.png" class="inline h-[36px] ml-2" />
+          </button>
+        </div>
+      </div>
 
       <!-- MetaMask  -->
       <button
