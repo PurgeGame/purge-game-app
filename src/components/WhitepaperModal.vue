@@ -1,71 +1,59 @@
 <script setup>
 import { ref } from "vue";
-
+import AboutReferralsModal from "./AboutReferralsModal.vue";
+import LeaderboardModal from "./LeaderboardModal.vue";
 const emit = defineEmits(["closeModal"]);
+let scrollPosition = 0
+const showAboutReferrals = ref(false);
+const showLeaderboard = ref(false);
+window.addEventListener('scroll', (event) => {
+  toggleCardVisibility()
+})
 
+// Page scroll position as an integer between 0-99 
+function calculateScrollPosition() {
+  oldScrollPosition = scrollPosition
+  el = document.scrollingElement
+  scrollPosition = Math.floor((el.scrollTop / el.scrollHeight) * 100)
+  return oldScrollPosition, scrollPosition
+}
+
+// Turn card group visibility on/off based on scroll position
+// This is kinda buggy when reversing direction mid-page
+function toggleCardVisibility() {
+  calculateScrollPosition()
+  els = document.querySelectorAll(('.group' + scrollPosition))
+
+  // Toggle visibility on new scroll positions
+  if (scrollPosition != oldScrollPosition) {
+    els.forEach(el => 
+      // 'opacity-0' is a Tailwind CSS utility class
+      el.classList.toggle('opacity-0')
+    )
+  }
+
+  // Reset all at top of page (bug fix)
+  if (scrollPosition == 0) {
+    allCards = document.querySelectorAll('div[class*="group"]')
+    allCards.forEach(card => {
+      card.classList.remove('opacity-0')
+    })
+  }
+
+  // Hide all at bottom of page (bug fix)
+  if (scrollPosition >= 75) {
+    allCards = document.querySelectorAll('div[class*="group"]')
+    allCards.forEach(card => {
+      card.classList.add('opacity-0')
+    })
+  }
+}
 
 </script>
 
 <template>
-
- <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet"> 
-
-
-    <meta property="og:site_name" content="Purge Game" />
-    <meta property="og:title" content="Purge Game" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Purge game is an NFT-based game of interwoven luck and skill. Buy, sell and purge your way to a share of the massive prize pool!" />
-    <meta property="og:image" content="/img/smlogo5002.png" />
-    <meta property="og:url" content="https://purge.game" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/output.css">
-    <title>Purge Game - About</title>
-  </head>
-
-  <body class="bg-gradient-to-r from-black via-red-900 to-black font-sans text-zinc-300">
-    <div class="sticky top-0 left-0 w-full h-12 bg-gradient-to-b from-zinc-900 to-zinc-700 shadow shadow-zinc-600">
-      <div class="float-left h-12 p-2 ml-3">
-        <a href="https://purge.game"><img src="/img/smallbanner.png" class="h-full p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500"/></a>
-      </div>
-      <div class="float-right h-10 my-1 mr-5">
-          
-        <a href="https://discord.com/invite/em98KKUfhq"><img src="/img/discord.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Discord logo" /></a>
-        <a href="https://twitter.com/purge_game"><img src="/img/twitter.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Twitter logo" /></a>
-      </div>
-          <button
-      @click="$emit('closeModal')"
-      class="
-        sticky
-        top-2
-        float
-        bg-black
-        px-2
-        rounded
-        text-amber-300
-        font-bold
-        hover:ring-1 hover:ring-amber-300
-      "
-    >
-      Close
-    </button>
-    </div>
     <div  class="fixed top-12 left-0 w-full -z-10 p-5 grid grid-cols-5 gap-3 md:gap-5
-                lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10" style = 'filter: brightness(60%)'>
+        lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10" style = 'filter: brightness(60%)'>
       <!-- Background cards. Yeah this is ugly. DRY = Definitely Repeat Yourself imo -->
       <div class="group35"><img src="/img/transparent/blue_spade_transparent.png" /></div>
       <div class="group62"><img src="/img/transparent/red_3_transparent.png"/></div>
@@ -148,21 +136,55 @@ const emit = defineEmits(["closeModal"]);
       <div class="group64"><img src="/img/transparent/green_4_transparent.png"></div>
       <div class="group54"><img src="/img/transparent/green_cherries_transparent.png"></div>
     </div>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet"> 
+    <div class="sticky top-0 left-0 w-full h-12 bg-gradient-to-b from-zinc-900 to-zinc-700 shadow shadow-zinc-600">
+        
+      <div class="float-left h-12 p-2 ml-3">
+        <a href="https://purge.game"><img src="/img/smallbanner.png" class="h-full p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500"/></a>
+      </div>
+      <div class="float-right h-10 my-1 mr-5">
+          
+        <a href="https://discord.com/invite/em98KKUfhq"><img src="/img/discord.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Discord logo" /></a>
+        <a href="https://twitter.com/purge_game"><img src="/img/twitter.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Twitter logo" /></a>
+      </div>
+          <button
+      @click="$emit('closeModal')"
+      class="
+        sticky
+        top-2
+        float
+        bg-black
+        px-2
+        rounded
+        text-amber-300
+        font-bold
+        hover:ring-1 hover:ring-amber-300
+      "
+    >
+      Close
+    </button>
+    </div>
+   
+
     <div class="w-11/12 lg:w-9/12 2xl:w-4/16 max-w-5xl mx-auto mt-8">
+    
 	<section class="max-w-60 mx-auto p-3 bg-black bg-opacity-93 rounded-lg border-4 border-green-800 space-y-4 text-lg">
       <img src="/img/nobullshit_dkbg.png" class="max-full mx-auto p-3" alt="Purge Game logo" fetchpriority="high"/> 
 	 </section>
     </div>
     <main class="w-11/12 lg:w-9/12 2xl:w-4/16 mx-auto mt-12 space-y-24">
+    
       <section class="max-w-5xl mx-auto p-3 bg-black bg-opacity-93 rounded-lg border-4 border-green-800 space-y-4 text-lg">
         <p>Purge Game is NFT trading distilled to its essence and strapped to a 
         rocket engine. 🚀 It is a game of interwoven luck and skill. Anyone can win, but sharp
         players can increase their odds by concocting superior social and 
         economic strategies. The rules of the game dictate that some tokens 
-        must moon to multiple eth and one will eventually be worth several 
+        <b>must</b> moon to multiple eth and one will eventually be worth several 
         hundred times the mint cost.</p>
 		
-		<div style="font-family: Staatliches">The goal of Purge Game is to completely eliminate a trait 
+		<div style="font-family: Staatliches" class ="text-3xl">The goal of Purge Game is to completely eliminate a trait 
           from the collection.</div>
 
         <p>The game is mechanically simple. At any given time you have three 
@@ -327,6 +349,44 @@ const emit = defineEmits(["closeModal"]);
           the start wins a <b>22.1 eth jackpot!</b></p>
         </section>
       </div>
+            <section class="max-w-5xl mx-auto p-3 bg-black bg-opacity-93 rounded-lg border-4 border-green-800 space-y-4">
+        <h2 class="text-3xl font-black grid place-items-center">Referral Program</h2>
+        <p>There is another way to make a profit off Purge Game that comes with no risk!           <button
+          @click="showAboutReferrals = true"
+          class="
+            rounded
+            px-1
+            hover:bg-black
+            hover:text-amber-300
+            hover:ring-1
+            hover:ring-amber-300
+            hover:cursor-pointer
+          "
+        >
+          <u>Sign up for the referral program</u>
+        </button>
+          and get your friends to mint. For each token minted using your referral code, you
+          will recieve 5% of a free mint in $PURGED. </p>
+        <p>The top ten referrers will additionally recieve a huge bonus paid out in eth before reveal. They will split an amount equal to 10% of
+          the total prize pool (this does not come out of the actual prize money), with 40% of that amount going to the person with the most referrals. 
+          This could be up to 127 eth paid out to the most talented marketer.         
+          <button
+          @click="showLeaderboard = true"
+          class="
+            rounded
+            px-1
+            hover:bg-black
+            hover:text-amber-300
+            hover:ring-1
+            hover:ring-amber-300
+            hover:cursor-pointer
+          "
+        >
+          <u>Click here</u>
+        </button>
+          for full payout information.
+        </p>
+      </section>
 	  	        <section class="max-w-5xl mx-auto p-3 bg-black bg-opacity-93 rounded-lg border-4 border-green-800 space-y-4">
         <h2 class="text-3xl font-black grid place-items-center">💣The Bomb Token💣</h2>
         <p>Purge Game is intended to be a fast-paced, exciting game that pays off quickly. There are some
@@ -405,10 +465,34 @@ const emit = defineEmits(["closeModal"]);
         </p>
       </section>
     </main>
-    <footer class="mt-96 bg-zinc-900 p-8">
-      <div class="max-w-5xl mx-auto text-xl text-zinc-500">© 2022</div> 
-    </footer>
-  </body>
-</html>
-
+  <div
+    v-if="showAboutReferrals"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <AboutReferralsModal @close-modal="showAboutReferrals = false" />
+  </div>
+  <div
+    v-if="showLeaderboard"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <LeaderboardModal @close-modal="showLeaderboard = false" />
+  </div>
 </template>

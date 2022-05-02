@@ -109,6 +109,12 @@ onMounted(() => {
   if (params.get("whitepaper") == 1){
     showWhitepaper.value = true
   }
+  if (params.get("showreferral") == 1){
+    showAboutReferrals.value = true
+  }
+  if (params.get("leaderboard") == 1){
+    showLeaderboard.value = true
+  }
  });
 </script>
 
@@ -512,7 +518,7 @@ onMounted(() => {
       w-full
       h-full
       overflow-y-scroll
-      bg-zinc-700 bg-opacity-80
+      bg-gradient-to-r from-black via-red-900 to-black
     "
   >
     <WhitepaperModal @close-modal="showWhitepaper = false" />
