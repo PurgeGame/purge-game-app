@@ -14,7 +14,7 @@ import {
 import { compileScript } from "@vue/compiler-sfc";
 
 const props = defineProps(["filterString"]);
-
+let loading = ref(0)
 const etherBalance = ref(null);
 const ethCoin = ref(1);
 // Form input bindings
@@ -98,11 +98,13 @@ async function mintAndPurge(number, referrer) {
   });
 }
 function maxButton() {
+
   if (ethCoin.value) maxMint(referralCode.value);
   else maxMintCoin();
 }
 // maybe tone down the 1.75x estimate on mainnet
 async function maxMint(referrer) {
+  loading.value = 1
   etherBalance.value = ethers.utils.formatEther(
     await provider.getBalance(wallet.address)
   );
@@ -126,9 +128,11 @@ async function maxMint(referrer) {
     });
   }
   mintQuantity.value = max;
+  loading.value = 0
 }
 
 async function maxMintCoin() {
+  loading.value = 1
   purgedBalance.value = ethers.utils.formatEther(
     await coinContract.balanceOf(wallet.address)
   );
@@ -144,6 +148,7 @@ async function maxMintCoin() {
     estimate = await contract.estimateGas.coinMintAndPurge(max);
   }
   mintQuantity.value = max;
+  loading.value = 0
 }
 
 function coinMintButton(mintType) {
@@ -182,7 +187,7 @@ onMounted(() => {
       md:gap-5
       lg:grid-cols-8 lg:gap-7
       2xl:grid-cols-10 2xl:gap-10
-      brightness-[40%]
+      brightness-[60%]
     "
   >
     <!-- Background cards. Yeah this is ugly. DRY = Definitely Repeat Yourself imo -->
@@ -468,7 +473,7 @@ onMounted(() => {
               max="400"
               class="ml-1 px-1 text-black"
             />
-            <button
+            <button v-if="loading==0"
               @click="maxButton()"
               class="
                 mx-2
@@ -480,13 +485,19 @@ onMounted(() => {
               "
             >
               MAX
-
-              <!-- <img src="/buttons/MAX0.png"
-                style="
-                  height:37px;
-                  max-width:100vw;
-                  vertical-align: bottom"
-                onMouseOver="this.src='MAX1.png'" > -->
+            </button>
+            <button v-if="loading==1"
+              @click="maxButton()"
+              class="
+                mx-2
+                px-2
+                bg-black
+                rounded
+                border
+                hover:border-amber-300 hover:text-amber-300
+              "
+            >
+              . . . 
             </button>
             <p v-if="cost != null" class="float-right text-amber-300">
               {{ +((mintQuantity * cost) / 1e18).toFixed(4) }} Eth
@@ -566,9 +577,10 @@ onMounted(() => {
               name="mint-quantity"
               size="3"
               min="1"
+              max="400"
               class="ml-1 px-1 text-black"
             />
-            <button
+            <button v-if="loading==0"
               @click="maxButton()"
               class="
                 mx-2
@@ -580,6 +592,19 @@ onMounted(() => {
               "
             >
               MAX
+            </button>
+            <button v-if="loading==1"
+              @click="maxButton()"
+              class="
+                mx-2
+                px-2
+                bg-black
+                rounded
+                border
+                hover:border-amber-300 hover:text-amber-300
+              "
+            >
+              . . . 
             </button>
             <p v-if="cost != null" class="float-right text-amber-300">
               {{ +((mintQuantity * cost * 1000) / 1e18).toFixed(1) }} $PURGED
