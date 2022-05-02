@@ -91,26 +91,17 @@ function toggleColumnSorted(column) {
       "
     >
       <div class="grow overflow-auto px-1">
-        <div class="text-center sticky">
-          <h2 class="text-amber-300 text-xl font-bold ">Your Purged Traits</h2>
-        </div>
+
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
-              <th
-                @click="toggleColumnSorted('color')"
-                :class="{ 'text-amber-300': columnStatus.color }"
-                class="sticky top-0 z-10 border-b-2 border-amber-300"
-              >
-                <button class="font-bold">Color</button>
+              <th 
+              colspan = "2"
+              class="text-center">
+                <h2 class="text-cyan-400 text-l font-bold ">Your Purged Traits</h2>
               </th>
-              <th
-                @click="toggleColumnSorted('shape')"
-                :class="{ 'text-amber-300': columnStatus.shape }"
-                class="sticky top-0 z-10 border-b-2 border-amber-300"
-              >
-                <button class="font-bold">Symbol</button>
-              </th>
+            <th>
+            </th>
 
               <th
                 colspan="2"
@@ -121,12 +112,12 @@ function toggleColumnSorted(column) {
                   top-0
                   z-10
                   border-b-2 border-amber-300
-                  text-right
+                  text-center
                   pr-2
                 "
               >
-                <button class="font-bold">Prize</button
-                >&#160;&#160;&#160;&#160;&#160;&#160;
+                <button class="font-bold">Prize Value</button
+                >
               </th>
             </tr>
           </thead>
@@ -158,11 +149,11 @@ function toggleColumnSorted(column) {
 
 <style scoped>
 .responsive-height {
-  height: 94%;
+  height: 96%;
 }
 @media screen and (max-height: 800px) {
   .responsive-height {
-    height: 90%;
+    height: 94%;
   }
 }
 @media screen and (max-height: 600px) {
