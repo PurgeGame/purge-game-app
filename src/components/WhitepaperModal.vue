@@ -40,12 +40,12 @@ const emit = defineEmits(["closeModal"]);
   <body class="bg-gradient-to-r from-black via-red-900 to-black font-sans text-zinc-300">
     <div class="sticky top-0 left-0 w-full h-12 bg-gradient-to-b from-zinc-900 to-zinc-700 shadow shadow-zinc-600">
       <div class="float-left h-12 p-2 ml-3">
-        <a href="https://purge.game"><img src="../../public/img/smallbanner.png" class="h-full p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500"/></a>
+        <a href="https://purge.game"><img src="/img/smallbanner.png" class="h-full p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500"/></a>
       </div>
       <div class="float-right h-10 my-1 mr-5">
           
-        <a href="https://discord.com/invite/em98KKUfhq"><img src="../../public/img/discord.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Discord logo" /></a>
-        <a href="https://twitter.com/purge_game"><img src="../../public/img/twitter.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Twitter logo" /></a>
+        <a href="https://discord.com/invite/em98KKUfhq"><img src="/img/discord.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Discord logo" /></a>
+        <a href="https://twitter.com/purge_game"><img src="/img/twitter.png" class="inline h-full mx-1 p-1 rounded-md hover:bg-zinc-600 hover:ring-2 ring-amber-500" alt="Twitter logo" /></a>
       </div>
           <button
       @click="$emit('closeModal')"
@@ -64,93 +64,93 @@ const emit = defineEmits(["closeModal"]);
       Close
     </button>
     </div>
-    <div class="fixed top-12 left-0 w-full -z-10 p-5 grid grid-cols-5 gap-3 md:gap-5
-                lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10">
+    <div  class="fixed top-12 left-0 w-full -z-10 p-5 grid grid-cols-5 gap-3 md:gap-5
+                lg:grid-cols-8 lg:gap-7 2xl:grid-cols-10 2xl:gap-10" style = 'filter: brightness(60%)'>
       <!-- Background cards. Yeah this is ugly. DRY = Definitely Repeat Yourself imo -->
-      <div class="group35"><img src="../../public/img/transparent/blue_spade_transparent.png"/></div>
-      <div class="group62"><img src="../../public/img/transparent/red_3_transparent.png"/></div>
-      <div class="group16"><img src="../../public/img/transparent/purple_5_transparent.png"></div>
-      <div class="group71"><img src="../../public/img/transparent/brown_heart_transparent.png"></div>
-      <div class="group39"><img src="../../public/img/transparent/orange_monero_transparent.png"></div>
-      <div class="group41"><img src="../../public/img/transparent/purple_horseshoe_transparent.png"></div>
-      <div class="group19"><img src="../../public/img/transparent/red_dogecoin_transparent.png"></div>
-      <div class="group15"><img src="../../public/img/transparent/pink_2_transparent.png"></div>
-      <div class="group24"><img src="../../public/img/transparent/orange_club_transparent.png"></div>
-      <div class="group26"><img src="../../public/img/transparent/purple_chip_transparent.png"></div>
-      <div class=""><img src="../../public/img/transparent/green_cashsack_transparent.png"></div>
-      <div class="group17"><img src="../../public/img/transparent/pink_spade_transparent.png"></div>
-      <div class="group54"><img src="../../public/img/transparent/gold_club_transparent.png"></div>
-      <div class="group76"><img src="../../public/img/transparent/orange_4_transparent.png"></div>
-      <div class="group12"><img src="../../public/img/transparent/green_dogecoin_transparent.png"></div>
-      <div class="group55"><img src="../../public/img/transparent/gold_u_transparent.png"></div>
-      <div class="group11"><img src="../../public/img/transparent/green_6_transparent.png"></div>
-      <div class="group14"><img src="../../public/img/transparent/orange_monero_transparent.png"></div>
-      <div class="group56"><img src="../../public/img/transparent/brown_r_transparent.png"></div>
-      <div class="group14"><img src="../../public/img/transparent/blue_ethereum_transparent.png"></div>
-      <div class="group61"><img src="../../public/img/transparent/gold_p_transparent.png"></div>
-      <div class="group32"><img src="../../public/img/transparent/brown_u_transparent.png"></div>
-      <div class="group74"><img src="../../public/img/transparent/red_r_transparent.png"></div>
-      <div class="group26"><img src="../../public/img/transparent/orange_g_transparent.png"></div>
-      <div class="group17"><img src="../../public/img/transparent/blue_e_transparent.png"></div>
-      <div class="group65"><img src="../../public/img/transparent/purple_ethereum_transparent.png"></div>
-      <div class="group31"><img src="../../public/img/transparent/green_g_transparent.png"></div>
-      <div class="group46"><img src="../../public/img/transparent/pink_a_transparent.png"></div>
-      <div class="group12"><img src="../../public/img/transparent/brown_m_transparent.png"></div>
-      <div class="group22"><img src="../../public/img/transparent/red_e_transparent.png"></div>
-      <div class="group19"><img src="../../public/img/transparent/purple_8_transparent.png"></div>
-      <div class="group51"><img src="../../public/img/transparent/pink_1_transparent.png"></div>
-      <div class="group53"><img src="../../public/img/transparent/red_bitcoin_transparent.png"></div>
-      <div class="group68"><img src="../../public/img/transparent/blue_degen_transparent.png"></div>
-      <div class="group19"><img src="../../public/img/transparent/brown_2_transparent.png"></div>
-      <div class="group72"><img src="../../public/img/transparent/purple_horseshoe_transparent.png"></div>
-      <div class="group34"><img src="../../public/img/transparent/brown_7_transparent.png"></div>
-      <div class="group46"><img src="../../public/img/transparent/blue_diamond_transparent.png"></div>
-      <div class="group13"><img src="../../public/img/transparent/blue_3_transparent.png"></div>
-      <div class="group32"><img src="../../public/img/transparent/green_cardano_transparent.png"></div>
-      <div class="group21"><img src="../../public/img/transparent/red_heart_transparent.png"></div>
-      <div class="group29"><img src="../../public/img/transparent/purple_cashsack_transparent.png"></div>
-      <div class="group62"><img src="../../public/img/transparent/blue_dogecoin_transparent.png"></div>
-      <div class="group13"><img src="../../public/img/transparent/pink_dogecoin_transparent.png"></div>
-      <div class="group54"><img src="../../public/img/transparent/pink_ethereum_transparent.png"></div>
-      <div class="group75"><img src="../../public/img/transparent/orange_litecoin_transparent.png"></div>
-      <div class="group16"><img src="../../public/img/transparent/brown_solana_transparent.png"></div>
-      <div class="group67"><img src="../../public/img/transparent/purple_e_transparent.png"></div>
-      <div class="group18"><img src="../../public/img/transparent/gold_degen_transparent.png"></div>
-      <div class="group49"><img src="../../public/img/transparent/orange_bitcoin_transparent.png"></div>
-      <div class="group50"><img src="../../public/img/transparent/pink_chip_transparent.png"></div>
-      <div class="group40"><img src="../../public/img/transparent/blue_dogecoin_transparent.png"></div>
-      <div class="group10"><img src="../../public/img/transparent/pink_dogecoin_transparent.png"></div>
-      <div class="group30"><img src="../../public/img/transparent/purple_8_transparent.png"></div>
-      <div class="group70"><img src="../../public/img/transparent/brown_m_transparent.png"></div>
-      <div class="group20"><img src="../../public/img/transparent/blue_2_transparent.png"></div>
-      <div class="group10"><img src="../../public/img/transparent/brown_solana_transparent.png"></div>
-      <div class="group60"><img src="../../public/img/transparent/orange_solana_transparent.png"></div>
-      <div class="group30"><img src="../../public/img/transparent/purple_cherries_transparent.png"></div>
-      <div class="group41"><img src="../../public/img/transparent/orange_monero_transparent.png"></div>
-      <div class="group12"><img src="../../public/img/transparent/orange_litecoin_transparent.png"></div>
-      <div class="group23"><img src="../../public/img/transparent/purple_5_transparent.png"></div>
-      <div class="group14"><img src="../../public/img/transparent/gold_solana_transparent.png"></div>
-      <div class="group55"><img src="../../public/img/transparent/blue_degen_transparent.png"></div>
-      <div class="group18"><img src="../../public/img/transparent/green_dogecoin_transparent.png"></div>
-      <div class="group49"><img src="../../public/img/transparent/brown_club_transparent.png"></div>
-      <div class="group55"><img src="../../public/img/transparent/orange_cashsack_transparent.png"></div>
-      <div class="group44"><img src="../../public/img/transparent/brown_6_transparent.png"></div>
-      <div class="group22"><img src="../../public/img/transparent/green_4_transparent.png"></div>
-      <div class="group35"><img src="../../public/img/transparent/pink_cherries_transparent.png"></div>
-      <div class="group71"><img src="../../public/img/transparent/orange_p_transparent.png"></div>
-      <div class="group27"><img src="../../public/img/transparent/brown_m_transparent.png"></div>
-      <div class="group19"><img src="../../public/img/transparent/green_e_transparent.png"></div>
-      <div class="group61"><img src="../../public/img/transparent/blue_e_transparent.png"></div>
-      <div class="group34"><img src="../../public/img/transparent/brown_bitcoin_transparent.png"></div>
-      <div class="group41"><img src="../../public/img/transparent/brown_m_transparent.png"></div>
-      <div class="group25"><img src="../../public/img/transparent/pink_solana_transparent.png"></div>
-      <div class="group33"><img src="../../public/img/transparent/blue_solana_transparent.png"></div>
-      <div class="group64"><img src="../../public/img/transparent/green_4_transparent.png"></div>
-      <div class="group54"><img src="../../public/img/transparent/green_cherries_transparent.png"></div>
+      <div class="group35"><img src="/img/transparent/blue_spade_transparent.png" /></div>
+      <div class="group62"><img src="/img/transparent/red_3_transparent.png"/></div>
+      <div class="group16"><img src="/img/transparent/purple_5_transparent.png"></div>
+      <div class="group71"><img src="/img/transparent/brown_heart_transparent.png"></div>
+      <div class="group39"><img src="/img/transparent/orange_monero_transparent.png"></div>
+      <div class="group41"><img src="/img/transparent/purple_horseshoe_transparent.png"></div>
+      <div class="group19"><img src="/img/transparent/red_dogecoin_transparent.png"></div>
+      <div class="group15"><img src="/img/transparent/pink_2_transparent.png"></div>
+      <div class="group24"><img src="/img/transparent/orange_club_transparent.png"></div>
+      <div class="group26"><img src="/img/transparent/purple_chip_transparent.png"></div>
+      <div class=""><img src="/img/transparent/green_cashsack_transparent.png"></div>
+      <div class="group17"><img src="/img/transparent/pink_spade_transparent.png"></div>
+      <div class="group54"><img src="/img/transparent/gold_club_transparent.png"></div>
+      <div class="group76"><img src="/img/transparent/orange_4_transparent.png"></div>
+      <div class="group12"><img src="/img/transparent/green_dogecoin_transparent.png"></div>
+      <div class="group55"><img src="/img/transparent/gold_u_transparent.png"></div>
+      <div class="group11"><img src="/img/transparent/green_6_transparent.png"></div>
+      <div class="group14"><img src="/img/transparent/orange_monero_transparent.png"></div>
+      <div class="group56"><img src="/img/transparent/brown_r_transparent.png"></div>
+      <div class="group14"><img src="/img/transparent/blue_ethereum_transparent.png"></div>
+      <div class="group61"><img src="/img/transparent/gold_p_transparent.png"></div>
+      <div class="group32"><img src="/img/transparent/brown_u_transparent.png"></div>
+      <div class="group74"><img src="/img/transparent/red_r_transparent.png"></div>
+      <div class="group26"><img src="/img/transparent/orange_g_transparent.png"></div>
+      <div class="group17"><img src="/img/transparent/blue_e_transparent.png"></div>
+      <div class="group65"><img src="/img/transparent/purple_ethereum_transparent.png"></div>
+      <div class="group31"><img src="/img/transparent/green_g_transparent.png"></div>
+      <div class="group46"><img src="/img/transparent/pink_a_transparent.png"></div>
+      <div class="group12"><img src="/img/transparent/brown_m_transparent.png"></div>
+      <div class="group22"><img src="/img/transparent/red_e_transparent.png"></div>
+      <div class="group19"><img src="/img/transparent/purple_8_transparent.png"></div>
+      <div class="group51"><img src="/img/transparent/pink_1_transparent.png"></div>
+      <div class="group53"><img src="/img/transparent/red_bitcoin_transparent.png"></div>
+      <div class="group68"><img src="/img/transparent/blue_degen_transparent.png"></div>
+      <div class="group19"><img src="/img/transparent/brown_2_transparent.png"></div>
+      <div class="group72"><img src="/img/transparent/purple_horseshoe_transparent.png"></div>
+      <div class="group34"><img src="/img/transparent/brown_7_transparent.png"></div>
+      <div class="group46"><img src="/img/transparent/blue_diamond_transparent.png"></div>
+      <div class="group13"><img src="/img/transparent/blue_3_transparent.png"></div>
+      <div class="group32"><img src="/img/transparent/green_cardano_transparent.png"></div>
+      <div class="group21"><img src="/img/transparent/red_heart_transparent.png"></div>
+      <div class="group29"><img src="/img/transparent/purple_cashsack_transparent.png"></div>
+      <div class="group62"><img src="/img/transparent/blue_dogecoin_transparent.png"></div>
+      <div class="group13"><img src="/img/transparent/green_monero_transparent.png"></div>
+      <div class="group54"><img src="/img/transparent/pink_ethereum_transparent.png"></div>
+      <div class="group75"><img src="/img/transparent/orange_litecoin_transparent.png"></div>
+      <div class="group16"><img src="/img/transparent/brown_solana_transparent.png"></div>
+      <div class="group67"><img src="/img/transparent/purple_e_transparent.png"></div>
+      <div class="group18"><img src="/img/transparent/gold_degen_transparent.png"></div>
+      <div class="group49"><img src="/img/transparent/orange_bitcoin_transparent.png"></div>
+      <div class="group50"><img src="/img/transparent/pink_chip_transparent.png"></div>
+      <div class="group40"><img src="/img/transparent/blue_dogecoin_transparent.png"></div>
+      <div class="group10"><img src="/img/transparent/green_monero_transparent.png"></div>
+      <div class="group30"><img src="/img/transparent/purple_8_transparent.png"></div>
+      <div class="group70"><img src="/img/transparent/brown_m_transparent.png"></div>
+      <div class="group20"><img src="/img/transparent/blue_2_transparent.png"></div>
+      <div class="group10"><img src="/img/transparent/brown_solana_transparent.png"></div>
+      <div class="group60"><img src="/img/transparent/orange_solana_transparent.png"></div>
+      <div class="group30"><img src="/img/transparent/purple_cherries_transparent.png"></div>
+      <div class="group41"><img src="/img/transparent/orange_monero_transparent.png"></div>
+      <div class="group12"><img src="/img/transparent/orange_litecoin_transparent.png"></div>
+      <div class="group23"><img src="/img/transparent/purple_5_transparent.png"></div>
+      <div class="group14"><img src="/img/transparent/gold_solana_transparent.png"></div>
+      <div class="group55"><img src="/img/transparent/blue_degen_transparent.png"></div>
+      <div class="group18"><img src="/img/transparent/green_dogecoin_transparent.png"></div>
+      <div class="group49"><img src="/img/transparent/brown_club_transparent.png"></div>
+      <div class="group55"><img src="/img/transparent/orange_cashsack_transparent.png"></div>
+      <div class="group44"><img src="/img/transparent/brown_6_transparent.png"></div>
+      <div class="group22"><img src="/img/transparent/green_4_transparent.png"></div>
+      <div class="group35"><img src="/img/transparent/pink_cherries_transparent.png"></div>
+      <div class="group71"><img src="/img/transparent/orange_p_transparent.png"></div>
+      <div class="group27"><img src="/img/transparent/brown_m_transparent.png"></div>
+      <div class="group19"><img src="/img/transparent/green_e_transparent.png"></div>
+      <div class="group61"><img src="/img/transparent/blue_e_transparent.png"></div>
+      <div class="group34"><img src="/img/transparent/brown_bitcoin_transparent.png"></div>
+      <div class="group41"><img src="/img/transparent/brown_m_transparent.png"></div>
+      <div class="group25"><img src="/img/transparent/pink_solana_transparent.png"></div>
+      <div class="group33"><img src="/img/transparent/blue_solana_transparent.png"></div>
+      <div class="group64"><img src="/img/transparent/green_4_transparent.png"></div>
+      <div class="group54"><img src="/img/transparent/green_cherries_transparent.png"></div>
     </div>
     <div class="w-11/12 lg:w-9/12 2xl:w-4/16 max-w-5xl mx-auto mt-8">
 	<section class="max-w-60 mx-auto p-3 bg-black bg-opacity-93 rounded-lg border-4 border-green-800 space-y-4 text-lg">
-      <img src="../../public/img/nobullshit_dkbg.png" class="max-full mx-auto p-3" alt="Purge Game logo" fetchpriority="high"/> 
+      <img src="/img/nobullshit_dkbg.png" class="max-full mx-auto p-3" alt="Purge Game logo" fetchpriority="high"/> 
 	 </section>
     </div>
     <main class="w-11/12 lg:w-9/12 2xl:w-4/16 mx-auto mt-12 space-y-24">
@@ -219,7 +219,7 @@ const emit = defineEmits(["closeModal"]);
           <h2 class="text-3xl font-black grid place-items-center">Example Game Piece</h2>
           <p>All Purge Game NFTs have a trait in each quadrant of the game piece.</p>
           <p></p>
-          <img src="../../public/img/example.png" class="max-full mx-auto p-3" alt="Example Token" /> 
+          <img src="/img/example.png" class="max-full mx-auto p-3" alt="Example Token" /> 
           <div class="w-4/5 mx-auto text-lg">
             <p><b>This NFT has these traits:</b></p>
             <ul class="list-disc list-inside text-base">
@@ -312,7 +312,7 @@ const emit = defineEmits(["closeModal"]);
             </table>
             <div class="col-span-3">
               <h3 class="mt-4 mb-8 text-xl font-bold grid place-items-center">Winning Trait</h3>
-              <img src="../../public/img/example2.png" class="max-full mx-auto p-3" alt="Example Winning Trait" /> 
+              <img src="/img/example2.png" class="max-full mx-auto p-3" alt="Example Winning Trait" /> 
             </div>
           </div>
           <p class="pt-8">In In this example, there were 6969 actual tokens 
