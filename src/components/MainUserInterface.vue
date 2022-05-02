@@ -9,6 +9,7 @@ import UserInterfaceRight from "./UserInterfaceRight.vue";
 import TokenDisplay from "./TokenDisplay.vue";
 import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
+import WhitepaperModal from "./WhitepaperModal.vue";
 import LeftMint from "./LeftMint.vue";
 import RightMint from "./RightMint.vue";
 
@@ -18,6 +19,7 @@ const filterString = ref("");
 const showMenu = ref(false);
 const showAboutReferrals = ref(false);
 const showLeaderboard = ref(false);
+const showWhitepaper = ref(false);
 const middleColumn = ref(null);
 const discord = ref(null);
 
@@ -96,15 +98,18 @@ onMounted(() => {
   middleColumn.value.scrollIntoView({ inline: "start" });
   // Do referral and cookie stuff (incomplete)
   const params = new URLSearchParams(document.location.search);
-  const urlParams = params.get("ref");
-  if (urlParams) {
-    document.cookie = "ref=" +urlParams +"; expires=Sun, 1 Jan 2023 12:00:00 UTC"
-    referralCode.value = urlParams;
+  const urlParamsRef = params.get("ref");
+  if (urlParamsRef) {
+    document.cookie = "ref=" +urlParamsRef +"; expires=Sun, 1 Jan 2023 12:00:00 UTC"
+    referralCode.value = urlParamsRef;
   }
   else{
     referralCode.value = getCookie('ref')
   }
-});
+  if (params.get("whitepaper") == 1){
+    showWhitepaper.value = true
+  }
+ });
 </script>
 
 
@@ -495,5 +500,21 @@ onMounted(() => {
     "
   >
     <LeaderboardModal @close-modal="showLeaderboard = false" />
+  </div>
+
+    <div
+    v-if="showWhitepaper"
+    class="
+      absolute
+      top-0
+      left-0
+      z-50
+      w-full
+      h-full
+      overflow-y-scroll
+      bg-zinc-700 bg-opacity-80
+    "
+  >
+    <WhitepaperModal @close-modal="showWhitepaper = false" />
   </div>
 </template>
