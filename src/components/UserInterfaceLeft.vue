@@ -61,7 +61,7 @@ const sortedTraits = computed(() => {
 });
 
 function buyNow(trait) {
-    window.open(traitOSURL(trait));
+  window.open(traitOSURL(trait));
 }
 
 function toggleColumnSorted(column) {
@@ -119,20 +119,18 @@ function traitOSURL(trait) {
         mt-4
         p-1
         flex
-        h-[94%]
+        responsive-height
         overflow-hidden
         bg-black
         border-2 border-green-800
         rounded-lg
       "
     >
-
       <div class="grow overflow-auto px-1">
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
               <th
-                
                 :class="{ 'text-amber-300': columnStatus.color }"
                 class="sticky top-0 z-10 border-b-2 border-amber-300"
               >
@@ -180,12 +178,17 @@ function traitOSURL(trait) {
               <td class="border-t-2 border-amber-300 text-center">
                 <button
                   @click="buyNow(trait)"
-                  class="mr-2 p-1 bg-os-1 border-sky-900 rounded font-bold text-white"
+                  class="
+                    mr-2
+                    p-1
+                    bg-os-1
+                    border-sky-900
+                    rounded
+                    font-bold
+                    text-white
+                  "
                 >
-                  <img 
-                    :src='`/oslogo.png`'
-                    style = width:25px;max-height:100vw;display:inline
-                  >
+                  <img :src="`/oslogo.png`" class="inline w-[25px]" />
                   Buy
                 </button>
               </td>
@@ -195,9 +198,8 @@ function traitOSURL(trait) {
               <td class="border-t-2 border-amber-300 text-center">
                 <img
                   :src="trait.thumbnail"
-                  :title="trait.color +' ' + trait.shape"
-                  style="max-height:100vw;width:40px"
-                  class="inline w-1/2 max-w-xs py-1"
+                  :title="trait.color + ' ' + trait.shape"
+                  class="inline w-1/2 w-[40px] py-1"
                 />
               </td>
               <!-- Optional 'total' column -->
@@ -214,3 +216,19 @@ function traitOSURL(trait) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.responsive-height {
+  height: 94%;
+}
+@media screen and (max-height: 800px) {
+  .responsive-height {
+    height: 90%;
+  }
+}
+@media screen and (max-height: 600px) {
+  .responsive-height {
+    height: 85%;
+  }
+}
+</style>

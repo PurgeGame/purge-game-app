@@ -83,7 +83,7 @@ function toggleColumnSorted(column) {
         mt-4
         p-1
         flex
-        h-[94%]
+        responsive-height
         overflow-hidden
         bg-black
         border-2 border-red-700
@@ -122,7 +122,8 @@ function toggleColumnSorted(column) {
                   pr-2
                 "
               >
-                <button class="font-bold">Prize</button>&#160;&#160;&#160;&#160;&#160;&#160;
+                <button class="font-bold">Prize</button
+                >&#160;&#160;&#160;&#160;&#160;&#160;
               </th>
             </tr>
           </thead>
@@ -137,9 +138,8 @@ function toggleColumnSorted(column) {
               <td class="border-t-2 border-amber-300 text-center">
                 <img
                   :src="trait.thumbnail"
-                  :title="trait.color +' ' + trait.shape"
-                  style="max-height:100vw;width:40px"
-                  class="inline w-1/2 max-w-xs py-1"
+                  :title="trait.color + ' ' + trait.shape"
+                  class="inline w-1/2 w-[40px] py-1"
                 />
               </td>
               <td class="border-t-2 border-amber-300 text-center pr-4">
@@ -152,3 +152,19 @@ function toggleColumnSorted(column) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.responsive-height {
+  height: 94%;
+}
+@media screen and (max-height: 800px) {
+  .responsive-height {
+    height: 90%;
+  }
+}
+@media screen and (max-height: 600px) {
+  .responsive-height {
+    height: 85%;
+  }
+}
+</style>
