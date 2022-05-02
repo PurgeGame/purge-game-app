@@ -1,5 +1,7 @@
+<!-- This whole component is hideous and hard to understand and needs help -->
+
 <script setup>
-import { ref, reactive, watch, computed, onMounted } from "vue";
+import { ref, reactive, watch, computed,onMounted } from "vue";
 import {
   wallet,
   contractaddress,
@@ -8,7 +10,7 @@ import {
   purgeArray,
   bombTokenId,
   purgeIDs,
-  state,
+  state
 } from "../store.js";
 import ConfirmationModal from "./ConfirmationModal.vue";
 import BombModal from "./BombModal.vue";
@@ -27,6 +29,8 @@ const showPurgedTokens = ref(0);
 
 // const purgedTokens = reactive({});
 // watch(purgedTokenData, () => (purgedTokens.value = purgedTokenData.value));
+
+
 
 function thumbnailUrl(traitname) {
   const str = traitname.toLowerCase().split(" ");
@@ -100,11 +104,19 @@ const filteredTokens = computed(() => {
       for (let trait of token.traitnames) {
         let color = trait.toLowerCase().split(" ")[0];
         let shape = trait.toLowerCase().split(" ")[1];
-        if (
-          (typeof wordArray[1] == "undefined" &&
-            color.includes(wordArray[0])) ||
-          shape.includes(wordArray[0])
+        if(
+          typeof wordArray[1] == "undefined" &&
+          wordArray[0].length == 1 && 
+          letters.includes(wordArray[0]) &&
+          shape.toLowerCase() === wordArray[0]
         ) {
+          filteredList.add(token);
+        } else if (
+          (typeof wordArray[1] == "undefined" &&
+          (wordArray[0].length > 1 || !letters.includes(wordArray[0])) &&
+          (color.toLowerCase().includes(wordArray[0]) ||
+          shape.toLowerCase().includes(wordArray[0])))
+      ) {
           filteredList.add(token);
         } else if (
           typeof wordArray[1] !== "undefined" &&
@@ -138,11 +150,19 @@ const filteredTokensPurged = computed(() => {
       for (let trait of token.traitnames) {
         let color = trait.toLowerCase().split(" ")[0];
         let shape = trait.toLowerCase().split(" ")[1];
-        if (
-          (typeof wordArray[1] == "undefined" &&
-            color.includes(wordArray[0])) ||
-          shape.includes(wordArray[0])
+        if(
+          typeof wordArray[1] == "undefined" &&
+          wordArray[0].length == 1 && 
+          letters.includes(wordArray[0]) &&
+          shape.toLowerCase() === wordArray[0]
         ) {
+          filteredList.add(token);
+        } else if (
+          (typeof wordArray[1] == "undefined" &&
+          (wordArray[0].length > 1 || !letters.includes(wordArray[0])) &&
+          (color.toLowerCase().includes(wordArray[0]) ||
+          shape.toLowerCase().includes(wordArray[0])))
+      ) {
           filteredList.add(token);
         } else if (
           typeof wordArray[1] !== "undefined" &&
@@ -169,17 +189,15 @@ const filteredTokensPurged = computed(() => {
 onMounted(() => {
   // Load API data, todo: something with error
   const { error } = useApiGrab(wallet.checksumAddress());
-});
-setInterval(function () {
-  const { error } = useApiGrab(wallet.checksumAddress());
-}, 30000);
+})
+  setInterval(function(){const { error } = useApiGrab(wallet.checksumAddress())}, 30000);
 </script>
 
 <template>
   <div class="relative h-full">
     <!-- ---------- OWNED TOKENS ---------- -->
     <div v-if="showPurgedTokens == 0" class="h-full pt-2 px-4 md:px-2 lg:px-0">
-      <div class="bg-black border-x-2 border-t-2 border-green-800">
+      <div class="bg-black border-x-2 border-t-2 border-green-800 ">
         <div class="inline-block p-2 w-1/2 text-xl text-center text-amber-300">
           Owned Tokens
         </div>
@@ -200,7 +218,7 @@ setInterval(function () {
         class="
           p-2
           flex
-          owned-height
+          h-[75%]
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-green-800
@@ -233,11 +251,11 @@ setInterval(function () {
                   cursor-pointer
                 "
               >
-                <img
-                  :src="`/fireoverlay.png`"
-                  class="w-1/3"
-                  :title="'Token #' + token.tokenId"
-                />
+              <img 
+                    :src='`/fireoverlay.png`'
+                    style = width:35%;max-height:100vw
+                    :title="'Token #' + token.tokenId"
+                  >
                 <!-- <div class="text-6xl">🔥</div> -->
               </div>
             </div>
@@ -323,7 +341,7 @@ setInterval(function () {
         class="
           p-2
           flex
-          purged-height
+          h-[85%]
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-red-700
@@ -335,10 +353,9 @@ setInterval(function () {
             class="inline-block w-1/3 my-0 p-1"
           >
             <div class="relative grid place-items-center">
-              <img
+              <img  
                 :src="tokenImage(token.tokenId)"
-                :title="'Token #' + token.tokenId"
-              />
+                :title="'Token #' + token.tokenId" />
             </div>
           </div>
         </div>
@@ -401,34 +418,3 @@ setInterval(function () {
     <GGModal />
     </div> -->
 </template>
-
-<style scoped>
-.owned-height {
-  height: 81%;
-}
-@media screen and (max-height: 810px) {
-  .owned-height {
-    height: 75%;
-  }
-}
-@media screen and (max-height: 640px) {
-  .owned-height {
-    height: 67%;
-  }
-}
-
-.purged-height {
-  height: 87%;
-}
-@media screen and (max-height: 800px) {
-  .purged-height {
-    height: 84%;
-  }
-}
-@media screen and (max-height: 650px) {
-  .purged-height {
-    height: 78%;
-  }
-}
-</style>
->>>>>>> Stashed changes
