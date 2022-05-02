@@ -28,7 +28,7 @@ async function createReferralCode() {
       bg-gradient-to-br
       from-zinc-800
       to-zinc-900
-      text-lg text-white
+      text-white
     "
   >
     <button
@@ -42,6 +42,7 @@ async function createReferralCode() {
         rounded
         text-amber-300
         font-bold
+        text-l
         hover:ring-1 hover:ring-amber-300
       "
     >
@@ -52,7 +53,8 @@ async function createReferralCode() {
       In addition to the massive prizes available to Purge Game winners, there is another way to earn big money. 
       Sign up for the refer-a-friend program and for each token minted with your referral code, you immediately  
       recieve 5% of a free mint in $PURGED. On top of that, the top 10 referrers will split a bonus equal to 10% 
-      of the total prize pool (and this comes out of my money, not the actual prize pool!) The referal leaderboard 
+      of the total prize pool (and this comes out of my money, not the actual prize pool!) </p>
+      <p>The referal leaderboard 
       will be paid out pre-reveal, Purge Game is dedicated to ensuring winners do not have to wait for their money.
     </p>
 
@@ -87,7 +89,7 @@ async function createReferralCode() {
 
     <p class="my-4">
       3. On mint day, there will be a field to enter a referral code. Each token minted (or Mint and Purged)
-      with your code will credit you with 50 $PURGED. Use 1000 of this ERC-20 coin to mint a Purge Game token!
+      with your code will credit you with 50 $PURGED. Use 1000 of this ERC20 coin to mint a Purge Game token!
     </p>
 
     <p class="my-4">
@@ -96,5 +98,16 @@ async function createReferralCode() {
       If you registered multiple referral codes, you can view which were more effective.
 
     </p>
+     <div class="text-xs">
+      <p>Referral codes are case sensitive.</p>
+      <p>If your referrals delete their cookies between the time you link them to the website and mint, the pre-set code will be empty.  
+      You may want to remind your referrals to enter the code manually on mint day.</p>
+      <p>Mint and Purge with $PURGED will be available from the start of mint. Minting actual tokens with $PURGED will become available 
+      at the end of the public minting period.</p>
+      <p>If your advertising methods are egregiously damaging to the Purge Game brand (for example, associating it with racist imagery)
+      you risk forfeiting your leaderboard prize.</p>
+      <p></p>
+    </div>
   </div>
+     
 </template>
