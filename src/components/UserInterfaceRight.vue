@@ -20,36 +20,38 @@ const filteredTraits = computed(() => {
 
   if (traitData.value) {
     Object.values(traitData.value).forEach((trait) => {
-      if(
-        typeof wordArray[1] == "undefined" &&
-        wordArray[0].length == 1 && 
-        letters.includes(wordArray[0]) &&
-        trait.shape.toLowerCase() === wordArray[0]
-      ) {
-        filteredList.push(trait);
-      } else if (
-        (typeof wordArray[1] == "undefined" &&
-        (wordArray[0].length > 1 || !letters.includes(wordArray[0])) &&
-        (trait.color.toLowerCase().includes(wordArray[0]) ||
-        trait.shape.toLowerCase().includes(wordArray[0])))
-      ) {
-        filteredList.push(trait);
-      } else if (
-        typeof wordArray[1] !== "undefined" &&
-        wordArray[1].length == 1 &&
-        letters.includes(wordArray[1]) &&
-        trait.shape.toLowerCase() === wordArray[1] &&
-        trait.color.toLowerCase().includes(wordArray[0])
-      ) {
-        filteredList.push(trait);
-      } else if (
-        typeof wordArray[1] !== "undefined" &&
-        (wordArray[1].length > 1 || !letters.includes(wordArray[1])) &&
-        trait.shape.toLowerCase().includes(wordArray[1]) &&
-        trait.color.toLowerCase().includes(wordArray[0])
-      ) {
-        filteredList.push(trait);
-      }
+      if (trait.purgedByAddress > 0){
+        if(
+          typeof wordArray[1] == "undefined" &&
+          wordArray[0].length == 1 && 
+          letters.includes(wordArray[0]) &&
+          trait.shape.toLowerCase() === wordArray[0]
+        ) {
+          filteredList.push(trait);
+        } else if (
+          (typeof wordArray[1] == "undefined" &&
+          (wordArray[0].length > 1 || !letters.includes(wordArray[0])) &&
+          (trait.color.toLowerCase().includes(wordArray[0]) ||
+          trait.shape.toLowerCase().includes(wordArray[0])))
+        ) {
+          filteredList.push(trait);
+        } else if (
+          typeof wordArray[1] !== "undefined" &&
+          wordArray[1].length == 1 &&
+          letters.includes(wordArray[1]) &&
+          trait.shape.toLowerCase() === wordArray[1] &&
+          trait.color.toLowerCase().includes(wordArray[0])
+        ) {
+          filteredList.push(trait);
+        } else if (
+          typeof wordArray[1] !== "undefined" &&
+          (wordArray[1].length > 1 || !letters.includes(wordArray[1])) &&
+          trait.shape.toLowerCase().includes(wordArray[1]) &&
+          trait.color.toLowerCase().includes(wordArray[0])
+        ) {
+          filteredList.push(trait);
+        }
+    }
     });
   }
   return filteredList;
