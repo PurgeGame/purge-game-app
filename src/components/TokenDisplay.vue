@@ -218,7 +218,7 @@ onMounted(() => {
         class="
           p-2
           flex
-          h-[75%]
+          owned-height
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-green-800
@@ -341,7 +341,7 @@ onMounted(() => {
         class="
           p-2
           flex
-          h-[85%]
+          purged-height
           overflow-hidden
           bg-black
           border-x-2 border-b-2 border-red-700
