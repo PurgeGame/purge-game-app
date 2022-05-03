@@ -135,6 +135,7 @@ onMounted(() => {
   <div class="flex flex-col h-screen max-w-screen-2xl overscroll-none mx-auto">
     <div class="static mb-2 bg-black bg-opacity-50">
       <input
+        type = "search"
         v-if="state.reveal"
         v-model="filterString"
         placeholder="&#x1F50E;&#xFE0E; filter traits"
@@ -152,17 +153,7 @@ onMounted(() => {
           placeholder:font-normal placeholder:text-zinc-600
         "
       />
-      <button v-if="state.reveal"
-      @click="clearFilter()"
-      class="
-          border-2 border-red-900
-            m-0
-            px-2
-            py-0
-            bg-black
-      hover:text-amber-300 hover:ring-1 hover:ring-amber-300">
-        x
-      </button>
+
 
       <!-- Discord form on medium and large displays-->
       <div v-if="discordstatus.value == null" class="hidden md:inline-block">
@@ -207,6 +198,7 @@ onMounted(() => {
               w-2/5
               md:w-min
               px-1
+              ml-2
               bg-zinc-400
               border-2 border-red-900
               outline-none
@@ -257,6 +249,7 @@ onMounted(() => {
           bg-black
           rounded-md
           hover:text-amber-300 hover:ring-1 hover:ring-amber-300
+          hidden md:inline
         "
       >
         <img src="/metamask-fox.svg" class="h-[28px] hidden md:inline" />
@@ -375,7 +368,7 @@ onMounted(() => {
           class="
             w-3/5
             md:w-min
-            px-1
+            p-1
             bg-zinc-400
             border-2 border-red-900
             outline-none

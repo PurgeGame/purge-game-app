@@ -58,6 +58,14 @@ const filteredTraits = computed(() => {
   return filteredList;
 });
 
+function clickTrait(color,shape){
+  if (props.filterString == color + " " + shape){
+    emit('filter',"","")
+  }else{
+    emit('filter',color,shape)
+  }
+}
+
 const sortedTraits = computed(() => {
   if (traitData.value) {
     let traitsArray = filteredTraits.value;
@@ -104,13 +112,17 @@ function toggleColumnSorted(column) {
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
+
               <th 
               colspan = "2"
-              class="text-center">
-                <h2 class="text-cyan-400 text-l font-bold ">Your Purged Traits</h2>
+              class="text-center 
+              text-cyan-400 
+              font-bold 
+              border-b-2 
+              border-amber-300">
+                 Your Purged Traits
               </th>
-            <th>
-            </th>
+
 
               <th
                 colspan="2"
@@ -121,7 +133,7 @@ function toggleColumnSorted(column) {
                   top-0
                   z-10
                   border-b-2 border-amber-300
-                  text-center
+                  text-right
                   pr-2
                 "
               >
@@ -132,19 +144,19 @@ function toggleColumnSorted(column) {
           </thead>
           <tbody>
             <tr v-for="trait in sortedTraits">
-              <td class="border-t-2 border-amber-300 text-center">
-                {{ trait.color }}
+              <td class="border-t-2 border-amber-300 text-center text-red-500">
+                ({{ trait.purgedByAddress }})
               </td>
               <td class="border-t-2 border-amber-300 text-center">
-                {{ trait.shape }}
+                {{ trait.color }}&nbsp;{{ trait.shape }}
               </td>
               <td class="border-t-2 border-amber-300 text-center">
                  <button
-                  @click="$emit('filter',trait.color,trait.shape)">
+                  @click="clickTrait(trait.color,trait.shape)">
                   <img
                     :src="trait.thumbnail"
                     :title="trait.color + ' ' + trait.shape"
-                    class="inline w-[40px] py-1"
+                    class="inline min-w-[40px] w-[40px] py-1"
                   />
                 </button>
               </td>

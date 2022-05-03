@@ -71,7 +71,13 @@ const sortedTraits = computed(() => {
   }
 });
 
-
+function clickTrait(color,shape){
+  if (props.filterString == color + " " + shape){
+    emit('filter',"","")
+  }else{
+    emit('filter',color,shape)
+  }
+}
 
 function buyNow(trait) {
   window.open(traitOSURL(trait));
@@ -147,9 +153,9 @@ function traitOSURL(trait) {
         <table class="w-full">
           <thead class="sticky top-0 z-10 bg-black">
             <tr>
-                      <div class="text-center">
-          <h2 class="text-cyan-400 text-l font-bold">Trait Info</h2>
-            </div>
+              <th class="text-cyan-400 font-bold text-center  border-b-2 border-amber-300">
+                Trait Info
+              </th>
 
               <th
                 @click="toggleColumnSorted('floor')"
@@ -184,7 +190,7 @@ function traitOSURL(trait) {
                   pr-2
                 "
               >
-                <button class="font-bold">Remaining</button>
+                <button class="font-bold">Remaining &nbsp;&nbsp;</button>
               </th>
             </tr>
           </thead>
@@ -212,11 +218,11 @@ function traitOSURL(trait) {
               </td>
               <td class="border-t-2 border-amber-300 text-center">
                  <button
-                  @click="$emit('filter',trait.color,trait.shape)">
+                  @click="clickTrait(trait.color,trait.shape)">
                   <img
                     :src="trait.thumbnail"
                     :title="trait.color + ' ' + trait.shape"
-                    class="inline w-[40px] py-1"
+                    class="inline min-w-1/2 w-[40px] py-1"
                   />
                 </button>
               </td>
@@ -225,7 +231,7 @@ function traitOSURL(trait) {
                 {{ trait[1].total }}
               </td> -->
               <td class="border-t-2 border-amber-300 text-center pr-4">
-                {{ trait.remaining }}
+                {{ trait.remaining }} <div class="text-green-400 inline">({{trait.heldByAddress}})</div>
               </td>
             </tr>
           </tbody>
