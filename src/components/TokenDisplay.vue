@@ -418,3 +418,31 @@ onMounted(() => {
     <GGModal />
     </div> -->
 </template>
+<style scoped>
+.owned-height {
+  height: 81%;
+}
+@media screen and (max-height: 810px) {
+  .owned-height {
+    height: 75%;
+  }
+}
+@media screen and (max-height: 640px) {
+  .owned-height {
+    height: 67%;
+  }
+}
+.purged-height {
+  height: 87%;
+}
+@media screen and (max-height: 800px) {
+  .purged-height {
+    height: 84%;
+  }
+}
+@media screen and (max-height: 650px) {
+  .purged-height {
+    height: 78%;
+  }
+}
+</style>
