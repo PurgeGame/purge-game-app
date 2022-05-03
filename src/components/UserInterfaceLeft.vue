@@ -6,6 +6,7 @@ import { traitData, prizepool } from "../store.js";
 const props = defineProps(["filterString"]);
 const columnSorted = ref("remaining");
 const sortOrder = ref("asc");
+const emit = defineEmits(["filter"]);
 
 const columnStatus = reactive({
   floor: false,
@@ -69,6 +70,8 @@ const sortedTraits = computed(() => {
     return traitsArray;
   }
 });
+
+
 
 function buyNow(trait) {
   window.open(traitOSURL(trait));
@@ -208,11 +211,14 @@ function traitOSURL(trait) {
                 {{ trait.floor }}
               </td>
               <td class="border-t-2 border-amber-300 text-center">
-                <img
-                  :src="trait.thumbnail"
-                  :title="trait.color + ' ' + trait.shape"
-                  class="inline w-1/2 w-[40px] py-1"
-                />
+                 <button
+                  @click="$emit('filter',trait.color,trait.shape)">
+                  <img
+                    :src="trait.thumbnail"
+                    :title="trait.color + ' ' + trait.shape"
+                    class="inline w-[40px] py-1"
+                  />
+                </button>
               </td>
               <!-- Optional 'total' column -->
               <!-- <td class="border-t border-amber-300 text-center">

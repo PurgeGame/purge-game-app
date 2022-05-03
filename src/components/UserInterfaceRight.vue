@@ -5,6 +5,7 @@ import { traitData, prizepool } from "../store.js";
 const props = defineProps(["filterString"]);
 const columnSorted = ref("prize");
 const sortOrder = ref("desc");
+const emit = defineEmits(["filter"]);
 
 const columnStatus = reactive({
   shape: false,
@@ -138,11 +139,14 @@ function toggleColumnSorted(column) {
                 {{ trait.shape }}
               </td>
               <td class="border-t-2 border-amber-300 text-center">
-                <img
-                  :src="trait.thumbnail"
-                  :title="trait.color + ' ' + trait.shape"
-                  class="inline w-1/2 w-[40px] py-1"
-                />
+                 <button
+                  @click="$emit('filter',trait.color,trait.shape)">
+                  <img
+                    :src="trait.thumbnail"
+                    :title="trait.color + ' ' + trait.shape"
+                    class="inline w-[40px] py-1"
+                  />
+                </button>
               </td>
               <td class="border-t-2 border-amber-300 text-center pr-4">
                 {{ trait.prize }}

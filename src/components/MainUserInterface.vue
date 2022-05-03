@@ -44,6 +44,10 @@ const onClickReferral = () => {
   referralCode.value = typedReferralCode.value;
 };
 
+function clearFilter(){
+  filterString.value = ""
+}
+
 async function submitDiscord() {
   const discordID = discord.value.split("#");
   if (
@@ -87,6 +91,10 @@ function getCookie(cname) {
     }
   }
   return "";
+}
+
+function updateFilter(color,shape){
+  filterString.value = color + " " + shape
 }
 
 watchEffect(() => {
@@ -144,6 +152,17 @@ onMounted(() => {
           placeholder:font-normal placeholder:text-zinc-600
         "
       />
+      <button v-if="state.reveal"
+      @click="clearFilter()"
+      class="
+          border-2 border-red-900
+            m-0
+            px-2
+            py-0
+            bg-black
+      hover:text-amber-300 hover:ring-1 hover:ring-amber-300">
+        x
+      </button>
 
       <!-- Discord form on medium and large displays-->
       <div v-if="discordstatus.value == null" class="hidden md:inline-block">
@@ -309,7 +328,7 @@ onMounted(() => {
         "
       >
         <div class="snap-start snap-always h-full overflow-hidden">
-          <UserInterfaceLeft :filter-string="filterString" />
+          <UserInterfaceLeft :filter-string="filterString" @filter="updateFilter"/>
         </div>
         <div
           ref="middleColumn"
@@ -318,7 +337,7 @@ onMounted(() => {
           <TokenDisplay :filter-string="filterString" />
         </div>
         <div class="snap-end snap-always h-full overflow-auto">
-          <UserInterfaceRight :filter-string="filterString" />
+          <UserInterfaceRight :filter-string="filterString" @filter="updateFilter"/>
         </div>
       </div>
     </div>
