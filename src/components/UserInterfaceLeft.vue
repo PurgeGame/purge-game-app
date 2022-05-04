@@ -231,7 +231,7 @@ function traitOSURL(trait) {
                 {{ trait[1].total }}
               </td> -->
               <td class="border-t-2 border-amber-300 text-center pr-4">
-                {{ trait.remaining }} <div class="text-green-400 inline">({{trait.heldByAddress}})</div>
+                {{ trait.remaining }} <div v-if="trait.heldByAddress >0" class="text-green-400 inline">({{trait.heldByAddress}})</div>
               </td>
             </tr>
           </tbody>
