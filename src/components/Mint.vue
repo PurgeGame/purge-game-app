@@ -74,24 +74,18 @@ function mintButton(mintType) {
 
 async function mint(number, referrer) {
   const spend = BigInt(cost.value * number);
-  try{ let estimate = await contract.estimateGas.mint(number, referrer, {
+  let estimate = await contract.estimateGas.mint(number, referrer, {
     value: spend,
   });
-    } catch(error){
-      window.alert(error.error.message);
-    }
   estimate = BigInt(parseInt(estimate * 1.15));
   await contract.mint(number, referrer, { value: spend, gasLimit: estimate });
 }
 
 async function mintAndPurge(number, referrer) {
   const spend = BigInt(cost.value * number);
-  try{ let estimate = await contract.estimateGas.mintAndPurge(number, referrer, {
+  let estimate = await contract.estimateGas.mintAndPurge(number, referrer, {
     value: spend,
   });
-    } catch(error){
-      window.alert(error.error.message);
-    }
   estimate = BigInt(parseInt(estimate * 1.2));
   await contract.mintAndPurge(number, referrer, {
     value: spend,
@@ -158,19 +152,13 @@ function coinMintButton(mintType) {
 }
 
 async function coinMint(number) {
-  try{let estimate = await contract.estimateGas.coinMint(number);
-    } catch(error){
-      window.alert(error.error.message);
-    }
+  estimate = await contract.estimateGas.coinMint(number);
   estimate = BigInt(parseInt(estimate * 1.15));
   await contract.coinMint(number, { gasLimit: estimate });
 }
 
 async function coinMintAndPurge(number) {
-  try{let estimate = await contract.estimateGas.coinMintAndPurge(number);
-    } catch(error){
-      window.alert(error.error.message);
-    }
+  estimate = await contract.estimateGas.coinMintAndPurge(number);
   estimate = BigInt(parseInt(estimate * 1.2));
   await contract.coinMintAndPurge(number, { gasLimit: estimate });
 }
