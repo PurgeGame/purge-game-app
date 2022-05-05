@@ -10,6 +10,7 @@ import {
   purgeArray,
   bombTokenId,
   purgeIDs,
+  traitData,
   state
 } from "../store.js";
 import ConfirmationModal from "./ConfirmationModal.vue";
@@ -21,6 +22,7 @@ const props = defineProps(["filterString"]);
 // const purgeIDs = ref([]);
 const showConfirmationModal = ref(false);
 const showBombModal = ref(false);
+const showGGModal = ref(true);
 const showPurgedTokens = ref(0);
 
 // Not sure this is the best way to wait for the API call, but it works
@@ -400,23 +402,22 @@ onMounted(() => {
   >
     <BombModal @close-modal="showBombModal = false" />
   </div>
-  <!-- <div
-    v-if="state.gameOver"
-        class="
-          absolute 
-          top-1/2 
-          left-1/2 
-          transform 
-          -translate-x-1/2 
-          -translate-y-1/2
-      z-50
-      w-25
-      h-25
-      overflow-y-scroll
-      bg-zinc-700 bg-opacity-80
+  <div
+    v-if="state.gameOver && traitData.value && showGGModal"
+      class="
+        absolute 
+        top-1/2 
+        left-1/2 
+        transform 
+        -translate-x-1/2 
+        -translate-y-1/2
+        z-50
+        w-[40%]
+        h-[70%]
+        bg-black
     ">
-    <GGModal />
-    </div> -->
+    <GGModal  @close-modal="showGGModal = false" />
+    </div>
 </template>
 <style scoped>
 .owned-height {
