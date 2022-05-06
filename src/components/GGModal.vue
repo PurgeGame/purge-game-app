@@ -41,7 +41,10 @@ onMounted(() => {
     <div v-if="winner != null"
     class="text-center
     text-2xl">
-      WINNER
+    <div class = "text-5xl text-red-500">
+      <b>GAME OVER</b>
+    </div>
+      WINNING TRAIT
 
     <img class="
           relative
@@ -53,7 +56,11 @@ onMounted(() => {
       w-[50%]
       h-[50%]"
       :src="winner.image">
+    <div v-if="winner.prize > 0">
+    <div class = "text-green-500">
     YOUR WINNINGS: {{winner.prize}} eth
+    </div>
+    </div>
     <div></div>
     <button
       @click="$emit('closeModal')"

@@ -8,7 +8,7 @@ export const wallet = reactive({
     return ethers.utils.getAddress(wallet.address)
   },
 })
-export const contractaddress = '0xA6D83929F541D3CEc9A13A7cee2F577379483729'
+export const contractaddress = '0xe40426735295A186Ae20DF448F51ff6d771fCF7f'
 // export const contractaddress = '0xf2039Af40db26110F35f1437CbC40C4F695f8d1E'  // UNCOMMENT THIS TO GET MINT UI
 // export const contractaddress = '0x405b513192d151448d59A04Fcd1562f2dC75d209'     // UNCOMMENT THIS TO GET POST-REVEAL UI
 export const coinaddress = '0x668A7988eFf43673A0aBAE5A2CBfE3097Ab84234'
