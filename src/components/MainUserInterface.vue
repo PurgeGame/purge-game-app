@@ -3,7 +3,9 @@ import { ref, watchEffect, onMounted, onBeforeMount } from "vue";
 import {
   wallet,
   state,
+  signer,
   purgedBalance,
+  apiaddress,
   discordstatus,
   referralCode,
 } from "../store.js";
@@ -17,6 +19,7 @@ import AboutReferralsModal from "./AboutReferralsModal.vue";
 import LeaderboardModal from "./LeaderboardModal.vue";
 import LeftMint from "./LeftMint.vue";
 import RightMint from "./RightMint.vue";
+import Premint from "./Premint.vue"
 
 const typedReferralCode = ref(null);
 const filterString = ref("");
@@ -190,7 +193,7 @@ onMounted(() => {
         </button>
       </div>
       <div v-if="discordstatus.value != null" class="hidden md:inline-block">
-        <div v-if="!discordstatus.value">
+        <div v-if="!discordstatus.value && (state.reveal || state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)">
           <input
             v-model="discord"
             placeholder="Enter discord NAME#XXXX"
@@ -281,10 +284,14 @@ onMounted(() => {
       <div v-if="state.reveal == null">
         <img class="h-[70vh] portrait:h-auto m-auto" :src="`loadscreen.gif`" />
       </div>
-
-      <!-- Load mint page if pre-reveal -->
       <div
-        v-if="state.reveal == 0"
+        v-if="state.reveal == 0 && !(state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)"
+      >
+      <Premint />
+      </div>
+      <!-- Load mint page if pre-reveal and minting -->
+      <div
+        v-if="state.reveal == 0 && state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus"
         class="
           grid grid-cols-3
           h-full
@@ -294,18 +301,21 @@ onMounted(() => {
           touch-pan-x
         "
       >
-        <div class="snap-start snap-always h-full overflow-hidden">
-          <LeftMint />
-        </div>
-        <div
-          ref="middleColumn"
-          class="snap-start snap-always h-full overflow-auto"
-        >
-          <Mint />
-        </div>
-        <div class="snap-end snap-always h-full overflow-auto">
-          <RightMint />
-        </div>
+          <div class="snap-start snap-always h-full overflow-hidden">
+            <LeftMint />
+          </div>
+          <div
+            ref="middleColumn"
+            class="snap-start snap-always h-full overflow-auto"
+          >
+            <Mint />
+          </div>
+        
+          <div class="snap-end snap-always h-full overflow-auto">
+            <RightMint />
+          </div>
+
+
       </div>
 
       <!-- Load main UI if post-reveal -->
