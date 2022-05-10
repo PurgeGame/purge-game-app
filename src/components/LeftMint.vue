@@ -6,6 +6,9 @@ import { ethers } from "ethers";
 import {
   prizepool,
   contract,
+  purgedBalance,
+  coinContract,
+  wallet,
   cost,
 } from "../store.js";
 
