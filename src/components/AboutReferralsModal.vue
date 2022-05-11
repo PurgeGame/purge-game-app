@@ -93,7 +93,7 @@ async function createReferralCode() {
 
     <p class="my-4">
       3. On mint day, there will be a field to enter a referral code. Each token minted (or Mint and Purged)
-      with your code will credit you with 50 $PURGED. Use 1000 of this ERC20 coin to mint a Purge Game token!
+      with your code will credit you with 5 $PURGED. Use 100 of this ERC20 coin to mint a Purge Game token!
     </p>
 
     <p class="my-4">
