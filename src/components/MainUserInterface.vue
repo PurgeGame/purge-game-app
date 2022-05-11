@@ -159,7 +159,7 @@ onMounted(() => {
 
 
       <!-- Discord form on medium and large displays-->
-      <div v-if="discordstatus.value == null" class="hidden md:inline-block">
+      <div v-if="discordstatus.value == null && (state.reveal || state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)" class="hidden md:inline-block">
         <input
           v-model="discord"
           placeholder="Enter discord NAME#XXXX"
@@ -281,68 +281,71 @@ onMounted(() => {
       "
     >
       <!-- Wait for state loading -->
-      <div v-if="state.reveal == null">
+      <div v-if="state.reveal == null ||state.coinMintStatus == null || state.publicSaleStatus == null || state.whitelistSaleStatus == null">
         <img class="h-[70vh] portrait:h-auto m-auto" :src="`loadscreen.gif`" />
       </div>
-      <div
-        v-if="state.reveal == 0 && !(state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)"
-      >
-      <Premint />
-      </div>
-      <!-- Load mint page if pre-reveal and minting -->
-      <div
-        v-if="state.reveal == 0 && state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus"
-        class="
-          grid grid-cols-3
-          h-full
-          w-[300vw]
-          md:w-[150vw]
-          lg:w-full
-          touch-pan-x
-        "
-      >
+
+        <!-- Load mint page if pre-reveal and minting -->
+        <div
+          v-if="state.reveal == 0 && (state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)"
+          class="
+            grid grid-cols-3
+            h-full
+            w-[300vw]
+            md:w-[150vw]
+            lg:w-full
+            touch-pan-x
+          "
+        >
+            <div class="snap-start snap-always h-full overflow-hidden">
+              <LeftMint />
+            </div>
+            <div
+              ref="middleColumn"
+              class="snap-start snap-always h-full overflow-auto"
+            >
+              <Mint />
+            </div>
+          
+            <div class="snap-end snap-always h-full overflow-auto">
+              <RightMint />
+            </div>
+
+
+        </div>
+
+        <div
+          v-if="state.reveal == 0 && !(state.coinMintStatus || state.publicSaleStatus || state.whitelistSaleStatus)"
+        >
+        <Premint />
+        </div>
+        
+
+        <!-- Load main UI if post-reveal -->
+        <div
+          v-if="state.reveal == 1"
+          class="
+            grid grid-cols-3
+            h-full
+            w-[300vw]
+            md:w-[150vw]
+            lg:w-full
+            touch-pan-x
+          "
+        >
           <div class="snap-start snap-always h-full overflow-hidden">
-            <LeftMint />
+            <UserInterfaceLeft :filter-string="filterString" @filter="updateFilter"/>
           </div>
           <div
             ref="middleColumn"
             class="snap-start snap-always h-full overflow-auto"
           >
-            <Mint />
+            <TokenDisplay :filter-string="filterString" />
           </div>
-        
           <div class="snap-end snap-always h-full overflow-auto">
-            <RightMint />
+            <UserInterfaceRight :filter-string="filterString" @filter="updateFilter"/>
           </div>
-
-
-      </div>
-
-      <!-- Load main UI if post-reveal -->
-      <div
-        v-if="state.reveal == 1"
-        class="
-          grid grid-cols-3
-          h-full
-          w-[300vw]
-          md:w-[150vw]
-          lg:w-full
-          touch-pan-x
-        "
-      >
-        <div class="snap-start snap-always h-full overflow-hidden">
-          <UserInterfaceLeft :filter-string="filterString" @filter="updateFilter"/>
         </div>
-        <div
-          ref="middleColumn"
-          class="snap-start snap-always h-full overflow-auto"
-        >
-          <TokenDisplay :filter-string="filterString" />
-        </div>
-        <div class="snap-end snap-always h-full overflow-auto">
-          <UserInterfaceRight :filter-string="filterString" @filter="updateFilter"/>
-        </div>
-      </div>
     </div>
   </div>
 
