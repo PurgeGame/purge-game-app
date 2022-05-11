@@ -10,7 +10,7 @@ const bombTarget = ref('1');
 const emit = defineEmits(["closeModal"]);
 
 function tokenImage() {
-  return `/tokens/${bombTarget.value}.png`;
+  return `/lgtokens/${bombTarget.value}.png`;
 }
 
 async function nukeToken(_bombTokenId, targetTokenId) {

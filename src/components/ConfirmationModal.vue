@@ -42,7 +42,7 @@ const purgingTokens = computed(() => {
 });
 function tokenImage(tokenId) {
   if (tokenId > 65000) tokenId = "bomb";
-  return `/tokens/${tokenId}.png`;
+  return `/lgtokens/${tokenId}.png`;
 }
 
 async function purge(tokenIds) {
