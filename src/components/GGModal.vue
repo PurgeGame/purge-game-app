@@ -17,7 +17,7 @@ async function checkWinner(trait){
   const isWinner = await fetch(apiEndpoint)
     .then((res) => res.json())
     .catch((err) => (fetchError.value = err))
-  if (isWinner) trait.prize = trait.prize * trait.purgedByAddress / (trait.purgedByAddress - 1) + prizepool.grandprize
+  if (isWinner) trait.prize = trait.prize + prizepool.grandprize
 }
 
 function getWinningTrait(){
