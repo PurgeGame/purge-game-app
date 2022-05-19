@@ -108,6 +108,7 @@ async function createReferralCode() {
       You may want to remind your referrals to enter the code manually on mint day.</p>
       <p>Mint and Purge with $PURGED will be available from the start of mint. Minting actual tokens with $PURGED will become available 
       at the end of the public minting period.</p>
+      <p>Tokens minted with $PURGED are not eligible for referral bonuses</p>
       <p>If your advertising methods are egregiously damaging to the Purge Game brand (for example, associating it with racist imagery)
       you risk forfeiting your leaderboard prize.</p>
       <p></p>
